@@ -17,6 +17,9 @@ import terramine.client.render.entity.renderer.mobs.hardmode.MimicRenderer;
 import terramine.client.render.entity.renderer.mobs.prehardmode.devourer.DevourerBodyRenderer;
 import terramine.client.render.entity.renderer.mobs.prehardmode.devourer.DevourerHeadRenderer;
 import terramine.client.render.entity.renderer.mobs.prehardmode.devourer.DevourerTailRenderer;
+import terramine.client.render.entity.renderer.projectiles.arrows.FlamingArrowRenderer;
+import terramine.client.render.entity.renderer.projectiles.arrows.JesterArrowRenderer;
+import terramine.client.render.entity.renderer.projectiles.arrows.UnholyArrowRenderer;
 import terramine.client.render.entity.renderer.projectiles.magic.FlamelashMissileRenderer;
 import terramine.client.render.entity.renderer.projectiles.magic.LaserRenderer;
 import terramine.client.render.entity.renderer.projectiles.magic.MagicMissileRenderer;
@@ -79,6 +82,9 @@ public class ModAllEntityRenderers {
         EntityRendererRegistry.register(ModEntities.GRENADE, GrenadeRenderer::new);
         EntityRendererRegistry.register(ModEntities.BOMB, BombRenderer::new);
         EntityRendererRegistry.register(ModEntities.INSTANT_TNT, TntRenderer::new);
+        EntityRendererRegistry.register(ModEntities.FLAMING_ARROW, FlamingArrowRenderer::new);
+        EntityRendererRegistry.register(ModEntities.UNHOLY_ARROW, UnholyArrowRenderer::new);
+        EntityRendererRegistry.register(ModEntities.JESTER_ARROW, JesterArrowRenderer::new);
 
         // Misc
         EntityRendererRegistry.register(ModEntities.CLIENT_ITEM, ClientItemEntityRenderer::new);

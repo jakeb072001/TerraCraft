@@ -18,6 +18,9 @@ import terramine.common.entity.mobs.prehardmode.devourer.DevourerBodyEntity;
 import terramine.common.entity.mobs.prehardmode.devourer.DevourerEntity;
 import terramine.common.entity.mobs.prehardmode.devourer.DevourerTailEntity;
 import terramine.common.entity.projectiles.*;
+import terramine.common.entity.projectiles.arrows.FlamingArrowEntity;
+import terramine.common.entity.projectiles.arrows.JesterArrowEntity;
+import terramine.common.entity.projectiles.arrows.UnholyArrowEntity;
 import terramine.common.entity.throwables.BombEntity;
 import terramine.common.entity.throwables.DynamiteEntity;
 import terramine.common.entity.throwables.GrenadeEntity;
@@ -166,8 +169,16 @@ public class ModEntities {
 			.trackedUpdateRate(10)
 			.build());
 
+	public static final EntityType<FlamingArrowEntity> FLAMING_ARROW = register("flaming_arrow", createArrow(FlamingArrowEntity::new));
+	public static final EntityType<UnholyArrowEntity> UNHOLY_ARROW = register("unholy_arrow", createArrow(UnholyArrowEntity::new));
+	public static final EntityType<JesterArrowEntity> JESTER_ARROW = register("jester_arrow", createArrow(JesterArrowEntity::new));
+
 	private static <T extends Entity> EntityType<T> register(String name, EntityType<T> entType) {
 		return Registry.register(BuiltInRegistries.ENTITY_TYPE, TerraMine.id(name), entType);
+	}
+
+	private static <T extends Entity> EntityType<T> createArrow(EntityType.EntityFactory<T> factory) {
+		return FabricEntityTypeBuilder.create(MobCategory.MISC, factory).dimensions(EntityDimensions.fixed(0.5f, 0.5f)).trackedUpdateRate(20).build();
 	}
 
 	public static void addToSpawn() {

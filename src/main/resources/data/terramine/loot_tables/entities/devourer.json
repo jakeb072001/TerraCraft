@@ -2,7 +2,7 @@
   "pools": [
     {
       "name": "main",
-      "rolls": 1,
+      "rolls": 2,
       "entries": [
         {
           "type": "minecraft:item",
@@ -10,8 +10,18 @@
           "name": "terramine:rotten_chunk"
         },
         {
-          "type": "minecraft:empty",
-          "weight": 66
+          "type": "minecraft:item",
+          "weight": 100,
+		  "name": "terramine:worm_tooth",
+		  "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
         }
       ]
     }

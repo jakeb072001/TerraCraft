@@ -31,14 +31,28 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:spectral_arrow",
+          "name": "terramine:jester_arrow",
           "weight": 25,
           "functions": [
             {
               "function": "set_count",
               "count": {
-                "min": 5,
-                "max": 10
+                "min": 20,
+                "max": 50
+              }
+            }
+          ]
+        },
+		{
+          "type": "minecraft:item",
+          "name": "terramine:flaming_arrow",
+          "weight": 50,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 20,
+                "max": 50
               }
             }
           ]

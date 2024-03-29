@@ -1,6 +1,6 @@
 package terramine.client.render;
 
-import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import terramine.TerraMine;
 
@@ -21,19 +21,21 @@ public class HeldItemModels {
     public static final ModelResourceLocation BOUNCY_DYNAMITE_HELD_MODEL = new ModelResourceLocation(TerraMine.id("bouncy_dynamite_held"), "inventory");
 
     public static void register() {
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(UMBRELLA_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(MAGIC_MISSILE_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(FLAMELASH_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(RAINBOW_ROD_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(SPACE_GUN_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(GRENADE_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(STICKY_GRENADE_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(BOUNCY_GRENADE_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(BOMB_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(STICKY_BOMB_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(BOUNCY_BOMB_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(DYNAMITE_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(STICKY_DYNAMITE_HELD_MODEL));
-        ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(BOUNCY_DYNAMITE_HELD_MODEL));
+        ModelLoadingPlugin.register((context) -> context.addModels(
+                UMBRELLA_HELD_MODEL,
+                MAGIC_MISSILE_HELD_MODEL,
+                FLAMELASH_HELD_MODEL,
+                RAINBOW_ROD_HELD_MODEL,
+                SPACE_GUN_HELD_MODEL,
+                GRENADE_HELD_MODEL,
+                STICKY_GRENADE_HELD_MODEL,
+                BOUNCY_GRENADE_HELD_MODEL,
+                BOMB_HELD_MODEL,
+                STICKY_BOMB_HELD_MODEL,
+                BOUNCY_BOMB_HELD_MODEL,
+                DYNAMITE_HELD_MODEL,
+                STICKY_DYNAMITE_HELD_MODEL,
+                BOUNCY_DYNAMITE_HELD_MODEL
+        ));
     }
 }

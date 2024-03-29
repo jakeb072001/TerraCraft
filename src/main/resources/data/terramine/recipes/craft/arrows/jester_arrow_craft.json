@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XCX",
+	"XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:arrow"
+    },
+	"C": {
+      "item": "terramine:fallen_star"
+    }
+  },
+  "result": {
+    "item": "terramine:jester_arrow",
+    "count": 9
+  }
+}

@@ -34,7 +34,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:arrow",
+          "name": "terramine:unholy_arrow",
           "weight": 100,
           "functions": [
             {

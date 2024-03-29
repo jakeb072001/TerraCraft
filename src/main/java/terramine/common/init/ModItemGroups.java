@@ -314,6 +314,9 @@ public class ModItemGroups {
             entries.accept(ModItems.DYNAMITE);
             entries.accept(ModItems.STICKY_DYNAMITE);
             entries.accept(ModItems.BOUNCY_DYNAMITE);
+            entries.accept(ModItems.FLAMING_ARROW);
+            entries.accept(ModItems.UNHOLY_ARROW);
+            entries.accept(ModItems.JESTER_ARROW);
         });
 
         ItemGroupEvents.modifyEntriesEvent(createKey("terramine_stuff")).register(id("sixth_phase"), entries -> {

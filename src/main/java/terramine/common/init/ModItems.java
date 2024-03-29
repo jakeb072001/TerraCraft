@@ -26,9 +26,12 @@ import terramine.common.item.misc.BossSpawnItem;
 import terramine.common.item.misc.DemonHeartItem;
 import terramine.common.item.misc.EvilSeeds;
 import terramine.common.item.misc.TreasureBagItem;
-import terramine.common.item.throwables.BombItem;
-import terramine.common.item.throwables.DynamiteItem;
-import terramine.common.item.throwables.GrenadeItem;
+import terramine.common.item.projectiles.arrows.FlamingArrowItem;
+import terramine.common.item.projectiles.arrows.JesterArrowItem;
+import terramine.common.item.projectiles.arrows.UnholyArrowItem;
+import terramine.common.item.projectiles.throwables.BombItem;
+import terramine.common.item.projectiles.throwables.DynamiteItem;
+import terramine.common.item.projectiles.throwables.GrenadeItem;
 
 @SuppressWarnings("unused")
 public class ModItems {
@@ -45,7 +48,7 @@ public class ModItems {
 	public static final Item MAGIC_MIRROR = register("magic_mirror", new MagicMirrorItem());
 	public static final Item COBALT_SHIELD = register("cobalt_shield", new ShieldAccessoryItem(new FabricItemSettings().maxDamage(2500).fireproof().rarity(Rarity.RARE), Items.DIAMOND));
 	public static final Item OBSIDIAN_SHIELD = register("obsidian_shield", new ShieldAccessoryItem(new FabricItemSettings().maxDamage(2500).fireproof().rarity(Rarity.RARE), Items.OBSIDIAN));
-	// todo: make Shield of Cthulhu and add it to Treasure Bag loot table (replace familiar wig)
+	// todo: make Shield of Cthulhu and add it to Treasure Bag loot table (replace cobalt shield)
 	public static final Item CORRUPT_SEEDS = register("corrupt_seeds", new EvilSeeds(new FabricItemSettings(), ModBlocks.CORRUPTED_GRASS));
 	public static final Item CRIMSON_SEEDS = register("crimson_seeds", new EvilSeeds(new FabricItemSettings(), ModBlocks.CRIMSON_GRASS));
 
@@ -65,6 +68,12 @@ public class ModItems {
 	public static final Item GRAY_DYE = register("gray_dye", new BasicDye(0x808080));
 	public static final Item BLACK_DYE = register("black_dye", new BasicDye(0x000000));
 
+	// Arrows
+	// todo: make use just a single arrow item class, need to make all arrows the same entity for this, can be done much later
+	public static final Item FLAMING_ARROW = register("flaming_arrow", new FlamingArrowItem(new FabricItemSettings()));
+	public static final Item UNHOLY_ARROW = register("unholy_arrow", new UnholyArrowItem(new FabricItemSettings()));
+	public static final Item JESTER_ARROW = register("jester_arrow", new JesterArrowItem(new FabricItemSettings()));
+
 	// Treasure Bags
 	public static final Item EYE_OF_CTHULHU_TREASURE_BAG = register("eye_of_cthulhu_treasure_bag", new TreasureBagItem(new FabricItemSettings().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), ModLootTables.EYE_OF_CTHULHU));
 
@@ -73,6 +82,7 @@ public class ModItems {
 	public static final Item BLACK_LENS = register("black_lens", new CraftingItem(new FabricItemSettings(), false));
 	public static final Item ROTTEN_CHUNK = register("rotten_chunk", new CraftingItem(new FabricItemSettings().stacksTo(64), true));
 	public static final Item VERTEBRA = register("vertebra", new CraftingItem(new FabricItemSettings().stacksTo(64), false));
+	public static final Item WORM_TOOTH = register("worm_tooth", new CraftingItem(new FabricItemSettings().stacksTo(64), false));
 
 	// Ores etc
 	public static final Item RAW_METEORITE = register("raw_meteorite", new CraftingItem(new FabricItemSettings(), false));

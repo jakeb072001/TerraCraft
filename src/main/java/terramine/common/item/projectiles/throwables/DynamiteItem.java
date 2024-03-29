@@ -1,4 +1,4 @@
-package terramine.common.item.throwables;
+package terramine.common.item.projectiles.throwables;
 
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;

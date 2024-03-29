@@ -8,6 +8,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
+import terramine.common.item.TerrariaItemConfigurable;
 
 import java.util.List;
 
