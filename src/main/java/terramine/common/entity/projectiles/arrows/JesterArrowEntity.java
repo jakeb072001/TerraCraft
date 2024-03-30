@@ -36,7 +36,6 @@ public class JesterArrowEntity extends AbstractArrow {
     @Override
     public void tick() {
         super.tick();
-        // todo: remove after a certain amount of time
         this.tickDespawn();
     }
 

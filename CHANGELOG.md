@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.8.0-1.20.1] - 2024-04-01
 ### Added
 - Eye of Cthulhu and Eater of Worlds //-- Not yet started
-- Teams system //-- WIP
-- Armor value display
+- Treasure Bags
+- Teams system (WIP, more features will be added later)
+- Armor value display in Terraria Inventory
+- Flaming, Unholy, and Jester's Arrows
+- Shield of Cthulhu and Worm Scarf //-- Not yet started
+
+### Changed
+- Skulls can now be dyed
 
 ### Fixed
 - Various accessory menu buttons stuck highlighting after clicking them
