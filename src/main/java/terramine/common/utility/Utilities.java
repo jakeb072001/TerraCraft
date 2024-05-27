@@ -2,25 +2,29 @@ package terramine.common.utility;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.*;
 import org.joml.Vector3f;
+import terramine.common.init.ModItems;
 import terramine.common.item.dye.BasicDye;
+import terramine.common.network.ServerPacketHandler;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
 
 public class Utilities { // todo: need to fix bug with magic missile where the projectile will jitter back and forth instead of just staying at its position
-    private static int timer = 0;
-
     public static BlockHitResult rayTraceBlocks(Entity entity, double length, boolean checkLiquids)
     {
         if (checkLiquids) {
@@ -116,6 +120,8 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
         return -1;
     }
 
+    private static int swingTimer = 0;
+
     @Environment(EnvType.CLIENT)
     public static void autoSwing() {
         Minecraft mc = Minecraft.getInstance();
@@ -125,15 +131,104 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
                 if (mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.ENTITY && !(mc.hitResult instanceof BlockHitResult)) {
                     Entity entity = ((EntityHitResult) mc.hitResult).getEntity();
                     if (entity.isAlive() && entity.isAttackable()) {
-                        timer++;
-                        if (timer >= 2 && mc.gameMode != null) {
+                        swingTimer++;
+                        if (swingTimer >= 2 && mc.gameMode != null) {
                             mc.gameMode.attack(player, entity);
                             player.swing(InteractionHand.MAIN_HAND);
-                            timer = 0;
+                            swingTimer = 0;
                         }
                     }
                 }
             }
         }
+    }
+
+    private static boolean upPressed, downPressed, leftPressed, rightPressed;
+    private static boolean upKeyUnpressed, downKeyUnpressed, leftKeyUnpressed, rightKeyUnpressed;
+    private static int dashTimer;
+
+    // todo: make work better, a little bit jank right now (doesn't work sometimes after double pressing direction, doesn't move player very far while on ground)
+    public static void playerDash(Player player, Item item) {
+        if (dashTimer++ >= 6) {
+            if (upPressed) {
+                upPressed = false;
+                upKeyUnpressed = false;
+                dashTimer = 0;
+            }
+            if (downPressed) {
+                downPressed = false;
+                downKeyUnpressed = false;
+                dashTimer = 0;
+            }
+            if (leftPressed) {
+                leftPressed = false;
+                leftKeyUnpressed = false;
+                dashTimer = 0;
+            }
+            if (rightPressed) {
+                rightPressed = false;
+                rightKeyUnpressed = false;
+                dashTimer = 0;
+            }
+        }
+        //up
+        if (InputHandler.isHoldingForwards(player)) {
+            if (InputHandler.isHoldingForwards(player) && upPressed && upKeyUnpressed && !player.getCooldowns().isOnCooldown(item) && !player.isInWaterOrBubble()) {
+                sendDash(item);
+                player.moveRelative(1, new Vec3(0, 0, 10));
+                upPressed = false;
+                upKeyUnpressed = false;
+            } else {
+                upPressed = true;
+            }
+        } else if (upPressed) {
+            upKeyUnpressed = true;
+        }
+        //down
+        if (InputHandler.isHoldingBackwards(player)) {
+            if (InputHandler.isHoldingBackwards(player) && downPressed && downKeyUnpressed && !player.getCooldowns().isOnCooldown(item) && !player.isInWaterOrBubble()) {
+                sendDash(item);
+                player.moveRelative(1, new Vec3(0, 0, -10));
+                downPressed = false;
+                downKeyUnpressed = false;
+            } else {
+                downPressed = true;
+            }
+        } else if (downPressed) {
+            downKeyUnpressed = true;
+        }
+        //left
+        if (InputHandler.isHoldingLeft(player)) {
+            if (InputHandler.isHoldingLeft(player) && leftPressed && leftKeyUnpressed && !player.getCooldowns().isOnCooldown(item) && !player.isInWaterOrBubble()) {
+                sendDash(item);
+                player.moveRelative(1, new Vec3(10, 0, 0));
+                leftPressed = false;
+                leftKeyUnpressed = false;
+            } else {
+                leftPressed = true;
+            }
+        } else if (leftPressed) {
+            leftKeyUnpressed = true;
+        }
+        //right
+        if (InputHandler.isHoldingRight(player)) {
+            if (InputHandler.isHoldingRight(player) && rightPressed && rightKeyUnpressed && !player.getCooldowns().isOnCooldown(item) && !player.isInWaterOrBubble()) {
+                sendDash(item);
+                player.moveRelative(1, new Vec3(-10, 0, 0));
+                rightPressed = false;
+                rightKeyUnpressed = false;
+            } else {
+                rightPressed = true;
+            }
+        } else if (rightPressed) {
+            rightKeyUnpressed = true;
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    private static void sendDash(Item item) {
+        FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeItem(item.getDefaultInstance());
+        ClientPlayNetworking.send(ServerPacketHandler.DASH_PACKET_ID, buf);
     }
 }

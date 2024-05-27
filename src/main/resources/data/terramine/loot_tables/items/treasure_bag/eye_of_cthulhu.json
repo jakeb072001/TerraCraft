@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "terramine:cobalt_shield",
+          "name": "terramine:shield_of_cthulhu",
           "weight": 100,
           "functions": [
             {

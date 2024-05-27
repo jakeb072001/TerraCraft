@@ -49,7 +49,7 @@ public class JesterArrowEntity extends AbstractArrow {
 
         if (this.level().isClientSide()) {
             // todo: play better particle
-            this.level().addParticle(ParticleTypes.CLOUD, this.getRandomX(0.5), this.getRandomY() - 0.2, this.getRandomZ(0.5), (16 & 0xFF) / 255.0, (8 & 0xFF) / 255.0, (0) / 255.0);
+            this.level().addParticle(ParticleTypes.POOF, this.getRandomX(0.5), this.getRandomY() - 0.2, this.getRandomZ(0.5), (16 & 0xFF) / 255.0, (8 & 0xFF) / 255.0, (0) / 255.0);
         } else {
             this.level().broadcastEntityEvent(this, (byte)0);
         }

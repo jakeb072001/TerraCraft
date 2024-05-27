@@ -29,6 +29,10 @@ public abstract class PlayerMixin {
 	@Unique
 	private static final AttributeModifier ARMOR_ADD_TWO = new AttributeModifier(UUID.fromString("248c3717-9eff-456b-86a3-caa7d3743e2f"),
 			"obsidian_shield_armor_two", 2, AttributeModifier.Operation.ADDITION);
+
+	@Unique
+	private static final AttributeModifier ARMOR_ADD_TWO_CTHULHU = new AttributeModifier(UUID.fromString("18d06d05-1823-48a9-8041-47f0760ca9f7"),
+			"shield_of_cthulhu_armor_two", 2, AttributeModifier.Operation.ADDITION);
 	
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void shieldAttributes(CallbackInfo info) {
@@ -50,6 +54,11 @@ public abstract class PlayerMixin {
 			} else {
 				AccessoryTerrariaItem.removeModifier(knockbackResist, KNOCKBACK_RESISTANCE);
 				AccessoryTerrariaItem.removeModifier(armorAdd, ARMOR_ADD_TWO);
+			}
+			if (self.getMainHandItem().is(ModItems.SHIELD_OF_CTHULHU) || self.getOffhandItem().is(ModItems.SHIELD_OF_CTHULHU) || AccessoriesHelper.isEquipped(ModItems.SHIELD_OF_CTHULHU, self)) {
+				AccessoryTerrariaItem.addModifier(armorAdd, ARMOR_ADD_TWO_CTHULHU);
+			} else {
+				AccessoryTerrariaItem.removeModifier(armorAdd, ARMOR_ADD_TWO_CTHULHU);
 			}
 		}
 	}

@@ -16,10 +16,10 @@ public class AvengerEmblemItem extends AccessoryTerrariaItem {
 	@Override
 	protected Multimap<Attribute, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		Multimap<Attribute, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
-		AttributeModifier modifier = new AttributeModifier(uuid, "avenger_emblem_attack_damage", 0.12f, AttributeModifier.Operation.MULTIPLY_TOTAL);
-		result.put(Attributes.ATTACK_DAMAGE, modifier);
-		result.put(ModAttributes.RANGER_ATTACK_DAMAGE, modifier);
-		result.put(ModAttributes.MAGIC_ATTACK_DAMAGE, modifier);
+		AttributeModifier modifier = new AttributeModifier(uuid, "avenger_emblem_attack_damage", 0.12f, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		result.put(Attributes.ATTACK_DAMAGE.value(), modifier);
+		result.put(ModAttributes.RANGER_ATTACK_DAMAGE.value(), modifier);
+		result.put(ModAttributes.MAGIC_ATTACK_DAMAGE.value(), modifier);
 		return result;
 	}
 }

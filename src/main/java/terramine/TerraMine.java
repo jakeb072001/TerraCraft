@@ -59,7 +59,7 @@ public class TerraMine implements ModInitializer, TerraBlenderApi {
 
 		// Loot table setup
 		ModLootConditions.register();
-		LootTableEvents.MODIFY.register((resourceManager, manager, id, supplier, setter) -> ModLootTables.onLootTableLoad(id, supplier));
+		LootTableEvents.MODIFY.register((resourceKey, builder, source) -> ModLootTables.onLootTableLoad(resourceKey, builder));
 
 		// Force loading init classes
 		// Entities is loaded by items, loot tables can load lazily (no registration)

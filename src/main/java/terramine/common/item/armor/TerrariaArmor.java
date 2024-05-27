@@ -1,18 +1,21 @@
 package terramine.common.item.armor;
 
-import com.google.common.collect.ImmutableMultimap;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.Multimap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -22,13 +25,16 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 import terramine.common.utility.equipmentchecks.ArmorSetCheck;
 
+import java.util.EnumMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 // todo: custom models: https://github.com/Luke100000/ImmersiveArmors/blob/1.19.2/common/src/main/java/immersive_armors/mixin/MixinArmorFeatureRenderer.java ?
 // todo: trail effect, like in terraria when the full set is equipped, both these todos go for all armor
@@ -36,30 +42,46 @@ public class TerrariaArmor extends ArmorItem {
     private final String armorType;
     protected final int defense;
     protected final float toughness;
-    protected Multimap<Attribute, AttributeModifier> attributeModifiers;
-    protected static final UUID[] ARMOR_MODIFIER_UUID_PER_SLOT = new UUID[]{
-            UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"),
-            UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"),
-            UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"),
-            UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")
-    };
+    private final Supplier<ItemAttributeModifiers> defaultModifiers;
+    protected Multimap<Holder<Attribute>, AttributeModifier> attributeModifiers;
+    public static final EnumMap<Type, UUID> ARMOR_MODIFIER_UUID_PER_TYPE = Util.make(new EnumMap<>(Type.class), (enumMap) -> {
+        enumMap.put(ArmorItem.Type.BOOTS, UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"));
+        enumMap.put(ArmorItem.Type.LEGGINGS, UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"));
+        enumMap.put(ArmorItem.Type.CHESTPLATE, UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"));
+        enumMap.put(ArmorItem.Type.HELMET, UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150"));
+        enumMap.put(ArmorItem.Type.BODY, UUID.fromString("C1C72771-8B8E-BA4A-ACE0-81A93C8928B2"));
+    });
 
-    public TerrariaArmor(String armorType, ArmorMaterial armorMaterial, Type type, Properties properties) {
-        super(armorMaterial, type, properties);
-
+    public TerrariaArmor(String armorType, Holder<ArmorMaterial> holder, Type type, Properties properties) {
+        super(holder, type, properties);
         this.armorType = armorType;
-        this.defense = armorMaterial.getDefenseForType(type);
-        this.toughness = armorMaterial.getToughness();
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        UUID uUID = ARMOR_MODIFIER_UUID_PER_SLOT[type.getSlot().getIndex()];
-        builder.put(Attributes.ARMOR, new AttributeModifier(uUID, "Armor modifier", this.defense, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uUID, "Armor toughness", this.toughness, AttributeModifier.Operation.ADDITION));
-        attributeModifiers = builder.build();
+        this.defense = holder.value().getDefense(type);
+        this.toughness = holder.value().toughness();
+
+        this.defaultModifiers = Suppliers.memoize(() -> {
+            ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+            EquipmentSlotGroup equipmentSlotGroup = EquipmentSlotGroup.bySlot(type.getSlot());
+            UUID uUID = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
+            builder.add(Attributes.ARMOR, new AttributeModifier(uUID, "Armor modifier", defense, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uUID, "Armor toughness", toughness, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
+            float g = holder.value().knockbackResistance();
+            if (g > 0.0F) {
+                builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uUID, "Armor knockback resistance", g, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
+            }
+
+            attributeModifiers.asMap().forEach((attribute, attributeModifiers) -> {
+                for (AttributeModifier attributeModifier : attributeModifiers) {
+                    builder.add(attribute, attributeModifier, equipmentSlotGroup);
+                }
+            });
+
+            return builder.build();
+        });
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot equipmentSlot) {
-        return equipmentSlot == this.getEquipmentSlot() ? this.attributeModifiers : super.getDefaultAttributeModifiers(equipmentSlot);
+    public @NotNull ItemAttributeModifiers getDefaultAttributeModifiers() {
+        return this.defaultModifiers.get();
     }
 
     public static void addModifier(AttributeInstance instance, AttributeModifier modifier) {
@@ -118,7 +140,7 @@ public class TerrariaArmor extends ArmorItem {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void appendHoverText(@NotNull ItemStack stack, Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag flags) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag tooltipFlag) {
         if (TerraMine.CONFIG.client.showTooltips) {
             appendTooltipDescription(tooltip, this.getDescriptionId() + ".tooltip");
 

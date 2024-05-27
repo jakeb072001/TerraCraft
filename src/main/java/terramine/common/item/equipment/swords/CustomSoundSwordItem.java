@@ -11,8 +11,8 @@ import terramine.extensions.ItemExtensions;
 public class CustomSoundSwordItem extends SwordItem implements ItemExtensions {
     SoundEvent swingSound;
 
-    public CustomSoundSwordItem(Tier tier, int i, float f, SoundEvent sound, Properties properties) {
-        super(tier, i, f, properties);
+    public CustomSoundSwordItem(Tier tier, SoundEvent sound, Properties properties) {
+        super(tier, properties);
         swingSound = sound;
     }
 

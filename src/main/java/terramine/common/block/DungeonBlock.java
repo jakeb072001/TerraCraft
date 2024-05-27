@@ -1,6 +1,5 @@
 package terramine.common.block;
 
-import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +13,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import terramine.common.item.equipment.TerrariaToolTiers;
 
 public class DungeonBlock extends Block {
     public static final BooleanProperty PLACED = BooleanProperty.create("player_placed");
@@ -58,7 +58,7 @@ public class DungeonBlock extends Block {
 
         if (state.getValue(PLACED) || pos.getY() >= 60) {
             return super.getDestroyProgress(state, player, getter, pos);
-        } else if (cei.getItem() instanceof DiggerItem tool && tool.getTier().getLevel() >= MiningLevelManager.getRequiredMiningLevel(state)) {
+        } else if (cei.getItem() instanceof DiggerItem tool && tool.getTier() instanceof TerrariaToolTiers terrariaTiers && terrariaTiers.getLevel() >= 4) {
             return super.getDestroyProgress(state, player, getter, pos);
         }
 

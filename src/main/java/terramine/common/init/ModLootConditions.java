@@ -8,7 +8,7 @@ import terramine.common.misc.ConfigurableRandomChance;
 
 public class ModLootConditions {
 
-    public static final LootItemConditionType CONFIGURABLE_ACCESSORY_CHANCE = new LootItemConditionType(new ConfigurableRandomChance.Serializer());
+    public static final LootItemConditionType CONFIGURABLE_ACCESSORY_CHANCE = new LootItemConditionType(ConfigurableRandomChance.CODEC);
 
     public static void register() {
         Registry.register(BuiltInRegistries.LOOT_CONDITION_TYPE, TerraMine.id("configurable_random_chance"), CONFIGURABLE_ACCESSORY_CHANCE);

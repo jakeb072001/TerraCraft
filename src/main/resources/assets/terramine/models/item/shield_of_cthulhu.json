@@ -1,0 +1,238 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "terramine:item/accessories/shield_of_cthulhu",
+		"shield": "terramine:item/accessories/shield_of_cthulhu"
+	},
+	"elements": [
+		{
+			"from": [5, 8, 5],
+			"to": [7, 14, 11],
+			"faces": {
+				"north": {"uv": [14, 12.5, 14.5, 14], "texture": "#shield"},
+				"east": {"uv": [12.5, 12.5, 14, 14], "texture": "#shield"},
+				"west": {"uv": [14.5, 12.5, 16, 14], "texture": "#shield"},
+				"up": {"uv": [14, 11, 14.5, 12.5], "texture": "#shield"},
+				"down": {"uv": [14.5, 11, 15, 12.5], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [4, 3, 11],
+			"to": [8, 19, 12],
+			"faces": {
+				"north": {"uv": [2.25, 0, 3.25, 10], "texture": "#shield"},
+				"east": {"uv": [6, 0, 7, 16], "texture": "#shield"},
+				"south": {"uv": [6, 0, 10, 16], "texture": "#shield"},
+				"west": {"uv": [6, 0, 7, 16], "texture": "#shield"},
+				"up": {"uv": [6, 0, 10, 1], "texture": "#shield"},
+				"down": {"uv": [6, 0, 10, 1], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [2, 4, 11],
+			"to": [4, 18, 12],
+			"faces": {
+				"north": {"uv": [2, 0, 3, 10], "texture": "#shield"},
+				"east": {"uv": [4, 0, 5, 14], "texture": "#shield"},
+				"south": {"uv": [4, 0, 6, 14], "texture": "#shield"},
+				"west": {"uv": [2, 0, 3, 10], "texture": "#shield"},
+				"up": {"uv": [4, 0, 5, 1], "texture": "#shield"},
+				"down": {"uv": [4, 0, 5, 1], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [8, 4, 11],
+			"to": [10, 18, 12],
+			"faces": {
+				"north": {"uv": [12.75, 0, 14, 10], "texture": "#shield"},
+				"east": {"uv": [10, 0, 11, 14], "texture": "#shield"},
+				"south": {"uv": [10, 0, 12, 14], "texture": "#shield"},
+				"west": {"uv": [13, 0, 14, 10], "texture": "#shield"},
+				"up": {"uv": [10, 0, 11, 1], "texture": "#shield"},
+				"down": {"uv": [10, 0, 11, 1], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [0, 6, 11],
+			"to": [2, 16, 12],
+			"faces": {
+				"north": {"uv": [2, 0, 3, 10], "texture": "#shield"},
+				"east": {"uv": [2, 0, 3, 10], "texture": "#shield"},
+				"south": {"uv": [2, 0, 4, 10], "texture": "#shield"},
+				"west": {"uv": [2, 0, 3, 10], "texture": "#shield"},
+				"up": {"uv": [2, 1, 4, 2], "texture": "#shield"},
+				"down": {"uv": [2, 1, 4, 2], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [10, 6, 11],
+			"to": [12, 16, 12],
+			"faces": {
+				"north": {"uv": [13, 0, 14, 10], "texture": "#shield"},
+				"east": {"uv": [12, 0, 13, 10], "texture": "#shield"},
+				"south": {"uv": [12, 0, 14, 10], "texture": "#shield"},
+				"west": {"uv": [12, 0, 13, 10], "texture": "#shield"},
+				"up": {"uv": [12, 1, 14, 2], "texture": "#shield"},
+				"down": {"uv": [12, 1, 14, 2], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [3, 15, 12],
+			"to": [9, 17, 13],
+			"faces": {
+				"north": {"uv": [0, 14, 6, 16], "texture": "#shield"},
+				"east": {"uv": [0, 14, 1, 15], "texture": "#shield"},
+				"south": {"uv": [0, 14, 6, 16], "texture": "#shield"},
+				"west": {"uv": [0, 14, 1, 15], "texture": "#shield"},
+				"up": {"uv": [0, 14, 6, 15], "texture": "#shield"},
+				"down": {"uv": [0, 14, 6, 15], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [3, 5, 12],
+			"to": [9, 7, 13],
+			"faces": {
+				"north": {"uv": [10, 14, 16, 16], "texture": "#shield"},
+				"east": {"uv": [10, 15, 11, 16], "texture": "#shield"},
+				"south": {"uv": [10, 14, 16, 16], "texture": "#shield"},
+				"west": {"uv": [10, 15, 11, 16], "texture": "#shield"},
+				"up": {"uv": [10, 15, 16, 16], "texture": "#shield"},
+				"down": {"uv": [10, 15, 16, 16], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [1, 7, 12],
+			"to": [3, 15, 13],
+			"faces": {
+				"north": {"uv": [0, 4, 2, 12], "texture": "#shield"},
+				"east": {"uv": [0, 4, 1, 12], "texture": "#shield"},
+				"south": {"uv": [0, 4, 2, 12], "texture": "#shield"},
+				"west": {"uv": [0, 4, 1, 12], "texture": "#shield"},
+				"up": {"uv": [0, 4, 1, 5], "texture": "#shield"},
+				"down": {"uv": [0, 4, 1, 5], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [9, 7, 12],
+			"to": [11, 15, 13],
+			"faces": {
+				"north": {"uv": [14, 0, 16, 8], "texture": "#shield"},
+				"east": {"uv": [15, 0, 16, 8], "texture": "#shield"},
+				"south": {"uv": [14, 0, 16, 8], "texture": "#shield"},
+				"west": {"uv": [15, 0, 16, 8], "texture": "#shield"},
+				"up": {"uv": [15, 0, 16, 1], "texture": "#shield"},
+				"down": {"uv": [15, 0, 16, 1], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [3, 14, 13],
+			"to": [9, 15, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"up": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"down": {"uv": [0, 0, 1, 1], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [3, 7, 13],
+			"to": [9, 8, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"up": {"uv": [0, 0, 1, 1], "texture": "#shield"},
+				"down": {"uv": [0, 0, 1, 1], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [4, 7, 12],
+			"to": [5, 9, 13],
+			"faces": {
+				"north": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"east": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"south": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"west": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"up": {"uv": [0, 2, 1, 3], "texture": "#shield"},
+				"down": {"uv": [0, 2, 1, 3], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [7, 7, 12],
+			"to": [8, 9, 13],
+			"faces": {
+				"north": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"east": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"south": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"west": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"up": {"uv": [0, 2, 1, 3], "texture": "#shield"},
+				"down": {"uv": [0, 2, 1, 3], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [7, 13, 12],
+			"to": [8, 15, 13],
+			"faces": {
+				"north": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"east": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"south": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"west": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"up": {"uv": [0, 2, 1, 3], "texture": "#shield"},
+				"down": {"uv": [0, 2, 1, 3], "texture": "#shield"}
+			}
+		},
+		{
+			"from": [4, 13, 12],
+			"to": [5, 15, 13],
+			"faces": {
+				"north": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"east": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"south": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"west": {"uv": [0, 2, 1, 4], "texture": "#shield"},
+				"up": {"uv": [0, 2, 1, 3], "texture": "#shield"},
+				"down": {"uv": [0, 2, 1, 3], "texture": "#shield"}
+			}
+		}
+	],
+	"overrides": [
+		{"predicate": {"blocking": 1}, "model": "terramine:item/shield_of_cthulhu_blocking"}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 90, 0],
+			"translation": [0, -5, 2]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 90, 0],
+			"translation": [0, -5, 6]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 180, 5],
+			"translation": [-2, -19, 0],
+			"scale": [1.65, 1.65, 1.65]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 180, 5],
+			"translation": [4.5, -19.5, 2],
+			"scale": [1.65, 1.65, 1.65]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [15, -25, -5],
+			"translation": [2, -2, 0],
+			"scale": [0.65, 0.65, 0.65]
+		},
+		"fixed": {
+			"rotation": [0, 180, 0],
+			"translation": [1, -1.5, 0],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	},
+	"gui-light": "front"
+}

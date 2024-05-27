@@ -5,8 +5,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Callback for increasing potion duration with accessories

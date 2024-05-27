@@ -51,9 +51,9 @@ public class ClientItemEntity extends ItemEntity {
         return clientItemEntity;
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.getEntityData().define(DATA_PLAYER, Optional.empty());
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        this.getEntityData().set(DATA_PLAYER, Optional.empty());
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag compoundTag) {

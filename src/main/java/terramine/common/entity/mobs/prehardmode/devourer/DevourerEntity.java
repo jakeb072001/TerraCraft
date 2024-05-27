@@ -112,9 +112,9 @@ public class DevourerEntity extends Monster implements Enemy {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(SPAWNED, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        this.entityData.set(SPAWNED, false);
     }
 
     @SuppressWarnings("ConstantConditions")

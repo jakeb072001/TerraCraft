@@ -15,8 +15,8 @@ public class RangerEmblemItem extends AccessoryTerrariaItem {
 	@Override
 	protected Multimap<Attribute, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		Multimap<Attribute, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
-		AttributeModifier modifier = new AttributeModifier(uuid, "ranger_emblem_attack_damage", 0.15f, AttributeModifier.Operation.MULTIPLY_TOTAL);
-		result.put(ModAttributes.RANGER_ATTACK_DAMAGE, modifier);
+		AttributeModifier modifier = new AttributeModifier(uuid, "ranger_emblem_attack_damage", 0.15f, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		result.put(ModAttributes.RANGER_ATTACK_DAMAGE.value(), modifier);
 		return result;
 	}
 }

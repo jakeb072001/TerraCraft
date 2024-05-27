@@ -1,6 +1,5 @@
 package terramine.common.init;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.*;
@@ -9,6 +8,7 @@ import terramine.TerraMine;
 import terramine.common.item.CraftingItem;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.item.accessories.ShieldAccessoryItem;
+import terramine.common.item.accessories.ShieldOfCthulhuItem;
 import terramine.common.item.accessories.WhoopeeCushionItem;
 import terramine.common.item.accessories.back.WingsItem;
 import terramine.common.item.accessories.belt.*;
@@ -21,6 +21,8 @@ import terramine.common.item.dye.BasicDye;
 import terramine.common.item.equipment.*;
 import terramine.common.item.equipment.swords.CustomSoundSwordItem;
 import terramine.common.item.equipment.swords.VolcanoSwordItem;
+import terramine.common.item.equipment.tools.MoltenPickaxeItem;
+import terramine.common.item.equipment.tools.TerrariaShaxeItem;
 import terramine.common.item.magic.*;
 import terramine.common.item.misc.BossSpawnItem;
 import terramine.common.item.misc.DemonHeartItem;
@@ -42,15 +44,15 @@ public class ModItems {
 	public static final Item EATER_OF_SOULS_SPAWN_EGG = register("eater_of_souls_spawn_egg", new SpawnEggItem(ModEntities.EATER_OF_SOULS, 0x735c5f, 0x999190, new Item.Properties()));
 	public static final Item DEVOURER_SPAWN_EGG = register("devourer_spawn_egg", new SpawnEggItem(ModEntities.DEVOURER, 0x999190, 0x735c5f, new Item.Properties()));
 	public static final Item CRIMERA_SPAWN_EGG = register("crimera_spawn_egg", new SpawnEggItem(ModEntities.CRIMERA, 0x72261f, 0xac524d, new Item.Properties()));
-	public static final Item SUSPICIOUS_LOOKING_EYE = register("suspicious_looking_eye", new BossSpawnItem(ModEntities.TEST_BOSS, new FabricItemSettings().stacksTo(16).rarity(Rarity.RARE)));
+	public static final Item SUSPICIOUS_LOOKING_EYE = register("suspicious_looking_eye", new BossSpawnItem(ModEntities.TEST_BOSS, new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
 	public static final Item UMBRELLA = register("umbrella", new UmbrellaItem());
 	public static final Item WHOOPEE_CUSHION = register("whoopee_cushion", new WhoopeeCushionItem());
 	public static final Item MAGIC_MIRROR = register("magic_mirror", new MagicMirrorItem());
-	public static final Item COBALT_SHIELD = register("cobalt_shield", new ShieldAccessoryItem(new FabricItemSettings().maxDamage(2500).fireproof().rarity(Rarity.RARE), Items.DIAMOND));
-	public static final Item OBSIDIAN_SHIELD = register("obsidian_shield", new ShieldAccessoryItem(new FabricItemSettings().maxDamage(2500).fireproof().rarity(Rarity.RARE), Items.OBSIDIAN));
-	// todo: make Shield of Cthulhu and add it to Treasure Bag loot table (replace cobalt shield)
-	public static final Item CORRUPT_SEEDS = register("corrupt_seeds", new EvilSeeds(new FabricItemSettings(), ModBlocks.CORRUPTED_GRASS));
-	public static final Item CRIMSON_SEEDS = register("crimson_seeds", new EvilSeeds(new FabricItemSettings(), ModBlocks.CRIMSON_GRASS));
+	public static final Item COBALT_SHIELD = register("cobalt_shield", new ShieldAccessoryItem(new Item.Properties().durability(2500).fireResistant().rarity(Rarity.RARE), Items.DIAMOND));
+	public static final Item OBSIDIAN_SHIELD = register("obsidian_shield", new ShieldAccessoryItem(new Item.Properties().durability(2500).fireResistant().rarity(Rarity.RARE), Items.OBSIDIAN));
+	public static final Item SHIELD_OF_CTHULHU = register("shield_of_cthulhu", new ShieldOfCthulhuItem(new Item.Properties().durability(2500).fireResistant().rarity(Rarity.RARE), Items.ROTTEN_FLESH));
+	public static final Item CORRUPT_SEEDS = register("corrupt_seeds", new EvilSeeds(new Item.Properties(), ModBlocks.CORRUPTED_GRASS));
+	public static final Item CRIMSON_SEEDS = register("crimson_seeds", new EvilSeeds(new Item.Properties(), ModBlocks.CRIMSON_GRASS));
 
 	// todo: add many more dyes, need to create a model/item for each one but its just copy paste
 	// todo: also add some custom shader dyes, need to add a system to render the dyes first though
@@ -70,39 +72,39 @@ public class ModItems {
 
 	// Arrows
 	// todo: make use just a single arrow item class, need to make all arrows the same entity for this, can be done much later
-	public static final Item FLAMING_ARROW = register("flaming_arrow", new FlamingArrowItem(new FabricItemSettings()));
-	public static final Item UNHOLY_ARROW = register("unholy_arrow", new UnholyArrowItem(new FabricItemSettings()));
-	public static final Item JESTER_ARROW = register("jester_arrow", new JesterArrowItem(new FabricItemSettings()));
+	public static final Item FLAMING_ARROW = register("flaming_arrow", new FlamingArrowItem(new Item.Properties()));
+	public static final Item UNHOLY_ARROW = register("unholy_arrow", new UnholyArrowItem(new Item.Properties()));
+	public static final Item JESTER_ARROW = register("jester_arrow", new JesterArrowItem(new Item.Properties()));
 
 	// Treasure Bags
-	public static final Item EYE_OF_CTHULHU_TREASURE_BAG = register("eye_of_cthulhu_treasure_bag", new TreasureBagItem(new FabricItemSettings().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), ModLootTables.EYE_OF_CTHULHU));
+	public static final Item EYE_OF_CTHULHU_TREASURE_BAG = register("eye_of_cthulhu_treasure_bag", new TreasureBagItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), ModLootTables.EYE_OF_CTHULHU));
 
 	// Crafting Items
-	public static final Item LENS = register("lens", new CraftingItem(new FabricItemSettings(), false));
-	public static final Item BLACK_LENS = register("black_lens", new CraftingItem(new FabricItemSettings(), false));
-	public static final Item ROTTEN_CHUNK = register("rotten_chunk", new CraftingItem(new FabricItemSettings().stacksTo(64), true));
-	public static final Item VERTEBRA = register("vertebra", new CraftingItem(new FabricItemSettings().stacksTo(64), false));
-	public static final Item WORM_TOOTH = register("worm_tooth", new CraftingItem(new FabricItemSettings().stacksTo(64), false));
+	public static final Item LENS = register("lens", new CraftingItem(new Item.Properties(), false));
+	public static final Item BLACK_LENS = register("black_lens", new CraftingItem(new Item.Properties(), false));
+	public static final Item ROTTEN_CHUNK = register("rotten_chunk", new CraftingItem(new Item.Properties().stacksTo(64), true));
+	public static final Item VERTEBRA = register("vertebra", new CraftingItem(new Item.Properties().stacksTo(64), false));
+	public static final Item WORM_TOOTH = register("worm_tooth", new CraftingItem(new Item.Properties().stacksTo(64), false));
 
 	// Ores etc
-	public static final Item RAW_METEORITE = register("raw_meteorite", new CraftingItem(new FabricItemSettings(), false));
-	public static final Item METEORITE_INGOT = register("meteorite_ingot", new CraftingItem(new FabricItemSettings(), true));
-	public static final Item RAW_DEMONITE = register("raw_demonite", new CraftingItem(new FabricItemSettings(), false));
-	public static final Item DEMONITE_INGOT = register("demonite_ingot", new CraftingItem(new FabricItemSettings(), true));
-	public static final Item RAW_CRIMTANE = register("raw_crimtane", new CraftingItem(new FabricItemSettings(), false));
-	public static final Item CRIMTANE_INGOT = register("crimtane_ingot", new CraftingItem(new FabricItemSettings(), false));
-	public static final Item RAW_HELLSTONE = register("raw_hellstone", new CraftingItem(new FabricItemSettings().fireproof(), true));
-	public static final Item RAW_HELLSTONE_HARDENED = register("raw_hellstone_hardened", new CraftingItem(new FabricItemSettings().fireproof(), true));
-	public static final Item HELLSTONE_INGOT = register("hellstone_ingot", new CraftingItem(new FabricItemSettings().fireproof(), true));
+	public static final Item RAW_METEORITE = register("raw_meteorite", new CraftingItem(new Item.Properties(), false));
+	public static final Item METEORITE_INGOT = register("meteorite_ingot", new CraftingItem(new Item.Properties(), true));
+	public static final Item RAW_DEMONITE = register("raw_demonite", new CraftingItem(new Item.Properties(), false));
+	public static final Item DEMONITE_INGOT = register("demonite_ingot", new CraftingItem(new Item.Properties(), true));
+	public static final Item RAW_CRIMTANE = register("raw_crimtane", new CraftingItem(new Item.Properties(), false));
+	public static final Item CRIMTANE_INGOT = register("crimtane_ingot", new CraftingItem(new Item.Properties(), false));
+	public static final Item RAW_HELLSTONE = register("raw_hellstone", new CraftingItem(new Item.Properties().fireResistant(), true));
+	public static final Item RAW_HELLSTONE_HARDENED = register("raw_hellstone_hardened", new CraftingItem(new Item.Properties().fireResistant(), true));
+	public static final Item HELLSTONE_INGOT = register("hellstone_ingot", new CraftingItem(new Item.Properties().fireResistant(), true));
 
 	// Magic Items
 	public static final Item MAGIC_MISSILE_ITEM = register("magic_missile", new MagicMissileItem());
 	public static final Item FLAMELASH_ITEM = register("flamelash", new FlamelashItem());
 	public static final Item RAINBOW_ROD_ITEM = register("rainbow_rod", new RainbowRodItem());
-	public static final Item FAKE_FALLEN_STAR = register("fake_fallen_star", new CraftingItem(new FabricItemSettings(), true));
-	public static final Item FALLEN_STAR = register("fallen_star", new CraftingItem(new FabricItemSettings().stacksTo(64).rarity(Rarity.UNCOMMON), true));
-	public static final Item MANA_CRYSTAL = register("mana_crystal", new ManaCrystalItem(new FabricItemSettings().stacksTo(64).rarity(Rarity.RARE)));
-	public static final Item DEMON_HEART = register("demon_heart", new DemonHeartItem(new FabricItemSettings().stacksTo(16).rarity(Rarity.EPIC)));
+	public static final Item FAKE_FALLEN_STAR = register("fake_fallen_star", new CraftingItem(new Item.Properties(), true));
+	public static final Item FALLEN_STAR = register("fallen_star", new CraftingItem(new Item.Properties().stacksTo(64).rarity(Rarity.UNCOMMON), true));
+	public static final Item MANA_CRYSTAL = register("mana_crystal", new ManaCrystalItem(new Item.Properties().stacksTo(64).rarity(Rarity.RARE)));
+	public static final Item DEMON_HEART = register("demon_heart", new DemonHeartItem(new Item.Properties().stacksTo(16).rarity(Rarity.EPIC)));
 
 	// Informational
 	public static final Item GOLD_WATCH = register("gold_watch", new AccessoryTerrariaItem());
@@ -204,70 +206,70 @@ public class ModItems {
 	public static final Item LEAF_WINGS = register("leaf_wings", new WingsItem(0.5D, 0.05D, 80, 10, ModSoundEvents.WINGS_FLAP));
 
 	// Tools
-	public static final Item DEMONITE_PICKAXE = register("demonite_pickaxe", new PickaxeItem(TerrariaToolTiers.DEMONITE, 1, -2.8f, new FabricItemSettings()));
-	public static final Item DEMONITE_AXE = register("demonite_axe", new AxeItem(TerrariaToolTiers.DEMONITE, 6.0f, -3.1f, new FabricItemSettings()));
-	public static final Item DEMONITE_SHOVEL = register("demonite_shovel", new ShovelItem(TerrariaToolTiers.DEMONITE, 1.5f, -3.0f, new FabricItemSettings()));
-	public static final Item DEMONITE_HOE = register("demonite_hoe", new HoeItem(TerrariaToolTiers.DEMONITE, -2, -1.0f, new FabricItemSettings()));
-	public static final Item CRIMTANE_PICKAXE = register("crimtane_pickaxe", new PickaxeItem(TerrariaToolTiers.CRIMTANE, 1, -2.8f, new FabricItemSettings()));
-	public static final Item CRIMTANE_AXE = register("crimtane_axe", new AxeItem(TerrariaToolTiers.CRIMTANE, 6.5f, -3.1f, new FabricItemSettings()));
-	public static final Item CRIMTANE_SHOVEL = register("crimtane_shovel", new ShovelItem(TerrariaToolTiers.CRIMTANE, 1.5f, -3.0f, new FabricItemSettings()));
-	public static final Item CRIMTANE_HOE = register("crimtane_hoe", new HoeItem(TerrariaToolTiers.CRIMTANE, -2, -1.0f, new FabricItemSettings()));
-	public static final Item METEOR_SHAXE = register("meteor_shaxe", new TerrariaShaxeItem(TerrariaToolTiers.METEOR, 7, -3.1f, new FabricItemSettings()));
-	public static final Item MOLTEN_PICKAXE = register("molten_pickaxe", new MoltenPickaxeItem(TerrariaToolTiers.MOLTEN, 1, -2.8f, new FabricItemSettings()));
-	public static final Item MOLTEN_SHAXE = register("molten_shaxe", new TerrariaShaxeItem(TerrariaToolTiers.MOLTEN, 7.5f, -3.1f, true, new FabricItemSettings()));
+	public static final Item DEMONITE_PICKAXE = register("demonite_pickaxe", new PickaxeItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, 1F, -2.8F))));
+	public static final Item DEMONITE_AXE = register("demonite_axe", new AxeItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, 6F, -3.1F))));
+	public static final Item DEMONITE_SHOVEL = register("demonite_shovel", new ShovelItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, 1.5F, -3F))));
+	public static final Item DEMONITE_HOE = register("demonite_hoe", new HoeItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, -2F, -1F))));
+	public static final Item CRIMTANE_PICKAXE = register("crimtane_pickaxe", new PickaxeItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, 1F, -2.8F))));
+	public static final Item CRIMTANE_AXE = register("crimtane_axe", new AxeItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, 6.5F, -3.1F))));
+	public static final Item CRIMTANE_SHOVEL = register("crimtane_shovel", new ShovelItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, 1.5F, -3F))));
+	public static final Item CRIMTANE_HOE = register("crimtane_hoe", new HoeItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, -2, -1F))));
+	public static final Item METEOR_SHAXE = register("meteor_shaxe", new TerrariaShaxeItem(TerrariaToolTiers.METEOR, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.METEOR, 7F, -3.1F))));
+	public static final Item MOLTEN_PICKAXE = register("molten_pickaxe", new MoltenPickaxeItem(TerrariaToolTiers.MOLTEN, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.MOLTEN, 1F, -2.8F))));
+	public static final Item MOLTEN_SHAXE = register("molten_shaxe", new TerrariaShaxeItem(TerrariaToolTiers.MOLTEN,true, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.MOLTEN, 7.5F, -3.1F))));
 
 	// Weapons
-	public static final Item DEMONITE_SWORD = register("demonite_sword", new SwordItem(TerrariaToolTiers.DEMONITE, 3, -2.4f, new FabricItemSettings()));
-	public static final Item CRIMTANE_SWORD = register("crimtane_sword", new SwordItem(TerrariaToolTiers.CRIMTANE, 3, -2.4f, new FabricItemSettings()));
-	public static final Item PHASEBLADE_WHITE = register("phaseblade_white", new CustomSoundSwordItem(TerrariaToolTiers.METEOR, 3, -1f, ModSoundEvents.PHASEBLADE_SWING, new FabricItemSettings()));
-	public static final Item PHASEBLADE_GREEN = register("phaseblade_green", new CustomSoundSwordItem(TerrariaToolTiers.METEOR, 3, -1f, ModSoundEvents.PHASEBLADE_SWING, new FabricItemSettings()));
-	public static final Item VOLCANO_SWORD = register("volcano_sword", new VolcanoSwordItem(TerrariaToolTiers.MOLTEN, 4, -2.4f, new FabricItemSettings()));
+	public static final Item DEMONITE_SWORD = register("demonite_sword", new SwordItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, 3F, -2.4F))));
+	public static final Item CRIMTANE_SWORD = register("crimtane_sword", new SwordItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, 3F, -2.4F))));
+	public static final Item PHASEBLADE_WHITE = register("phaseblade_white", new CustomSoundSwordItem(TerrariaToolTiers.METEOR, ModSoundEvents.PHASEBLADE_SWING, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.METEOR, 3F, -1F))));
+	public static final Item PHASEBLADE_GREEN = register("phaseblade_green", new CustomSoundSwordItem(TerrariaToolTiers.METEOR, ModSoundEvents.PHASEBLADE_SWING, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.METEOR, 3F, -1F))));
+	public static final Item VOLCANO_SWORD = register("volcano_sword", new VolcanoSwordItem(TerrariaToolTiers.MOLTEN, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.MOLTEN, 4F, -2.4F))));
 
 	// Ranged
 	public static final Item SPACE_GUN = register("space_gun", new SpaceGunItem());
 
 	// Throwables
 	// Grenades
-	public static final Item GRENADE = register("grenade", new GrenadeItem(new FabricItemSettings(), false, false));
-	public static final Item STICKY_GRENADE = register("sticky_grenade", new GrenadeItem(new FabricItemSettings(), true, false));
-	public static final Item BOUNCY_GRENADE = register("bouncy_grenade", new GrenadeItem(new FabricItemSettings(), false, true));
+	public static final Item GRENADE = register("grenade", new GrenadeItem(new Item.Properties(), false, false));
+	public static final Item STICKY_GRENADE = register("sticky_grenade", new GrenadeItem(new Item.Properties(), true, false));
+	public static final Item BOUNCY_GRENADE = register("bouncy_grenade", new GrenadeItem(new Item.Properties(), false, true));
 	// Bombs
-	public static final Item BOMB = register("bomb", new BombItem(new FabricItemSettings(), false, false));
-	public static final Item STICKY_BOMB = register("sticky_bomb", new BombItem(new FabricItemSettings(), true, false));
-	public static final Item BOUNCY_BOMB = register("bouncy_bomb", new BombItem(new FabricItemSettings(), false, true));
+	public static final Item BOMB = register("bomb", new BombItem(new Item.Properties(), false, false));
+	public static final Item STICKY_BOMB = register("sticky_bomb", new BombItem(new Item.Properties(), true, false));
+	public static final Item BOUNCY_BOMB = register("bouncy_bomb", new BombItem(new Item.Properties(), false, true));
 	// Dynamite
-	public static final Item DYNAMITE = register("dynamite", new DynamiteItem(new FabricItemSettings(), false, false));
-	public static final Item STICKY_DYNAMITE = register("sticky_dynamite", new DynamiteItem(new FabricItemSettings(), true, false));
-	public static final Item BOUNCY_DYNAMITE = register("bouncy_dynamite", new DynamiteItem(new FabricItemSettings(), false, true));
+	public static final Item DYNAMITE = register("dynamite", new DynamiteItem(new Item.Properties(), false, false));
+	public static final Item STICKY_DYNAMITE = register("sticky_dynamite", new DynamiteItem(new Item.Properties(), true, false));
+	public static final Item BOUNCY_DYNAMITE = register("bouncy_dynamite", new DynamiteItem(new Item.Properties(), false, true));
 
 	// Armours
 	// todo: make another register method that registers a full set of armor instead of registering per piece, don't know the best way to do this since the item is different (ShadowArmor, CrimsonArmor)
-	public static final Item SHADOW_HELMET = register("shadow_helmet", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.HELMET, new FabricItemSettings()));
-	public static final Item SHADOW_CHESTPLATE = register("shadow_chestplate", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, new FabricItemSettings()));
-	public static final Item SHADOW_LEGGINGS = register("shadow_leggings", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, new FabricItemSettings()));
-	public static final Item SHADOW_BOOTS = register("shadow_boots", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, new FabricItemSettings()));
-	public static final Item ANCIENT_SHADOW_HELMET = register("ancient_shadow_helmet", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.HELMET, new FabricItemSettings()));
-	public static final Item ANCIENT_SHADOW_CHESTPLATE = register("ancient_shadow_chestplate", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.CHESTPLATE, new FabricItemSettings()));
-	public static final Item ANCIENT_SHADOW_LEGGINGS = register("ancient_shadow_leggings", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.LEGGINGS, new FabricItemSettings()));
-	public static final Item ANCIENT_SHADOW_BOOTS = register("ancient_shadow_boots", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.BOOTS, new FabricItemSettings()));
-	public static final Item CRIMSON_HELMET = register("crimson_helmet", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.HELMET, new FabricItemSettings()));
-	public static final Item CRIMSON_CHESTPLATE = register("crimson_chestplate", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.CHESTPLATE, new FabricItemSettings()));
-	public static final Item CRIMSON_LEGGINGS = register("crimson_leggings", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.LEGGINGS, new FabricItemSettings()));
-	public static final Item CRIMSON_BOOTS = register("crimson_boots", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.BOOTS, new FabricItemSettings()));
-	public static final Item METEOR_HELMET = register("meteor_helmet", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.HELMET, new FabricItemSettings()));
-	public static final Item METEOR_CHESTPLATE = register("meteor_chestplate", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.CHESTPLATE, new FabricItemSettings()));
-	public static final Item METEOR_LEGGINGS = register("meteor_leggings", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.LEGGINGS, new FabricItemSettings()));
-	public static final Item METEOR_BOOTS = register("meteor_boots", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.BOOTS, new FabricItemSettings()));
-	public static final Item MOLTEN_HELMET = register("molten_helmet", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.HELMET, new FabricItemSettings()));
-	public static final Item MOLTEN_CHESTPLATE = register("molten_chestplate", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.CHESTPLATE, new FabricItemSettings()));
-	public static final Item MOLTEN_LEGGINGS = register("molten_leggings", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.LEGGINGS, new FabricItemSettings()));
-	public static final Item MOLTEN_BOOTS = register("molten_boots", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.BOOTS, new FabricItemSettings()));
+	public static final Item SHADOW_HELMET = register("shadow_helmet", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(20))));
+	public static final Item SHADOW_CHESTPLATE = register("shadow_chestplate", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(20))));
+	public static final Item SHADOW_LEGGINGS = register("shadow_leggings", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(20))));
+	public static final Item SHADOW_BOOTS = register("shadow_boots", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(20))));
+	public static final Item ANCIENT_SHADOW_HELMET = register("ancient_shadow_helmet", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(20))));
+	public static final Item ANCIENT_SHADOW_CHESTPLATE = register("ancient_shadow_chestplate", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(20))));
+	public static final Item ANCIENT_SHADOW_LEGGINGS = register("ancient_shadow_leggings", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(20))));
+	public static final Item ANCIENT_SHADOW_BOOTS = register("ancient_shadow_boots", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(20))));
+	public static final Item CRIMSON_HELMET = register("crimson_helmet", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(20))));
+	public static final Item CRIMSON_CHESTPLATE = register("crimson_chestplate", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(20))));
+	public static final Item CRIMSON_LEGGINGS = register("crimson_leggings", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(20))));
+	public static final Item CRIMSON_BOOTS = register("crimson_boots", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(20))));
+	public static final Item METEOR_HELMET = register("meteor_helmet", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(35))));
+	public static final Item METEOR_CHESTPLATE = register("meteor_chestplate", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(35))));
+	public static final Item METEOR_LEGGINGS = register("meteor_leggings", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(35))));
+	public static final Item METEOR_BOOTS = register("meteor_boots", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(35))));
+	public static final Item MOLTEN_HELMET = register("molten_helmet", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(40))));
+	public static final Item MOLTEN_CHESTPLATE = register("molten_chestplate", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(40))));
+	public static final Item MOLTEN_LEGGINGS = register("molten_leggings", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(40))));
+	public static final Item MOLTEN_BOOTS = register("molten_boots", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(40))));
 
 	// Vanity Armours
-	public static final Item FAMILIAR_WIG = register("familiar_wig", new FamiliarVanity("familiar_wig", TerrariaArmorMaterials.VANITY, ArmorItem.Type.HELMET, new FabricItemSettings()));
-	public static final Item FAMILIAR_SHIRT = register("familiar_shirt", new FamiliarVanity("familiar_shirt", TerrariaArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, new FabricItemSettings()));
-	public static final Item FAMILIAR_PANTS = register("familiar_pants", new FamiliarVanity("familiar_pants", TerrariaArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, new FabricItemSettings()));
-	public static final Item FAMILIAR_SHOES = register("familiar_shoes", new FamiliarVanity("familiar_shoes", TerrariaArmorMaterials.VANITY, ArmorItem.Type.BOOTS, new FabricItemSettings()));
+	public static final Item FAMILIAR_WIG = register("familiar_wig", new FamiliarVanity("familiar_wig", TerrariaArmorMaterials.VANITY, ArmorItem.Type.HELMET, new Item.Properties()));
+	public static final Item FAMILIAR_SHIRT = register("familiar_shirt", new FamiliarVanity("familiar_shirt", TerrariaArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+	public static final Item FAMILIAR_PANTS = register("familiar_pants", new FamiliarVanity("familiar_pants", TerrariaArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+	public static final Item FAMILIAR_SHOES = register("familiar_shoes", new FamiliarVanity("familiar_shoes", TerrariaArmorMaterials.VANITY, ArmorItem.Type.BOOTS, new Item.Properties()));
 	//public static final Item TOP_HAT = register("top_hat", new TopHatVanity("top_hat", TerrariaArmorMaterials.VANITY, ArmorItem.Type.HELMET, new FabricItemSettings()));
 	// todo: make Eye of Cthulhu mask and add it to Treasure Bag loot table (replace familiar wig)
 
@@ -276,129 +278,129 @@ public class ModItems {
 	///////////////// Blocks /////////////////
 
 	// Chests
-	public static final Item GOLD_CHEST = register("gold_chest", new BlockItem(ModBlocks.GOLD_CHEST, new FabricItemSettings()));
-	public static final Item TRAPPED_GOLD_CHEST = register("trapped_gold_chest", new BlockItem(ModBlocks.TRAPPED_GOLD_CHEST, new FabricItemSettings()));
-	public static final Item FROZEN_CHEST = register("frozen_chest", new BlockItem(ModBlocks.FROZEN_CHEST, new FabricItemSettings()));
-	public static final Item TRAPPED_FROZEN_CHEST = register("trapped_frozen_chest", new BlockItem(ModBlocks.TRAPPED_FROZEN_CHEST, new FabricItemSettings()));
-	public static final Item IVY_CHEST = register("ivy_chest", new BlockItem(ModBlocks.IVY_CHEST, new FabricItemSettings()));
-	public static final Item TRAPPED_IVY_CHEST = register("trapped_ivy_chest", new BlockItem(ModBlocks.TRAPPED_IVY_CHEST, new FabricItemSettings()));
-	public static final Item SANDSTONE_CHEST = register("sandstone_chest", new BlockItem(ModBlocks.SANDSTONE_CHEST, new FabricItemSettings()));
-	public static final Item TRAPPED_SANDSTONE_CHEST = register("trapped_sandstone_chest", new BlockItem(ModBlocks.TRAPPED_SANDSTONE_CHEST, new FabricItemSettings()));
-	public static final Item WATER_CHEST = register("water_chest", new BlockItem(ModBlocks.WATER_CHEST, new FabricItemSettings()));
-	public static final Item SKYWARE_CHEST = register("skyware_chest", new BlockItem(ModBlocks.SKYWARE_CHEST, new FabricItemSettings()));
-	public static final Item SHADOW_CHEST = register("shadow_chest", new BlockItem(ModBlocks.SHADOW_CHEST, new FabricItemSettings()));
-	public static final Item PIGGY_BANK = register("piggy_bank", new BlockItem(ModBlocks.PIGGY_BANK, new FabricItemSettings()));
-	public static final Item SAFE = register("safe", new BlockItem(ModBlocks.SAFE, new FabricItemSettings()));
+	public static final Item GOLD_CHEST = register("gold_chest", new BlockItem(ModBlocks.GOLD_CHEST, new Item.Properties()));
+	public static final Item TRAPPED_GOLD_CHEST = register("trapped_gold_chest", new BlockItem(ModBlocks.TRAPPED_GOLD_CHEST, new Item.Properties()));
+	public static final Item FROZEN_CHEST = register("frozen_chest", new BlockItem(ModBlocks.FROZEN_CHEST, new Item.Properties()));
+	public static final Item TRAPPED_FROZEN_CHEST = register("trapped_frozen_chest", new BlockItem(ModBlocks.TRAPPED_FROZEN_CHEST, new Item.Properties()));
+	public static final Item IVY_CHEST = register("ivy_chest", new BlockItem(ModBlocks.IVY_CHEST, new Item.Properties()));
+	public static final Item TRAPPED_IVY_CHEST = register("trapped_ivy_chest", new BlockItem(ModBlocks.TRAPPED_IVY_CHEST, new Item.Properties()));
+	public static final Item SANDSTONE_CHEST = register("sandstone_chest", new BlockItem(ModBlocks.SANDSTONE_CHEST, new Item.Properties()));
+	public static final Item TRAPPED_SANDSTONE_CHEST = register("trapped_sandstone_chest", new BlockItem(ModBlocks.TRAPPED_SANDSTONE_CHEST, new Item.Properties()));
+	public static final Item WATER_CHEST = register("water_chest", new BlockItem(ModBlocks.WATER_CHEST, new Item.Properties()));
+	public static final Item SKYWARE_CHEST = register("skyware_chest", new BlockItem(ModBlocks.SKYWARE_CHEST, new Item.Properties()));
+	public static final Item SHADOW_CHEST = register("shadow_chest", new BlockItem(ModBlocks.SHADOW_CHEST, new Item.Properties()));
+	public static final Item PIGGY_BANK = register("piggy_bank", new BlockItem(ModBlocks.PIGGY_BANK, new Item.Properties()));
+	public static final Item SAFE = register("safe", new BlockItem(ModBlocks.SAFE, new Item.Properties()));
 
 	// Metals
-	public static final Item METEORITE_ORE = register("meteorite_ore", new BlockItem(ModBlocks.METEORITE_ORE, new FabricItemSettings()));
-	public static final Item RAW_METEORITE_BLOCK = register("raw_meteorite_block", new BlockItem(ModBlocks.RAW_METEORITE_BLOCK, new FabricItemSettings()));
-	public static final Item METEORITE_BLOCK = register("meteorite_block", new BlockItem(ModBlocks.METEORITE_BLOCK, new FabricItemSettings()));
-	public static final Item DEMONITE_ORE = register("demonite_ore", new BlockItem(ModBlocks.DEMONITE_ORE, new FabricItemSettings()));
-	public static final Item DEEPSLATE_DEMONITE_ORE = register("deepslate_demonite_ore", new BlockItem(ModBlocks.DEEPSLATE_DEMONITE_ORE, new FabricItemSettings()));
-	public static final Item RAW_DEMONITE_BLOCK = register("raw_demonite_block", new BlockItem(ModBlocks.RAW_DEMONITE_BLOCK, new FabricItemSettings()));
-	public static final Item DEMONITE_BLOCK = register("demonite_block", new BlockItem(ModBlocks.DEMONITE_BLOCK, new FabricItemSettings()));
-	public static final Item CRIMTANE_ORE = register("crimtane_ore", new BlockItem(ModBlocks.CRIMTANE_ORE, new FabricItemSettings()));
-	public static final Item DEEPSLATE_CRIMTANE_ORE = register("deepslate_crimtane_ore", new BlockItem(ModBlocks.DEEPSLATE_CRIMTANE_ORE, new FabricItemSettings()));
-	public static final Item RAW_CRIMTANE_BLOCK = register("raw_crimtane_block", new BlockItem(ModBlocks.RAW_CRIMTANE_BLOCK, new FabricItemSettings()));
-	public static final Item CRIMTANE_BLOCK = register("crimtane_block", new BlockItem(ModBlocks.CRIMTANE_BLOCK, new FabricItemSettings()));
-	public static final Item HELLSTONE_ORE = register("hellstone_ore", new BlockItem(ModBlocks.HELLSTONE_ORE, new FabricItemSettings().fireproof()));
-	public static final Item RAW_HELLSTONE_BLOCK = register("raw_hellstone_block", new BlockItem(ModBlocks.RAW_HELLSTONE_BLOCK, new FabricItemSettings().fireproof()));
-	public static final Item HELLSTONE_BLOCK = register("hellstone_block", new BlockItem(ModBlocks.HELLSTONE_BLOCK, new FabricItemSettings().fireproof()));
+	public static final Item METEORITE_ORE = register("meteorite_ore", new BlockItem(ModBlocks.METEORITE_ORE, new Item.Properties()));
+	public static final Item RAW_METEORITE_BLOCK = register("raw_meteorite_block", new BlockItem(ModBlocks.RAW_METEORITE_BLOCK, new Item.Properties()));
+	public static final Item METEORITE_BLOCK = register("meteorite_block", new BlockItem(ModBlocks.METEORITE_BLOCK, new Item.Properties()));
+	public static final Item DEMONITE_ORE = register("demonite_ore", new BlockItem(ModBlocks.DEMONITE_ORE, new Item.Properties()));
+	public static final Item DEEPSLATE_DEMONITE_ORE = register("deepslate_demonite_ore", new BlockItem(ModBlocks.DEEPSLATE_DEMONITE_ORE, new Item.Properties()));
+	public static final Item RAW_DEMONITE_BLOCK = register("raw_demonite_block", new BlockItem(ModBlocks.RAW_DEMONITE_BLOCK, new Item.Properties()));
+	public static final Item DEMONITE_BLOCK = register("demonite_block", new BlockItem(ModBlocks.DEMONITE_BLOCK, new Item.Properties()));
+	public static final Item CRIMTANE_ORE = register("crimtane_ore", new BlockItem(ModBlocks.CRIMTANE_ORE, new Item.Properties()));
+	public static final Item DEEPSLATE_CRIMTANE_ORE = register("deepslate_crimtane_ore", new BlockItem(ModBlocks.DEEPSLATE_CRIMTANE_ORE, new Item.Properties()));
+	public static final Item RAW_CRIMTANE_BLOCK = register("raw_crimtane_block", new BlockItem(ModBlocks.RAW_CRIMTANE_BLOCK, new Item.Properties()));
+	public static final Item CRIMTANE_BLOCK = register("crimtane_block", new BlockItem(ModBlocks.CRIMTANE_BLOCK, new Item.Properties()));
+	public static final Item HELLSTONE_ORE = register("hellstone_ore", new BlockItem(ModBlocks.HELLSTONE_ORE, new Item.Properties().fireResistant()));
+	public static final Item RAW_HELLSTONE_BLOCK = register("raw_hellstone_block", new BlockItem(ModBlocks.RAW_HELLSTONE_BLOCK, new Item.Properties().fireResistant()));
+	public static final Item HELLSTONE_BLOCK = register("hellstone_block", new BlockItem(ModBlocks.HELLSTONE_BLOCK, new Item.Properties().fireResistant()));
 
 	// Misc
-	public static final Item REDSTONE_STONE = register("redstone_stone", new BlockItem(ModBlocks.REDSTONE_STONE, new FabricItemSettings()));
-	public static final Item REDSTONE_DEEPSLATE = register("redstone_deepslate", new BlockItem(ModBlocks.REDSTONE_DEEPSLATE, new FabricItemSettings()));
-	public static final Item INSTANT_TNT = register("instant_tnt", new BlockItem(ModBlocks.INSTANT_TNT, new FabricItemSettings()));
-	public static final Item TINKERER_TABLE = register("tinkerer_workshop", new BlockItem(ModBlocks.TINKERER_TABLE, new FabricItemSettings()));
+	public static final Item REDSTONE_STONE = register("redstone_stone", new BlockItem(ModBlocks.REDSTONE_STONE, new Item.Properties()));
+	public static final Item REDSTONE_DEEPSLATE = register("redstone_deepslate", new BlockItem(ModBlocks.REDSTONE_DEEPSLATE, new Item.Properties()));
+	public static final Item INSTANT_TNT = register("instant_tnt", new BlockItem(ModBlocks.INSTANT_TNT, new Item.Properties()));
+	public static final Item TINKERER_TABLE = register("tinkerer_workshop", new BlockItem(ModBlocks.TINKERER_TABLE, new Item.Properties()));
 
 	// Building
-	public static final Item SUNPLATE_BLOCK = register("sunplate_block", new BlockItem(ModBlocks.SUNPLATE_BLOCK, new FabricItemSettings()));
-	public static final Item CLOUD = register("cloud", new BlockItem(ModBlocks.CLOUD, new FabricItemSettings()));
-	public static final Item RAIN_CLOUD = register("rain_cloud", new BlockItem(ModBlocks.RAIN_CLOUD, new FabricItemSettings()));
-	public static final Item BLUE_BRICKS = register("blue_brick", new BlockItem(ModBlocks.BLUE_BRICKS, new FabricItemSettings()));
-	public static final Item CRACKED_BLUE_BRICKS = register("cracked_blue_brick", new BlockItem(ModBlocks.CRACKED_BLUE_BRICKS, new FabricItemSettings()));
-	public static final Item FANCY_BLUE_BRICKS = register("fancy_blue_brick", new BlockItem(ModBlocks.FANCY_BLUE_BRICKS, new FabricItemSettings()));
-	public static final Item GREEN_BRICKS = register("green_brick", new BlockItem(ModBlocks.GREEN_BRICKS, new FabricItemSettings()));
-	public static final Item CRACKED_GREEN_BRICKS = register("cracked_green_brick", new BlockItem(ModBlocks.CRACKED_GREEN_BRICKS, new FabricItemSettings()));
-	public static final Item FANCY_GREEN_BRICKS = register("fancy_green_brick", new BlockItem(ModBlocks.FANCY_GREEN_BRICKS, new FabricItemSettings()));
-	public static final Item PURPLE_BRICKS = register("purple_brick", new BlockItem(ModBlocks.PURPLE_BRICKS, new FabricItemSettings()));
-	public static final Item CRACKED_PURPLE_BRICKS = register("cracked_purple_brick", new BlockItem(ModBlocks.CRACKED_PURPLE_BRICKS, new FabricItemSettings()));
-	public static final Item FANCY_PURPLE_BRICKS = register("fancy_purple_brick", new BlockItem(ModBlocks.FANCY_PURPLE_BRICKS, new FabricItemSettings()));
+	public static final Item SUNPLATE_BLOCK = register("sunplate_block", new BlockItem(ModBlocks.SUNPLATE_BLOCK, new Item.Properties()));
+	public static final Item CLOUD = register("cloud", new BlockItem(ModBlocks.CLOUD, new Item.Properties()));
+	public static final Item RAIN_CLOUD = register("rain_cloud", new BlockItem(ModBlocks.RAIN_CLOUD, new Item.Properties()));
+	public static final Item BLUE_BRICKS = register("blue_brick", new BlockItem(ModBlocks.BLUE_BRICKS, new Item.Properties()));
+	public static final Item CRACKED_BLUE_BRICKS = register("cracked_blue_brick", new BlockItem(ModBlocks.CRACKED_BLUE_BRICKS, new Item.Properties()));
+	public static final Item FANCY_BLUE_BRICKS = register("fancy_blue_brick", new BlockItem(ModBlocks.FANCY_BLUE_BRICKS, new Item.Properties()));
+	public static final Item GREEN_BRICKS = register("green_brick", new BlockItem(ModBlocks.GREEN_BRICKS, new Item.Properties()));
+	public static final Item CRACKED_GREEN_BRICKS = register("cracked_green_brick", new BlockItem(ModBlocks.CRACKED_GREEN_BRICKS, new Item.Properties()));
+	public static final Item FANCY_GREEN_BRICKS = register("fancy_green_brick", new BlockItem(ModBlocks.FANCY_GREEN_BRICKS, new Item.Properties()));
+	public static final Item PURPLE_BRICKS = register("purple_brick", new BlockItem(ModBlocks.PURPLE_BRICKS, new Item.Properties()));
+	public static final Item CRACKED_PURPLE_BRICKS = register("cracked_purple_brick", new BlockItem(ModBlocks.CRACKED_PURPLE_BRICKS, new Item.Properties()));
+	public static final Item FANCY_PURPLE_BRICKS = register("fancy_purple_brick", new BlockItem(ModBlocks.FANCY_PURPLE_BRICKS, new Item.Properties()));
 
 	// Vegetation
-	public static final Item VILE_MUSHROOM = registerPlant("vile_mushroom", 0.65f, new BlockItem(ModBlocks.VILE_MUSHROOM, new FabricItemSettings()));
-	public static final Item VICIOUS_MUSHROOM = registerPlant("vicious_mushroom", 0.65f, new BlockItem(ModBlocks.VICIOUS_MUSHROOM, new FabricItemSettings()));
+	public static final Item VILE_MUSHROOM = registerPlant("vile_mushroom", 0.65f, new BlockItem(ModBlocks.VILE_MUSHROOM, new Item.Properties()));
+	public static final Item VICIOUS_MUSHROOM = registerPlant("vicious_mushroom", 0.65f, new BlockItem(ModBlocks.VICIOUS_MUSHROOM, new Item.Properties()));
 
 	// Corruption
-	public static final Item CORRUPTED_GRASS_BLOCK = register("corrupted_grass", new BlockItem(ModBlocks.CORRUPTED_GRASS, new FabricItemSettings()));
-	public static final Item CORRUPTED_GRAVEL = register("corrupted_gravel", new BlockItem(ModBlocks.CORRUPTED_GRAVEL, new FabricItemSettings()));
-	public static final Item CORRUPTED_SAND = register("corrupted_sand", new BlockItem(ModBlocks.CORRUPTED_SAND, new FabricItemSettings()));
-	public static final Item CORRUPTED_GLASS = register("corrupted_glass", new BlockItem(ModBlocks.CORRUPTED_GLASS, new FabricItemSettings()));
-	public static final Item CORRUPTED_SANDSTONE = register("corrupted_sandstone", new BlockItem(ModBlocks.CORRUPTED_SANDSTONE, new FabricItemSettings()));
-	public static final Item CORRUPTED_ANDESITE = register("corrupted_andesite", new BlockItem(ModBlocks.CORRUPTED_ANDESITE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DIORITE = register("corrupted_diorite", new BlockItem(ModBlocks.CORRUPTED_DIORITE, new FabricItemSettings()));
-	public static final Item CORRUPTED_GRANITE = register("corrupted_granite", new BlockItem(ModBlocks.CORRUPTED_GRANITE, new FabricItemSettings()));
-	public static final Item CORRUPTED_STONE = register("corrupted_stone", new BlockItem(ModBlocks.CORRUPTED_STONE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DEEPSLATE = register("corrupted_deepslate", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE, new FabricItemSettings()));
-	public static final Item CORRUPTED_COBBLESTONE = register("corrupted_cobblestone", new BlockItem(ModBlocks.CORRUPTED_COBBLESTONE, new FabricItemSettings()));
-	public static final Item CORRUPTED_COBBLED_DEEPSLATE = register("corrupted_cobbled_deepslate", new BlockItem(ModBlocks.CORRUPTED_COBBLED_DEEPSLATE, new FabricItemSettings()));
-	public static final Item CORRUPTED_COAL_ORE = register("corrupted_coal_ore", new BlockItem(ModBlocks.CORRUPTED_COAL_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_IRON_ORE = register("corrupted_iron_ore", new BlockItem(ModBlocks.CORRUPTED_IRON_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_COPPER_ORE = register("corrupted_copper_ore", new BlockItem(ModBlocks.CORRUPTED_COPPER_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_GOLD_ORE = register("corrupted_gold_ore", new BlockItem(ModBlocks.CORRUPTED_GOLD_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_LAPIS_ORE = register("corrupted_lapis_ore", new BlockItem(ModBlocks.CORRUPTED_LAPIS_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_REDSTONE_ORE = register("corrupted_redstone_ore", new BlockItem(ModBlocks.CORRUPTED_REDSTONE_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DIAMOND_ORE = register("corrupted_diamond_ore", new BlockItem(ModBlocks.CORRUPTED_DIAMOND_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_EMERALD_ORE = register("corrupted_emerald_ore", new BlockItem(ModBlocks.CORRUPTED_EMERALD_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DEEPSLATE_COAL_ORE = register("corrupted_deepslate_coal_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_COAL_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DEEPSLATE_IRON_ORE = register("corrupted_deepslate_iron_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_IRON_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DEEPSLATE_COPPER_ORE = register("corrupted_deepslate_copper_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_COPPER_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DEEPSLATE_GOLD_ORE = register("corrupted_deepslate_gold_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_GOLD_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DEEPSLATE_LAPIS_ORE = register("corrupted_deepslate_lapis_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_LAPIS_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DEEPSLATE_REDSTONE_ORE = register("corrupted_deepslate_redstone_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_REDSTONE_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DEEPSLATE_DIAMOND_ORE = register("corrupted_deepslate_diamond_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_DIAMOND_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_DEEPSLATE_EMERALD_ORE = register("corrupted_deepslate_emerald_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_EMERALD_ORE, new FabricItemSettings()));
-	public static final Item CORRUPTED_SNOW_LAYER = register("corrupted_snow_layer", new BlockItem(ModBlocks.CORRUPTED_SNOW_LAYER, new FabricItemSettings()));
-	public static final Item CORRUPTED_SNOW_BLOCK = register("corrupted_snow", new BlockItem(ModBlocks.CORRUPTED_SNOW, new FabricItemSettings()));
-	public static final Item CORRUPTED_ICE = register("corrupted_ice", new BlockItem(ModBlocks.CORRUPTED_ICE, new FabricItemSettings()));
-	public static final Item CORRUPTED_PACKED_ICE = register("corrupted_packed_ice", new BlockItem(ModBlocks.CORRUPTED_PACKED_ICE, new FabricItemSettings()));
-	public static final Item CORRUPTED_BLUE_ICE = register("corrupted_blue_ice", new BlockItem(ModBlocks.CORRUPTED_BLUE_ICE, new FabricItemSettings()));
+	public static final Item CORRUPTED_GRASS_BLOCK = register("corrupted_grass", new BlockItem(ModBlocks.CORRUPTED_GRASS, new Item.Properties()));
+	public static final Item CORRUPTED_GRAVEL = register("corrupted_gravel", new BlockItem(ModBlocks.CORRUPTED_GRAVEL, new Item.Properties()));
+	public static final Item CORRUPTED_SAND = register("corrupted_sand", new BlockItem(ModBlocks.CORRUPTED_SAND, new Item.Properties()));
+	public static final Item CORRUPTED_GLASS = register("corrupted_glass", new BlockItem(ModBlocks.CORRUPTED_GLASS, new Item.Properties()));
+	public static final Item CORRUPTED_SANDSTONE = register("corrupted_sandstone", new BlockItem(ModBlocks.CORRUPTED_SANDSTONE, new Item.Properties()));
+	public static final Item CORRUPTED_ANDESITE = register("corrupted_andesite", new BlockItem(ModBlocks.CORRUPTED_ANDESITE, new Item.Properties()));
+	public static final Item CORRUPTED_DIORITE = register("corrupted_diorite", new BlockItem(ModBlocks.CORRUPTED_DIORITE, new Item.Properties()));
+	public static final Item CORRUPTED_GRANITE = register("corrupted_granite", new BlockItem(ModBlocks.CORRUPTED_GRANITE, new Item.Properties()));
+	public static final Item CORRUPTED_STONE = register("corrupted_stone", new BlockItem(ModBlocks.CORRUPTED_STONE, new Item.Properties()));
+	public static final Item CORRUPTED_DEEPSLATE = register("corrupted_deepslate", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE, new Item.Properties()));
+	public static final Item CORRUPTED_COBBLESTONE = register("corrupted_cobblestone", new BlockItem(ModBlocks.CORRUPTED_COBBLESTONE, new Item.Properties()));
+	public static final Item CORRUPTED_COBBLED_DEEPSLATE = register("corrupted_cobbled_deepslate", new BlockItem(ModBlocks.CORRUPTED_COBBLED_DEEPSLATE, new Item.Properties()));
+	public static final Item CORRUPTED_COAL_ORE = register("corrupted_coal_ore", new BlockItem(ModBlocks.CORRUPTED_COAL_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_IRON_ORE = register("corrupted_iron_ore", new BlockItem(ModBlocks.CORRUPTED_IRON_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_COPPER_ORE = register("corrupted_copper_ore", new BlockItem(ModBlocks.CORRUPTED_COPPER_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_GOLD_ORE = register("corrupted_gold_ore", new BlockItem(ModBlocks.CORRUPTED_GOLD_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_LAPIS_ORE = register("corrupted_lapis_ore", new BlockItem(ModBlocks.CORRUPTED_LAPIS_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_REDSTONE_ORE = register("corrupted_redstone_ore", new BlockItem(ModBlocks.CORRUPTED_REDSTONE_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_DIAMOND_ORE = register("corrupted_diamond_ore", new BlockItem(ModBlocks.CORRUPTED_DIAMOND_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_EMERALD_ORE = register("corrupted_emerald_ore", new BlockItem(ModBlocks.CORRUPTED_EMERALD_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_DEEPSLATE_COAL_ORE = register("corrupted_deepslate_coal_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_COAL_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_DEEPSLATE_IRON_ORE = register("corrupted_deepslate_iron_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_IRON_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_DEEPSLATE_COPPER_ORE = register("corrupted_deepslate_copper_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_COPPER_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_DEEPSLATE_GOLD_ORE = register("corrupted_deepslate_gold_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_GOLD_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_DEEPSLATE_LAPIS_ORE = register("corrupted_deepslate_lapis_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_LAPIS_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_DEEPSLATE_REDSTONE_ORE = register("corrupted_deepslate_redstone_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_REDSTONE_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_DEEPSLATE_DIAMOND_ORE = register("corrupted_deepslate_diamond_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_DIAMOND_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_DEEPSLATE_EMERALD_ORE = register("corrupted_deepslate_emerald_ore", new BlockItem(ModBlocks.CORRUPTED_DEEPSLATE_EMERALD_ORE, new Item.Properties()));
+	public static final Item CORRUPTED_SNOW_LAYER = register("corrupted_snow_layer", new BlockItem(ModBlocks.CORRUPTED_SNOW_LAYER, new Item.Properties()));
+	public static final Item CORRUPTED_SNOW_BLOCK = register("corrupted_snow", new BlockItem(ModBlocks.CORRUPTED_SNOW, new Item.Properties()));
+	public static final Item CORRUPTED_ICE = register("corrupted_ice", new BlockItem(ModBlocks.CORRUPTED_ICE, new Item.Properties()));
+	public static final Item CORRUPTED_PACKED_ICE = register("corrupted_packed_ice", new BlockItem(ModBlocks.CORRUPTED_PACKED_ICE, new Item.Properties()));
+	public static final Item CORRUPTED_BLUE_ICE = register("corrupted_blue_ice", new BlockItem(ModBlocks.CORRUPTED_BLUE_ICE, new Item.Properties()));
 
 	// Crimson
-	public static final Item CRIMSON_GRASS_BLOCK = register("crimson_grass", new BlockItem(ModBlocks.CRIMSON_GRASS, new FabricItemSettings()));
-	public static final Item CRIMSON_GRAVEL = register("crimson_gravel", new BlockItem(ModBlocks.CRIMSON_GRAVEL, new FabricItemSettings()));
-	public static final Item CRIMSON_SAND = register("crimson_sand", new BlockItem(ModBlocks.CRIMSON_SAND, new FabricItemSettings()));
-	public static final Item CRIMSON_GLASS = register("crimson_glass", new BlockItem(ModBlocks.CRIMSON_GLASS, new FabricItemSettings()));
-	public static final Item CRIMSON_SANDSTONE = register("crimson_sandstone", new BlockItem(ModBlocks.CRIMSON_SANDSTONE, new FabricItemSettings()));
-	public static final Item CRIMSON_ANDESITE = register("crimson_andesite", new BlockItem(ModBlocks.CRIMSON_ANDESITE, new FabricItemSettings()));
-	public static final Item CRIMSON_DIORITE = register("crimson_diorite", new BlockItem(ModBlocks.CRIMSON_DIORITE, new FabricItemSettings()));
-	public static final Item CRIMSON_GRANITE = register("crimson_granite", new BlockItem(ModBlocks.CRIMSON_GRANITE, new FabricItemSettings()));
-	public static final Item CRIMSON_STONE = register("crimson_stone", new BlockItem(ModBlocks.CRIMSON_STONE, new FabricItemSettings()));
-	public static final Item CRIMSON_DEEPSLATE = register("crimson_deepslate", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE, new FabricItemSettings()));
-	public static final Item CRIMSON_COBBLESTONE = register("crimson_cobblestone", new BlockItem(ModBlocks.CRIMSON_COBBLESTONE, new FabricItemSettings()));
-	public static final Item CRIMSON_COBBLED_DEEPSLATE = register("crimson_cobbled_deepslate", new BlockItem(ModBlocks.CRIMSON_COBBLED_DEEPSLATE, new FabricItemSettings()));
-	public static final Item CRIMSON_COAL_ORE = register("crimson_coal_ore", new BlockItem(ModBlocks.CRIMSON_COAL_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_IRON_ORE = register("crimson_iron_ore", new BlockItem(ModBlocks.CRIMSON_IRON_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_COPPER_ORE = register("crimson_copper_ore", new BlockItem(ModBlocks.CRIMSON_COPPER_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_GOLD_ORE = register("crimson_gold_ore", new BlockItem(ModBlocks.CRIMSON_GOLD_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_LAPIS_ORE = register("crimson_lapis_ore", new BlockItem(ModBlocks.CRIMSON_LAPIS_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_REDSTONE_ORE = register("crimson_redstone_ore", new BlockItem(ModBlocks.CRIMSON_REDSTONE_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_DIAMOND_ORE = register("crimson_diamond_ore", new BlockItem(ModBlocks.CRIMSON_DIAMOND_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_EMERALD_ORE = register("crimson_emerald_ore", new BlockItem(ModBlocks.CRIMSON_EMERALD_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_DEEPSLATE_COAL_ORE = register("crimson_deepslate_coal_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_COAL_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_DEEPSLATE_IRON_ORE = register("crimson_deepslate_iron_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_IRON_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_DEEPSLATE_COPPER_ORE = register("crimson_deepslate_copper_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_COPPER_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_DEEPSLATE_GOLD_ORE = register("crimson_deepslate_gold_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_GOLD_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_DEEPSLATE_LAPIS_ORE = register("crimson_deepslate_lapis_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_LAPIS_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_DEEPSLATE_REDSTONE_ORE = register("crimson_deepslate_redstone_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_REDSTONE_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_DEEPSLATE_DIAMOND_ORE = register("crimson_deepslate_diamond_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_DIAMOND_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_DEEPSLATE_EMERALD_ORE = register("crimson_deepslate_emerald_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_EMERALD_ORE, new FabricItemSettings()));
-	public static final Item CRIMSON_SNOW_LAYER = register("crimson_snow_layer", new BlockItem(ModBlocks.CRIMSON_SNOW_LAYER, new FabricItemSettings()));
-	public static final Item CRIMSON_SNOW_BLOCK = register("crimson_snow", new BlockItem(ModBlocks.CRIMSON_SNOW, new FabricItemSettings()));
-	public static final Item CRIMSON_ICE = register("crimson_ice", new BlockItem(ModBlocks.CRIMSON_ICE, new FabricItemSettings()));
-	public static final Item CRIMSON_PACKED_ICE = register("crimson_packed_ice", new BlockItem(ModBlocks.CRIMSON_PACKED_ICE, new FabricItemSettings()));
-	public static final Item CRIMSON_BLUE_ICE = register("crimson_blue_ice", new BlockItem(ModBlocks.CRIMSON_BLUE_ICE, new FabricItemSettings()));
+	public static final Item CRIMSON_GRASS_BLOCK = register("crimson_grass", new BlockItem(ModBlocks.CRIMSON_GRASS, new Item.Properties()));
+	public static final Item CRIMSON_GRAVEL = register("crimson_gravel", new BlockItem(ModBlocks.CRIMSON_GRAVEL, new Item.Properties()));
+	public static final Item CRIMSON_SAND = register("crimson_sand", new BlockItem(ModBlocks.CRIMSON_SAND, new Item.Properties()));
+	public static final Item CRIMSON_GLASS = register("crimson_glass", new BlockItem(ModBlocks.CRIMSON_GLASS, new Item.Properties()));
+	public static final Item CRIMSON_SANDSTONE = register("crimson_sandstone", new BlockItem(ModBlocks.CRIMSON_SANDSTONE, new Item.Properties()));
+	public static final Item CRIMSON_ANDESITE = register("crimson_andesite", new BlockItem(ModBlocks.CRIMSON_ANDESITE, new Item.Properties()));
+	public static final Item CRIMSON_DIORITE = register("crimson_diorite", new BlockItem(ModBlocks.CRIMSON_DIORITE, new Item.Properties()));
+	public static final Item CRIMSON_GRANITE = register("crimson_granite", new BlockItem(ModBlocks.CRIMSON_GRANITE, new Item.Properties()));
+	public static final Item CRIMSON_STONE = register("crimson_stone", new BlockItem(ModBlocks.CRIMSON_STONE, new Item.Properties()));
+	public static final Item CRIMSON_DEEPSLATE = register("crimson_deepslate", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE, new Item.Properties()));
+	public static final Item CRIMSON_COBBLESTONE = register("crimson_cobblestone", new BlockItem(ModBlocks.CRIMSON_COBBLESTONE, new Item.Properties()));
+	public static final Item CRIMSON_COBBLED_DEEPSLATE = register("crimson_cobbled_deepslate", new BlockItem(ModBlocks.CRIMSON_COBBLED_DEEPSLATE, new Item.Properties()));
+	public static final Item CRIMSON_COAL_ORE = register("crimson_coal_ore", new BlockItem(ModBlocks.CRIMSON_COAL_ORE, new Item.Properties()));
+	public static final Item CRIMSON_IRON_ORE = register("crimson_iron_ore", new BlockItem(ModBlocks.CRIMSON_IRON_ORE, new Item.Properties()));
+	public static final Item CRIMSON_COPPER_ORE = register("crimson_copper_ore", new BlockItem(ModBlocks.CRIMSON_COPPER_ORE, new Item.Properties()));
+	public static final Item CRIMSON_GOLD_ORE = register("crimson_gold_ore", new BlockItem(ModBlocks.CRIMSON_GOLD_ORE, new Item.Properties()));
+	public static final Item CRIMSON_LAPIS_ORE = register("crimson_lapis_ore", new BlockItem(ModBlocks.CRIMSON_LAPIS_ORE, new Item.Properties()));
+	public static final Item CRIMSON_REDSTONE_ORE = register("crimson_redstone_ore", new BlockItem(ModBlocks.CRIMSON_REDSTONE_ORE, new Item.Properties()));
+	public static final Item CRIMSON_DIAMOND_ORE = register("crimson_diamond_ore", new BlockItem(ModBlocks.CRIMSON_DIAMOND_ORE, new Item.Properties()));
+	public static final Item CRIMSON_EMERALD_ORE = register("crimson_emerald_ore", new BlockItem(ModBlocks.CRIMSON_EMERALD_ORE, new Item.Properties()));
+	public static final Item CRIMSON_DEEPSLATE_COAL_ORE = register("crimson_deepslate_coal_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_COAL_ORE, new Item.Properties()));
+	public static final Item CRIMSON_DEEPSLATE_IRON_ORE = register("crimson_deepslate_iron_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_IRON_ORE, new Item.Properties()));
+	public static final Item CRIMSON_DEEPSLATE_COPPER_ORE = register("crimson_deepslate_copper_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_COPPER_ORE, new Item.Properties()));
+	public static final Item CRIMSON_DEEPSLATE_GOLD_ORE = register("crimson_deepslate_gold_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_GOLD_ORE, new Item.Properties()));
+	public static final Item CRIMSON_DEEPSLATE_LAPIS_ORE = register("crimson_deepslate_lapis_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_LAPIS_ORE, new Item.Properties()));
+	public static final Item CRIMSON_DEEPSLATE_REDSTONE_ORE = register("crimson_deepslate_redstone_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_REDSTONE_ORE, new Item.Properties()));
+	public static final Item CRIMSON_DEEPSLATE_DIAMOND_ORE = register("crimson_deepslate_diamond_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_DIAMOND_ORE, new Item.Properties()));
+	public static final Item CRIMSON_DEEPSLATE_EMERALD_ORE = register("crimson_deepslate_emerald_ore", new BlockItem(ModBlocks.CRIMSON_DEEPSLATE_EMERALD_ORE, new Item.Properties()));
+	public static final Item CRIMSON_SNOW_LAYER = register("crimson_snow_layer", new BlockItem(ModBlocks.CRIMSON_SNOW_LAYER, new Item.Properties()));
+	public static final Item CRIMSON_SNOW_BLOCK = register("crimson_snow", new BlockItem(ModBlocks.CRIMSON_SNOW, new Item.Properties()));
+	public static final Item CRIMSON_ICE = register("crimson_ice", new BlockItem(ModBlocks.CRIMSON_ICE, new Item.Properties()));
+	public static final Item CRIMSON_PACKED_ICE = register("crimson_packed_ice", new BlockItem(ModBlocks.CRIMSON_PACKED_ICE, new Item.Properties()));
+	public static final Item CRIMSON_BLUE_ICE = register("crimson_blue_ice", new BlockItem(ModBlocks.CRIMSON_BLUE_ICE, new Item.Properties()));
 
 	private static Item register(String name, Item item) {
 		return Registry.register(BuiltInRegistries.ITEM, TerraMine.id(name), item);

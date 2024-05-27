@@ -78,10 +78,6 @@ public class TestBoss extends BossEntityAI {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 
-    public @NotNull MobType getMobType() {
-        return MobType.UNDEAD;
-    }
-
     public void addAdditionalSaveData(@NotNull CompoundTag compoundTag) {
         super.addAdditionalSaveData(compoundTag);
     }

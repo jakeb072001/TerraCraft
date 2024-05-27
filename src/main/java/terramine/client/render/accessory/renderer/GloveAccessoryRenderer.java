@@ -51,8 +51,9 @@ public class GloveAccessoryRenderer implements AccessoryRenderer {
         return hasSlimArms ? slimModel : defaultModel;
     }
 
+    // todo: not sure if correct, test
     protected static boolean hasSlimArms(Entity entity) {
-        return entity instanceof AbstractClientPlayer player && player.getModelName().equals("slim");
+        return entity instanceof AbstractClientPlayer player && player.getSkin().model().name().equals("slim");
     }
 
     @Override

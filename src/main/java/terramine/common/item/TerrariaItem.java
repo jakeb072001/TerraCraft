@@ -9,8 +9,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 
 import java.util.Collections;
@@ -33,7 +31,7 @@ public abstract class TerrariaItem extends Item {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void appendHoverText(@NotNull ItemStack stack, Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag flags) {
+	public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag tooltipFlag) {
 		if (TerraMine.CONFIG.client.showTooltips && showTooltip) {
 			appendTooltipDescription(tooltip, this.getDescriptionId() + ".tooltip");
 		}

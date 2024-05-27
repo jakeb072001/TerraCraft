@@ -1,6 +1,7 @@
 package terramine.common.world;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -17,8 +18,8 @@ import terramine.common.init.ModFeatures;
 import java.util.Optional;
 
 public class TerrariaJigsawStructure extends Structure {
-    public static final Codec<TerrariaJigsawStructure> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            TerrariaJigsawStructure.settingsCodec(instance),
+    public static final MapCodec<TerrariaJigsawStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            settingsCodec(instance),
             StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
             StructureTemplatePool.CODEC.fieldOf("start_room_pool").forGetter(structure -> structure.startRoomPool),
             ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),

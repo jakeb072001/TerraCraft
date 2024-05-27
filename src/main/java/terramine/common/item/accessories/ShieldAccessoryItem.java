@@ -22,7 +22,7 @@ public class ShieldAccessoryItem extends AccessoryTerrariaItem {
     }
 
     @Override
-    public UseAnim getUseAnimation(@NotNull ItemStack stack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {
         return UseAnim.BLOCK;
     }
 

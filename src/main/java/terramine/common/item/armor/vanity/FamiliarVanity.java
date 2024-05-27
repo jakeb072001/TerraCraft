@@ -1,9 +1,10 @@
 package terramine.common.item.armor.vanity;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ArmorMaterial;
 
 public class FamiliarVanity extends VanityArmor {
-    public FamiliarVanity(String armorType, ArmorMaterial armorMaterial, Type type, Properties properties) {
-        super(armorType, armorMaterial, type, properties);
+    public FamiliarVanity(String armorType, Holder<ArmorMaterial> holder, Type type, Properties properties) {
+        super(armorType, holder, type, properties);
     }
 }

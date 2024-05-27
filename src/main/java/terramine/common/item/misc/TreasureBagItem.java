@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.NotNull;
 import terramine.client.render.gui.menu.TreasureBagInventoryContainerMenu;
 import terramine.common.item.TerrariaItemConfigurable;
@@ -23,9 +24,9 @@ import java.util.List;
 
 public class TreasureBagItem extends TerrariaItemConfigurable {
     public TreasureBagInventory treasureBagInventory;
-    protected ResourceLocation lootTable;
+    protected ResourceKey<LootTable> lootTable;
 
-    public TreasureBagItem(Properties properties, ResourceLocation lootTable) {
+    public TreasureBagItem(Properties properties, ResourceKey<LootTable> lootTable) {
         super(properties);
         this.lootTable = lootTable;
     }
@@ -61,6 +62,6 @@ public class TreasureBagItem extends TerrariaItemConfigurable {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void appendHoverText(@NotNull ItemStack stack, Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag flags) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag tooltipFlag) {
     }
 }

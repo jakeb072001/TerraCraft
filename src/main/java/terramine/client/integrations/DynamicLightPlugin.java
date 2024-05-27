@@ -1,5 +1,7 @@
 package terramine.client.integrations;
 
+// todo: uncomment once dynamic lights is updated, also uncomment in build.gradle
+/**
 import dev.lambdaurora.lambdynlights.api.DynamicLightHandlers;
 import dev.lambdaurora.lambdynlights.api.DynamicLightsInitializer;
 import terramine.common.init.ModEntities;
@@ -19,3 +21,4 @@ public class DynamicLightPlugin implements DynamicLightsInitializer {
         DynamicLightHandlers.registerDynamicLightHandler(ModEntities.JESTER_ARROW, arrow -> 6);
     }
 }
+**/

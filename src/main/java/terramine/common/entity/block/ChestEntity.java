@@ -2,6 +2,7 @@ package terramine.common.entity.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -27,10 +28,9 @@ import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import terramine.TerraMine;
 import terramine.client.render.gui.menu.ChestBlockContainerMenu;
-
-import javax.annotation.Nullable;
 
 public class ChestEntity extends ChestBlockEntity {
     String name;
@@ -97,14 +97,14 @@ public class ChestEntity extends ChestBlockEntity {
     }
 
     @Override
-    public void load(@NotNull CompoundTag compoundTag) {
-        super.load(compoundTag);
+    public void loadAdditional(@NotNull CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.loadAdditional(compoundTag, provider);
         this.setTrapped(compoundTag.getBoolean("trapped"));
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag compoundTag) {
-        super.saveAdditional(compoundTag);
+    protected void saveAdditional(@NotNull CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.saveAdditional(compoundTag, provider);
         compoundTag.putBoolean("trapped", trapped);
     }
 

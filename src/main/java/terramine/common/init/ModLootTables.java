@@ -1,10 +1,13 @@
 package terramine.common.init;
 
 import net.fabricmc.fabric.api.loot.v2.FabricLootTableBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
-import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
 import terramine.TerraMine;
 
 import java.util.Arrays;
@@ -13,26 +16,26 @@ import java.util.List;
 public class ModLootTables {
 
 	// Mobs
-	public static final ResourceLocation MIMIC = TerraMine.id("entities/mimic");
-	public static final ResourceLocation DEMON_EYE = TerraMine.id("entities/demon_eye");
-	public static final ResourceLocation EATER_OF_SOULS = TerraMine.id("entities/eater_of_souls");
-	public static final ResourceLocation DEVOURER = TerraMine.id("entities/devourer");
-	public static final ResourceLocation CRIMERA = TerraMine.id("entities/crimera");
+	public static final ResourceKey<LootTable> MIMIC = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("entities/mimic"));
+	public static final ResourceKey<LootTable> DEMON_EYE = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("entities/demon_eye"));
+	public static final ResourceKey<LootTable> EATER_OF_SOULS = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("entities/eater_of_souls"));
+	public static final ResourceKey<LootTable> DEVOURER = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("entities/devourer"));
+	public static final ResourceKey<LootTable> CRIMERA = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("entities/crimera"));
 
 	// Treasure Bags
-	public static final ResourceLocation EYE_OF_CTHULHU_CORRUPTION = TerraMine.id("items/treasure_bag/eye_of_cthulhu_corruption");
-	public static final ResourceLocation EYE_OF_CTHULHU_CRIMSON = TerraMine.id("items/treasure_bag/eye_of_cthulhu_crimson");
-	public static final ResourceLocation EYE_OF_CTHULHU = TerraMine.id("items/treasure_bag/eye_of_cthulhu");
+	public static final ResourceKey<LootTable> EYE_OF_CTHULHU_CORRUPTION = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("items/treasure_bag/eye_of_cthulhu_corruption"));
+	public static final ResourceKey<LootTable> EYE_OF_CTHULHU_CRIMSON = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("items/treasure_bag/eye_of_cthulhu_crimson"));
+	public static final ResourceKey<LootTable> EYE_OF_CTHULHU = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("items/treasure_bag/eye_of_cthulhu"));
 
 	// Chests
-	public static final ResourceLocation SURFACE_CHEST = TerraMine.id("chests/surface_chest");
-	public static final ResourceLocation OCEAN_CHEST = TerraMine.id("chests/ocean_chest");
-	public static final ResourceLocation CAVE_CHEST = TerraMine.id("chests/cave_chest");
-	public static final ResourceLocation DEEP_CAVE_CHEST = TerraMine.id("chests/deep_cave_chest");
-	public static final ResourceLocation FROZEN_CAVE_CHEST = TerraMine.id("chests/frozen_cave_chest");
-	public static final ResourceLocation IVY_CAVE_CHEST = TerraMine.id("chests/ivy_cave_chest");
-	public static final ResourceLocation SANDSTONE_CAVE_CHEST = TerraMine.id("chests/sandstone_cave_chest");
-	public static final ResourceLocation SHADOW_CHEST = TerraMine.id("chests/shadow_chest");
+	public static final ResourceKey<LootTable> SURFACE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/surface_chest"));
+	public static final ResourceKey<LootTable> OCEAN_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/ocean_chest"));
+	public static final ResourceKey<LootTable> CAVE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/cave_chest"));
+	public static final ResourceKey<LootTable> DEEP_CAVE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/deep_cave_chest"));
+	public static final ResourceKey<LootTable> FROZEN_CAVE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/frozen_cave_chest"));
+	public static final ResourceKey<LootTable> IVY_CAVE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/ivy_cave_chest"));
+	public static final ResourceKey<LootTable> SANDSTONE_CAVE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/sandstone_cave_chest"));
+	public static final ResourceKey<LootTable> SHADOW_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/shadow_chest"));
 
 	public static final List<ResourceLocation> INJECT_TABLE_IDS = Arrays.asList(
 			new ResourceLocation("chests/village/village_armorer"),
@@ -67,15 +70,15 @@ public class ModLootTables {
 			new ResourceLocation("entities/zombie")
 	);
 
-	public static void onLootTableLoad(ResourceLocation id, FabricLootTableBuilder supplier) {
-		if (INJECT_TABLE_IDS.contains(id)) {
-			supplier.pool(LootPool.lootPool().add(getInjectEntry(id.getPath())).build());
+	public static void onLootTableLoad(ResourceKey<LootTable> id, FabricLootTableBuilder supplier) {
+		if (INJECT_TABLE_IDS.contains(id.location())) {
+			supplier.pool(LootPool.lootPool().add(getInjectEntry(id.location().getPath())).build());
 		}
 	}
 
 	private static LootPoolEntryContainer.Builder<?> getInjectEntry(String name) {
-		ResourceLocation table = TerraMine.id("inject/" + name);
-		return LootTableReference.lootTableReference(table).setWeight(1);
+		ResourceKey<LootTable> resourceKey = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("inject/" + name));
+		return NestedLootTable.lootTableReference(resourceKey).setWeight(1);
 	}
 
 	private ModLootTables() {

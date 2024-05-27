@@ -1,6 +1,7 @@
 package terramine.common.item.armor;
 
 import com.google.common.collect.ImmutableMultimap;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -14,14 +15,14 @@ import java.util.UUID;
 public class CrimsonArmor extends TerrariaArmor {
     private int timer;
 
-    public CrimsonArmor(String armorType, ArmorMaterial armorMaterial, Type type, Properties properties) {
-        super(armorType, armorMaterial, type, properties);
+    public CrimsonArmor(String armorType, Holder<ArmorMaterial> holder, Type type, Properties properties) {
+        super(armorType, holder, type, properties);
 
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        UUID uUID = ARMOR_MODIFIER_UUID_PER_SLOT[type.getSlot().getIndex()];
-        builder.put(Attributes.ARMOR, new AttributeModifier(uUID, "Armor modifier", this.defense, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uUID, "Armor toughness", this.toughness, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uUID, "Crimson Attack Damage", 0.02, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
+        UUID uUID = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
+        //builder.put(Attributes.ARMOR, new AttributeModifier(uUID, "Armor modifier", this.defense, AttributeModifier.Operation.ADD_VALUE));
+        //builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uUID, "Armor toughness", this.toughness, AttributeModifier.Operation.ADD_VALUE));
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uUID, "Crimson Attack Damage", 0.02, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         attributeModifiers = builder.build();
     }
 

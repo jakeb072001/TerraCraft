@@ -40,6 +40,8 @@ public class TerraMineClient implements ClientModInitializer {
 				-> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0);
 		ItemProperties.register(ModItems.OBSIDIAN_SHIELD, new ResourceLocation("blocking"), (stack, level, entity, i)
 				-> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0);
+		ItemProperties.register(ModItems.SHIELD_OF_CTHULHU, new ResourceLocation("blocking"), (stack, level, entity, i)
+				-> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0);
 
 		// All Entity renderers register
 		ModAllEntityRenderers.register();

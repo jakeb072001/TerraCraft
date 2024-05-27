@@ -108,6 +108,7 @@ public class ModItemGroups {
         ItemGroupEvents.modifyEntriesEvent(createKey("terramine_accessories")).register(id("third_phase"), entries -> {
             entries.accept(ModItems.COBALT_SHIELD);
             entries.accept(ModItems.OBSIDIAN_SHIELD);
+            entries.accept(ModItems.SHIELD_OF_CTHULHU);
             entries.accept(ModItems.GOLD_WATCH);
             entries.accept(ModItems.DEPTH_METER);
             entries.accept(ModItems.COMPASS);

@@ -4,7 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.MiscOverworldPlacements;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
@@ -51,7 +51,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> ORE_CRIMTANE_MIDDLE = registerPlaced("ore_crimtane_middle");
     public static final ResourceKey<PlacedFeature> ORE_CRIMTANE_SMALL = registerPlaced("ore_crimtane_small");
 
-    public static void bootstrap(BootstapContext<PlacedFeature> context) {
+    public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> holderGetter = context.lookup(Registries.CONFIGURED_FEATURE);
         context.register(PLACED_HELLSTONE_ORE, new PlacedFeature(getHolder(holderGetter, ModFeatures.HELLSTONE_ORE_CONFIGURED),
                 List.of(RarityFilter.onAverageOnceEvery(CONFIG.worldgen.hellstoneRarity),
