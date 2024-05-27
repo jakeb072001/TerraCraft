@@ -8,16 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Eye of Cthulhu and Eater of Worlds //-- Not yet started
 - Treasure Bags
-- Teams system (WIP, more features will be added later)
-- Armor value display in Terraria Inventory
-- Flaming, Unholy, and Jester's Arrows
 - Shield of Cthulhu and Worm Scarf //-- Not yet started
 
+## [1.7.4-1.20.1] - 2024-05-28
+### Added
+- Teams system (WIP, currently has no function)
+- Armor value display in Terraria Inventory
+- Flaming, Unholy, and Jester's Arrows (Jester's arrows being WIP, they have some issues)
+- Custom Hearts for Werewolf and Merfolk
+- As this update wasn't meant to come out yet (I had to fix the possible crash listed below, I'm currently working on the 1.20.6 update) there are some inaccessible features
+
 ### Changed
-- Skulls can now be dyed
+- Skulls can now be dyed (still not Pumpkins, that may not happen)
 
 ### Fixed
 - Various accessory menu buttons stuck highlighting after clicking them
+- Possible crash if player didn't exist somehow when syncing cosmetics
 
 ## [1.7.3-1.20.1] - 2024-02-22
 ### Fixed
@@ -279,7 +285,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release
 
-[1.8.0-1.20.6]: https://github.com/jakeb072001/TerraMine/compare/v1.7.3-1.20.1...v1.8.0-1.20.6
+[1.8.0-1.20.6]: https://github.com/jakeb072001/TerraMine/compare/v1.7.4-1.20.1...v1.8.0-1.20.6
+[1.7.4-1.20.1]: https://github.com/jakeb072001/TerraMine/compare/v1.7.3-1.20.1...v1.7.4-1.20.1
 [1.7.3-1.20.1]: https://github.com/jakeb072001/TerraMine/compare/v1.7.2-1.20.1...v1.7.3-1.20.1
 [1.7.2-1.20.1]: https://github.com/jakeb072001/TerraMine/compare/v1.7.1-1.20...v1.7.2-1.20.1
 [1.7.1-1.20]: https://github.com/jakeb072001/TerraMine/compare/v1.7.0-1.20...v1.7.1-1.20
