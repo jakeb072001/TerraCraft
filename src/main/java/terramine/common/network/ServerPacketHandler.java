@@ -169,8 +169,10 @@ public class ServerPacketHandler {
                 items.add(buffer.readItem());
             }
             client.execute(() -> {
-                for (int i = 0; i < items.size(); i++) {
-                    ((PlayerStorages) client.level.getPlayerByUUID(uuid)).getTerrariaInventory().setItem(i, items.get(i));
+                if (client.level.getPlayerByUUID(uuid) != null) {
+                    for (int i = 0; i < items.size(); i++) {
+                        ((PlayerStorages) client.level.getPlayerByUUID(uuid)).getTerrariaInventory().setItem(i, items.get(i));
+                    }
                 }
             });
         });
@@ -179,7 +181,11 @@ public class ServerPacketHandler {
             int slot = buffer.readInt();
             ItemStack itemStack = buffer.readItem();
             UUID uuid = buffer.readUUID();
-            client.execute(() -> ((PlayerStorages) client.level.getPlayerByUUID(uuid)).getTerrariaInventory().setItem(slot, itemStack));
+            client.execute(() -> {
+                if (client.level.getPlayerByUUID(uuid) != null) {
+                    ((PlayerStorages) client.level.getPlayerByUUID(uuid)).getTerrariaInventory().setItem(slot, itemStack);
+                }
+            });
         });
 
         ClientPlayNetworking.registerGlobalReceiver(UPDATE_ACCESSORY_VISIBILITY_PACKET_ID, (client, handler, buffer, responseSender) -> {

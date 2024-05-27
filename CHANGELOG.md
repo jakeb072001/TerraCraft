@@ -4,20 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.8.0-1.20.1] - 2024-04-01
+## [1.7.4-1.20.1] - 2024-05-28
 ### Added
-- Eye of Cthulhu and Eater of Worlds //-- Not yet started
-- Treasure Bags
-- Teams system (WIP, more features will be added later)
+- Teams system (WIP, currently has no function)
 - Armor value display in Terraria Inventory
-- Flaming, Unholy, and Jester's Arrows
-- Shield of Cthulhu and Worm Scarf //-- Not yet started
+- Flaming, Unholy, and Jester's Arrows (Jester's arrows being WIP, they have some issues)
+- As this update wasn't meant to come out yet (I had to fix the possible crash listed below, I'm currently working on the 1.20.6 update) there are some inaccessible features
 
 ### Changed
-- Skulls can now be dyed
+- Skulls can now be dyed (still not Pumpkins, that may not happen)
 
 ### Fixed
 - Various accessory menu buttons stuck highlighting after clicking them
+- Possible crash if player didn't exist somehow when syncing cosmetics
 
 ## [1.7.3-1.20.1] - 2024-02-22
 ### Fixed
