@@ -20,9 +20,6 @@ import terramine.common.misc.AccessoriesHelper;
 @Mixin(Gui.class)
 public abstract class GuiMixin {
 
-	@Shadow private int screenHeight;
-	@Shadow private int screenWidth;
-
 	@Shadow protected abstract Player getCameraPlayer();
 	@Shadow public abstract Font getFont();
 
@@ -36,8 +33,8 @@ public abstract class GuiMixin {
 			return;
 		}
 
-		int left = this.screenWidth - 22 - this.getFont().width(getDepth());
-		int top = this.screenHeight - 23;
+		int left = guiGraphics.guiWidth() - 22 - this.getFont().width(getDepth());
+		int top = guiGraphics.guiHeight() - 23;
 
 		guiGraphics.drawString(Minecraft.getInstance().font, getDepth(), left, top, 0xffffff);
 	}

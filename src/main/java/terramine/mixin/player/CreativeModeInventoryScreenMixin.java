@@ -17,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import terramine.TerraMine;
+import terramine.client.render.gui.ToggleImageButton;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 
 @Mixin(CreativeModeInventoryScreen.class)
 public abstract class CreativeModeInventoryScreenMixin extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
@@ -26,7 +28,7 @@ public abstract class CreativeModeInventoryScreenMixin extends EffectRenderingIn
     private static final ResourceLocation BUTTON_TEX = TerraMine.id("textures/gui/terraria_slots_button.png");
 
     @Unique
-    private static ImageButton terrariaButton;
+    private static ToggleImageButton terrariaButton;
 
     public CreativeModeInventoryScreenMixin(CreativeModeInventoryScreen.ItemPickerMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component);
@@ -35,8 +37,8 @@ public abstract class CreativeModeInventoryScreenMixin extends EffectRenderingIn
     @Inject(method = "init", at = @At("TAIL"))
     protected void onInit(CallbackInfo ci) {
         if (this.minecraft.gameMode.hasInfiniteItems()) {
-            this.addRenderableWidget(terrariaButton = new ImageButton(this.leftPos + 96, this.height / 2 - 28, 8, 8, 0, 0, 8, BUTTON_TEX, 8, 16, (buttonWidget) -> {
-                ClientPlayNetworking.send(ServerPacketHandler.OPEN_INVENTORY_PACKET_ID, new FriendlyByteBuf(Unpooled.buffer()));
+            this.addRenderableWidget(terrariaButton = new ToggleImageButton(this.leftPos + 96, this.height / 2 - 28, 8, 8, 0, 0, 8, 0, 0, false, BUTTON_TEX, 8, 16, (buttonWidget) -> {
+                ClientPlayNetworking.send(new BufferConverter(null, null, null, null).setCustomType(ServerPacketHandler.OPEN_INVENTORY_PACKET_ID));
             }));
         }
 

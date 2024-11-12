@@ -18,7 +18,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import terramine.TerraMine;
+import terramine.client.render.gui.ToggleImageButton;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends EffectRenderingInventoryScreen<InventoryMenu> implements RecipeUpdateListener {
@@ -35,9 +37,9 @@ public abstract class InventoryScreenMixin extends EffectRenderingInventoryScree
     @Inject(method = "init", at = @At("TAIL"))
     protected void onInit(CallbackInfo ci) {
         if (!this.minecraft.gameMode.hasInfiniteItems()) {
-            this.addRenderableWidget(new ImageButton(this.leftPos + 66, this.height / 2 - 14, 8, 8, 0, 0, 8, BUTTON_TEX, 8, 16, (buttonWidget) -> {
+            this.addRenderableWidget(new ToggleImageButton(this.leftPos + 66, this.height / 2 - 14, 8, 8, 0, 0, 8, 0, 0, false, BUTTON_TEX, 8, 16, (buttonWidget) -> {
                 //this.minecraft.setScreen(new TerrariaInventoryHandler(this.minecraft.player));
-                ClientPlayNetworking.send(ServerPacketHandler.OPEN_INVENTORY_PACKET_ID, new FriendlyByteBuf(Unpooled.buffer()));
+                ClientPlayNetworking.send(new BufferConverter(null, null, null, null).setCustomType(ServerPacketHandler.OPEN_INVENTORY_PACKET_ID));
                 this.buttonClicked = true;
             }));
         }

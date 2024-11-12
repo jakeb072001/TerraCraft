@@ -1,21 +1,22 @@
 package terramine.common.misc;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.entity.C2SSelfMessagingComponent;
 import terramine.common.init.ModCommands;
 import terramine.common.init.ModComponents;
 import terramine.common.init.ModSoundEvents;
 import terramine.common.init.ModStatistics;
 
 @SuppressWarnings("UnstableApiUsage")
-public class ManaHandler implements PlayerComponent<Component>, AutoSyncedComponent {
+public class ManaHandler implements C2SSelfMessagingComponent, AutoSyncedComponent {
     private int maxMana, currentMana, manaBonus = 0;
     private int manaDelayBonus = 1;
     private double manaRegenDelay = 0;
@@ -90,7 +91,7 @@ public class ManaHandler implements PlayerComponent<Component>, AutoSyncedCompon
     }
 
     @Override
-    public void readFromNbt(CompoundTag tag) {
+    public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
         if (tag.contains("maxMana")) {
             setMaxMana(tag.getInt("maxMana"));
         } else {
@@ -104,7 +105,7 @@ public class ManaHandler implements PlayerComponent<Component>, AutoSyncedCompon
     }
 
     @Override
-    public void writeToNbt(CompoundTag tag) {
+    public void writeToNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
         tag.putInt("maxMana", this.getMaxMana());
         tag.putInt("currentMana", this.getCurrentMana());
     }
@@ -115,13 +116,13 @@ public class ManaHandler implements PlayerComponent<Component>, AutoSyncedCompon
     }
 
     @Override
-    public void writeSyncPacket(FriendlyByteBuf buf, ServerPlayer recipient) {
+    public void writeSyncPacket(RegistryFriendlyByteBuf buf, ServerPlayer recipient) {
         buf.writeInt(this.getMaxMana());
         buf.writeInt(this.getCurrentMana());
     }
 
     @Override
-    public void applySyncPacket(FriendlyByteBuf buf) {
+    public void handleC2SMessage(RegistryFriendlyByteBuf buf) {
         this.setMaxMana(buf.readInt());
         this.setCurrentMana(buf.readInt());
     }

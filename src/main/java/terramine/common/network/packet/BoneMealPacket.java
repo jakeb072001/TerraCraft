@@ -2,12 +2,10 @@ package terramine.common.network.packet;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -18,12 +16,13 @@ public class BoneMealPacket {
     public static void send(BlockPos pos) {
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         buf.writeLong(pos.asLong());
-        ClientPlayNetworking.send(ServerPacketHandler.BONE_MEAL_PACKET_ID, buf);
+        ClientPlayNetworking.send(new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.BONE_MEAL_PACKET_ID));
     }
 
-    public static void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl network, FriendlyByteBuf buf, PacketSender sender) {
-        BlockPos pos = BlockPos.of(buf.readLong());
-        server.execute(() -> {
+    public static void receive(BufferConverter type, ServerPlayNetworking.Context context) {
+        BlockPos pos = BlockPos.of(type.getFriendlybyteBuf().readLong());
+        context.player().server.execute(() -> {
+            ServerPlayer player = context.player();
                 BlockState state = player.level().getBlockState(pos);
                 if (state.getBlock() instanceof BonemealableBlock fertilizable) {
                     if (fertilizable.isBonemealSuccess(player.level(), player.getRandom(), pos, state)) {

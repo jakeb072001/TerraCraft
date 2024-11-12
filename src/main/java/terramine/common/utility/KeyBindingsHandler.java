@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.network.FriendlyByteBuf;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 import terramine.common.network.packet.UpdateInputPacket;
 
 @Environment(EnvType.CLIENT)
@@ -54,6 +55,6 @@ public class KeyBindingsHandler {
     public static void sendToServer(UpdateInputPacket packet) {
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         UpdateInputPacket.write(packet, buf);
-        ClientPlayNetworking.send(ServerPacketHandler.CONTROLS_PACKET_ID, buf);
+        ClientPlayNetworking.send(new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.CONTROLS_PACKET_ID));
     }
 }

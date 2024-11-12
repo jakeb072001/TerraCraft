@@ -16,6 +16,7 @@ public class BlankEffect extends TerrariaEffect {
     }
 
     @Override
-    public void applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
+    public boolean applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
+        return false;
     }
 }

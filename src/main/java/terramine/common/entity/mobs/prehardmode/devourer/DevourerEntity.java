@@ -5,6 +5,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -24,6 +25,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -251,7 +253,7 @@ public class DevourerEntity extends Monster implements Enemy {
 
     @Override
     public boolean isInWall() {
-        float f = this.getDimensions(this.getPose()).width * 0.8f;
+        float f = this.getDimensions(this.getPose()).width() * 0.8f;
         AABB aABB = AABB.ofSize(this.getEyePosition(), f, 1.0E-6, f);
         return BlockPos.betweenClosedStream(aABB).anyMatch(blockPos -> {
             BlockState blockState = this.level().getBlockState(blockPos);
@@ -315,7 +317,7 @@ public class DevourerEntity extends Monster implements Enemy {
     }
 
     @Override
-    protected ResourceLocation getDefaultLootTable() {
+    protected @NotNull ResourceKey<LootTable> getDefaultLootTable() {
         return ModLootTables.DEVOURER;
     }
 }

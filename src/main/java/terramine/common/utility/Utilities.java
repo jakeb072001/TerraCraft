@@ -20,6 +20,7 @@ import org.joml.Vector3f;
 import terramine.common.init.ModItems;
 import terramine.common.item.dye.BasicDye;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
@@ -227,8 +228,6 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
 
     @Environment(EnvType.CLIENT)
     private static void sendDash(Item item) {
-        FriendlyByteBuf buf = PacketByteBufs.create();
-        buf.writeItem(item.getDefaultInstance());
-        ClientPlayNetworking.send(ServerPacketHandler.DASH_PACKET_ID, buf);
+        ClientPlayNetworking.send(new BufferConverter(null, item.getDefaultInstance(), null, null).setCustomType(ServerPacketHandler.DASH_PACKET_ID));
     }
 }

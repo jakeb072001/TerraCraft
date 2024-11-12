@@ -1,8 +1,10 @@
 package terramine.common.block.plants;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.AzaleaBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import terramine.common.init.ModTags;
 
 public class EvilMushroom extends BushBlock {
+    public static final MapCodec<AzaleaBlock> CODEC = AzaleaBlock.simpleCodec(AzaleaBlock::new);
     protected static final VoxelShape SHAPE = Block.box(5.0, 0.0, 5.0, 11.0, 6.0, 11.0);
     private final boolean corruption;
 
@@ -23,6 +26,11 @@ public class EvilMushroom extends BushBlock {
     @Override
     public VoxelShape getShape(@NotNull BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull CollisionContext collisionContext) {
         return SHAPE;
+    }
+
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return CODEC;
     }
 
     @Override

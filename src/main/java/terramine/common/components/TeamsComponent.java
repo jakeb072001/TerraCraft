@@ -1,18 +1,19 @@
 package terramine.common.components;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
+import org.ladysnake.cca.api.v3.component.Component;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import terramine.TerraMine;
 import terramine.common.misc.TeamColours;
 
 @SuppressWarnings("UnstableApiUsage")
-public class TeamsComponent implements PlayerComponent<Component>, AutoSyncedComponent {
+public class TeamsComponent implements Component, AutoSyncedComponent {
     private final Player provider;
     private TeamColours teamColour;
 
@@ -30,14 +31,14 @@ public class TeamsComponent implements PlayerComponent<Component>, AutoSyncedCom
     }
 
     @Override
-    public void readFromNbt(@NotNull CompoundTag tag) {
+    public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
         if (tag.contains("team") && TerraMine.CONFIG.client.rememberTeam) {
             teamColour = TeamColours.getTeam(tag.getInt("team"));
         }
     }
 
     @Override
-    public void writeToNbt(@NotNull CompoundTag tag) {
+    public void writeToNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
         if (teamColour != null && TerraMine.CONFIG.client.rememberTeam) {
             tag.putInt("team", teamColour.getIndex());
         }
@@ -49,7 +50,7 @@ public class TeamsComponent implements PlayerComponent<Component>, AutoSyncedCom
     }
 
     @Override
-    public void writeSyncPacket(FriendlyByteBuf buf, ServerPlayer recipient) {
+    public void writeSyncPacket(RegistryFriendlyByteBuf buf, ServerPlayer recipient) {
         if (teamColour != null) {
             buf.writeInt(teamColour.getIndex());
         } else {
@@ -58,7 +59,7 @@ public class TeamsComponent implements PlayerComponent<Component>, AutoSyncedCom
     }
 
     @Override
-    public void applySyncPacket(FriendlyByteBuf buf) {
+    public void applySyncPacket(RegistryFriendlyByteBuf buf) {
         teamColour = TeamColours.getTeam(buf.readInt());
     }
 }

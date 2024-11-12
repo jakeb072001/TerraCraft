@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import terrablender.api.RegionType;
@@ -30,12 +31,14 @@ import terramine.common.init.*;
 import terramine.common.misc.TeamColours;
 import terramine.common.misc.TerrariaInventory;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 import terramine.common.utility.InputHandler;
 import terramine.common.world.biome.BiomeAdder;
 import terramine.common.world.biome.BiomeAdderCrimsonForced;
 import terramine.common.world.biome.BiomeSurfaceRules;
 import terramine.extensions.PlayerStorages;
 
+import java.util.List;
 import java.util.Optional;
 
 public class TerraMine implements ModInitializer, TerraBlenderApi {
@@ -120,21 +123,27 @@ public class TerraMine implements ModInitializer, TerraBlenderApi {
 	// probably not the best way of doing this, but it works for now, maybe look into improving later though
 	private void syncInventory(ServerPlayer player) {
 		TerrariaInventory terrariaInventory = ((PlayerStorages)player).getTerrariaInventory();
-		FriendlyByteBuf buf = PacketByteBufs.create();
-		FriendlyByteBuf buf2;
-		buf.writeUUID(player.getUUID());
+		FriendlyByteBuf localBuf = PacketByteBufs.create();
+		FriendlyByteBuf remoteBuf;
+		List<ItemStack> localItems = new java.util.ArrayList<>(List.of());
+		List<ItemStack> remoteItems = new java.util.ArrayList<>(List.of());
+		localBuf.writeUUID(player.getUUID());
 		for (int i = 0; i < terrariaInventory.getContainerSize(); i++) {
-			buf.writeItem(terrariaInventory.getItem(i));
+			localItems.add(terrariaInventory.getItem(i));
 		}
 		for (ServerPlayer otherPlayer : player.serverLevel().players()) {
 			TerrariaInventory otherTerrariaInventory = ((PlayerStorages)otherPlayer).getTerrariaInventory();
-			buf2 = PacketByteBufs.create();
-			buf2.writeUUID(otherPlayer.getUUID());
+			remoteBuf = PacketByteBufs.create();
+			remoteBuf.writeUUID(otherPlayer.getUUID());
 			for (int i = 0; i < otherTerrariaInventory.getContainerSize(); i++) {
-				buf2.writeItem(otherTerrariaInventory.getItem(i));
+				remoteItems.add(otherTerrariaInventory.getItem(i));
 			}
-			ServerPlayNetworking.send(player, ServerPacketHandler.SETUP_INVENTORY_PACKET_ID, buf2);
-			ServerPlayNetworking.send(otherPlayer, ServerPacketHandler.SETUP_INVENTORY_PACKET_ID, buf);
+			for (ItemStack itemStack : remoteItems) {
+				ServerPlayNetworking.send(player, new BufferConverter(remoteBuf, itemStack, null, null).setCustomType(ServerPacketHandler.SETUP_INVENTORY_PACKET_ID));
+			}
+			for (ItemStack itemStack : localItems) {
+				ServerPlayNetworking.send(otherPlayer, new BufferConverter(localBuf, itemStack, null, null).setCustomType(ServerPacketHandler.SETUP_INVENTORY_PACKET_ID));
+			}
 
 			for (int i = 0; i < 7; i++) {
 				((PlayerStorages) otherPlayer).setSlotVisibility(i, ((PlayerStorages) otherPlayer).getSlotVisibility(i));

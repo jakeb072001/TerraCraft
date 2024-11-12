@@ -19,9 +19,10 @@ public class ManaRegenEffect extends TerrariaEffect {
     }
 
     @Override
-    public void applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
+    public boolean applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
         if (livingEntity instanceof Player player) {
             ModComponents.MANA_HANDLER.get(player).setManaBonus(25, true);
         }
+        return false;
     }
 }

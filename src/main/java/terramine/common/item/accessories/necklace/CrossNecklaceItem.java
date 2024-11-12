@@ -9,6 +9,6 @@ public class CrossNecklaceItem extends AccessoryTerrariaItem {
 
 	@Override
 	public SoundInfo getEquipSoundInfo() {
-		return new SoundInfo(SoundEvents.ARMOR_EQUIP_DIAMOND);
+		return new SoundInfo(SoundEvents.ARMOR_EQUIP_DIAMOND.value());
 	}
 }

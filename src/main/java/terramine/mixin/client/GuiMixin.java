@@ -29,9 +29,6 @@ public abstract class GuiMixin {
 	@Unique private final ResourceLocation MERFOLK_POISON_HEARTS_TEXTURE = TerraMine.id("textures/gui/hearts/merfolk_poison_hearts.png");
 	@Unique private final ResourceLocation MERFOLK_WITHER_HEARTS_TEXTURE = TerraMine.id("textures/gui/hearts/merfolk_wither_hearts.png");
 
-	@Shadow private int screenHeight;
-	@Shadow private int screenWidth;
-
 	@Shadow protected abstract Player getCameraPlayer();
 
 	@Shadow @Final private RandomSource random;
@@ -41,8 +38,8 @@ public abstract class GuiMixin {
 		Player player = this.getCameraPlayer();
 
 		if (player != null) {
-			int left = this.screenWidth - 15;
-			int top = this.screenHeight -15;
+			int left = guiGraphics.guiWidth() - 15;
+			int top = guiGraphics.guiHeight() -15;
 			int currentMana = ModComponents.MANA_HANDLER.get(player).getCurrentMana();
 			int maxMana = ModComponents.MANA_HANDLER.get(player).getMaxMana();
 

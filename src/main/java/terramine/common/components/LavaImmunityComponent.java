@@ -1,19 +1,20 @@
 package terramine.common.components;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.entity.C2SSelfMessagingComponent;
 import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
 import terramine.common.misc.AccessoriesHelper;
 
 @SuppressWarnings("UnstableApiUsage")
-public class LavaImmunityComponent implements PlayerComponent<Component>, AutoSyncedComponent {
+public class LavaImmunityComponent implements C2SSelfMessagingComponent, AutoSyncedComponent {
     private final Player provider;
     private int immunityTimer = 140;
 
@@ -45,11 +46,11 @@ public class LavaImmunityComponent implements PlayerComponent<Component>, AutoSy
     }
 
     @Override
-    public void readFromNbt(CompoundTag tag) {
+    public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
     }
 
     @Override
-    public void writeToNbt(CompoundTag tag) {
+    public void writeToNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
     }
 
     @Override
@@ -58,17 +59,21 @@ public class LavaImmunityComponent implements PlayerComponent<Component>, AutoSy
     }
 
     @Override
-    public void writeSyncPacket(FriendlyByteBuf buf, ServerPlayer recipient) {
+    public void writeSyncPacket(RegistryFriendlyByteBuf buf, ServerPlayer recipient) {
         buf.writeInt(this.getLavaImmunityTimer());
     }
 
     @Override
-    public void applySyncPacket(FriendlyByteBuf buf) {
+    public void applySyncPacket(RegistryFriendlyByteBuf buf) {
         this.setLavaImmunityTimer(buf.readInt());
     }
 
     private boolean getEquippedAccessories(Player player) {
         return AccessoriesHelper.isEquipped(ModItems.TERRASPARK_BOOTS, player) || AccessoriesHelper.isEquipped(ModItems.LAVA_WADERS, player) ||
                 AccessoriesHelper.isEquipped(ModItems.MOLTEN_CHARM, player) || AccessoriesHelper.isEquipped(ModItems.LAVA_CHARM, player);
+    }
+
+    @Override
+    public void handleC2SMessage(RegistryFriendlyByteBuf buf) {
     }
 }

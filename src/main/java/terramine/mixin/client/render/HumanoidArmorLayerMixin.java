@@ -38,6 +38,7 @@ import terramine.extensions.PlayerStorages;
 
 import java.util.Map;
 
+// todo: needs to be redone, thanks mojang, very cool
 @Mixin(HumanoidArmorLayer.class)
 public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	@Shadow
@@ -70,9 +71,10 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 	// todo: look more into FancyDyes for special shaders, once working for armor implement into the accessory renderers
 	@WrapOperation(
 			method = "renderArmorPiece",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/item/ArmorItem;Lnet/minecraft/client/model/HumanoidModel;ZFFFLjava/lang/String;)V")
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/HumanoidModel;FFFLnet/minecraft/resources/ResourceLocation;)V")
 	)
-	private void armorDyeVanity(HumanoidArmorLayer<T, M, A> instance, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, ArmorItem armorItem, A humanoidModel, boolean bl, float f, float g, float h, @Nullable String string, Operation<Void> original) {
+	private void armorDyeVanity(HumanoidArmorLayer<T, M, A> instance, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, A humanoidModel, float f, float g, float h, ResourceLocation resourceLocation, Operation<Void> original) {
+		ItemStack armorItem = livingEntity.getItemBySlot(equipmentSlot);
 		if (!(armorItem instanceof FamiliarVanity)) {
 			if (armorItem instanceof TerrariaArmor terrariaArmor && terrariaArmor.getCustomArmorModel() != null) {
 				A customModel = (A) terrariaArmor.getCustomArmorModel();
@@ -88,7 +90,7 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 					return;
 				}
 			}
-			original.call(instance, poseStack, multiBufferSource, i, armorItem, humanoidModel, bl, f, g, h, string);
+			original.call(instance, poseStack, multiBufferSource, i, humanoidModel, f, g, h, resourceLocation);
 		}
 	}
 

@@ -1,7 +1,8 @@
 package terramine.common.item.accessories.hands;
 
 import com.google.common.collect.Multimap;
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -19,20 +20,20 @@ import static terramine.common.utility.Utilities.autoSwing;
 public class PowerGloveItem extends AccessoryTerrariaItem {
 
 	@Override
-	protected Multimap<Attribute, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
-		Multimap<Attribute, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
+	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
+		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
 		AttributeModifier modifier = new AttributeModifier(uuid,
 				TerraMine.id("power_glove_attack_speed").toString(),
-				0.12, AttributeModifier.Operation.MULTIPLY_TOTAL);
+				0.12, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 		AttributeModifier modifier2 = new AttributeModifier(uuid,
 				TerraMine.id("power_glove_attack_range").toString(),
-				3, AttributeModifier.Operation.ADDITION);
+				3, AttributeModifier.Operation.ADD_VALUE);
 		AttributeModifier modifier3 = new AttributeModifier(uuid,
 				TerraMine.id("power_glove_range").toString(),
-				0.5, AttributeModifier.Operation.ADDITION);
+				0.5, AttributeModifier.Operation.ADD_VALUE);
 		result.put(Attributes.ATTACK_SPEED, modifier);
-		result.put(ReachEntityAttributes.ATTACK_RANGE, modifier2);
-		result.put(ReachEntityAttributes.REACH, modifier3);
+		result.put(Attributes.ENTITY_INTERACTION_RANGE, modifier2);
+		result.put(Attributes.BLOCK_INTERACTION_RANGE, modifier3);
 		return result;
 	}
 
@@ -55,6 +56,6 @@ public class PowerGloveItem extends AccessoryTerrariaItem {
 
 	@Override
 	public SoundInfo getEquipSoundInfo() {
-		return new SoundInfo(SoundEvents.ARMOR_EQUIP_NETHERITE);
+		return new SoundInfo(SoundEvents.ARMOR_EQUIP_NETHERITE.value());
 	}
 }

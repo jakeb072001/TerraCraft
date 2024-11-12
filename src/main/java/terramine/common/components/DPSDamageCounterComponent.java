@@ -1,13 +1,14 @@
 package terramine.common.components;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.entity.C2SSelfMessagingComponent;
 
 @SuppressWarnings("UnstableApiUsage")
-public class DPSDamageCounterComponent implements PlayerComponent<Component>, AutoSyncedComponent {
+public class DPSDamageCounterComponent implements C2SSelfMessagingComponent, AutoSyncedComponent {
 
 	private float lastDamageTaken = 0;
 	private final Player provider;
@@ -29,10 +30,16 @@ public class DPSDamageCounterComponent implements PlayerComponent<Component>, Au
 	}
 
 	@Override
-	public void readFromNbt(CompoundTag tag) {
+	public void handleC2SMessage(RegistryFriendlyByteBuf buf) {
 	}
 
 	@Override
-	public void writeToNbt(CompoundTag tag) {
+	public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
+
+	}
+
+	@Override
+	public void writeToNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
+
 	}
 }

@@ -1,7 +1,7 @@
 package terramine.common.item.accessories.hands;
 
 import com.google.common.collect.Multimap;
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -19,21 +19,21 @@ import static terramine.common.utility.Utilities.autoSwing;
 public class MechanicalGloveItem extends AccessoryTerrariaItem {
 
 	@Override
-	protected Multimap<Attribute, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
-		Multimap<Attribute, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
+	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
+		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
 		AttributeModifier attackModifier = new AttributeModifier(uuid,
 				TerraMine.id("mechanical_glove_attack").toString(),
-				0.12, AttributeModifier.Operation.MULTIPLY_TOTAL);
+				0.12, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 		AttributeModifier reachModifier = new AttributeModifier(uuid,
 				TerraMine.id("mechanical_glove_range").toString(),
-				0.5, AttributeModifier.Operation.ADDITION);
+				0.5, AttributeModifier.Operation.ADD_VALUE);
 		AttributeModifier attackRangeModifier = new AttributeModifier(uuid,
 				TerraMine.id("mechanical_glove_attack_range").toString(),
-				3, AttributeModifier.Operation.ADDITION);
+				3, AttributeModifier.Operation.ADD_VALUE);
 		result.put(Attributes.ATTACK_SPEED, attackModifier);
 		result.put(Attributes.ATTACK_DAMAGE, attackModifier);
-		result.put(ReachEntityAttributes.REACH, reachModifier);
-		result.put(ReachEntityAttributes.ATTACK_RANGE, attackRangeModifier);
+		result.put(Attributes.BLOCK_INTERACTION_RANGE, reachModifier);
+		result.put(Attributes.ENTITY_INTERACTION_RANGE, attackRangeModifier);
 		return result;
 	}
 
@@ -56,6 +56,6 @@ public class MechanicalGloveItem extends AccessoryTerrariaItem {
 
 	@Override
 	public SoundInfo getEquipSoundInfo() {
-		return new SoundInfo(SoundEvents.ARMOR_EQUIP_NETHERITE);
+		return new SoundInfo(SoundEvents.ARMOR_EQUIP_NETHERITE.value());
 	}
 }

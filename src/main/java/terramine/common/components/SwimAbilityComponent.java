@@ -1,15 +1,16 @@
 package terramine.common.components;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.entity.C2SSelfMessagingComponent;
 
 @SuppressWarnings("UnstableApiUsage")
-public class SwimAbilityComponent implements PlayerComponent<Component>, AutoSyncedComponent {
+public class SwimAbilityComponent implements C2SSelfMessagingComponent, AutoSyncedComponent {
 
 	private boolean shouldSwim;
 	private boolean shouldSink;
@@ -54,7 +55,7 @@ public class SwimAbilityComponent implements PlayerComponent<Component>, AutoSyn
 	}
 
 	@Override
-	public void readFromNbt(CompoundTag tag) {
+	public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
 		this.setSwimming(tag.getBoolean("ShouldSwim"));
 		this.setSinking(tag.getBoolean("ShouldSink"));
 		this.setWet(tag.getBoolean("IsWet"));
@@ -62,7 +63,7 @@ public class SwimAbilityComponent implements PlayerComponent<Component>, AutoSyn
 	}
 
 	@Override
-	public void writeToNbt(CompoundTag tag) {
+	public void writeToNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
 		tag.putBoolean("ShouldSwim", this.isSwimming());
 		tag.putBoolean("ShouldSink", this.isSinking());
 		tag.putBoolean("IsWet", this.isWet());
@@ -75,7 +76,7 @@ public class SwimAbilityComponent implements PlayerComponent<Component>, AutoSyn
 	}
 
 	@Override
-	public void writeSyncPacket(FriendlyByteBuf buf, ServerPlayer recipient) {
+	public void writeSyncPacket(RegistryFriendlyByteBuf buf, ServerPlayer recipient) {
 		buf.writeBoolean(this.isSwimming());
 		buf.writeBoolean(this.isSinking());
 		buf.writeBoolean(this.isWet());
@@ -83,10 +84,14 @@ public class SwimAbilityComponent implements PlayerComponent<Component>, AutoSyn
 	}
 
 	@Override
-	public void applySyncPacket(FriendlyByteBuf buf) {
+	public void applySyncPacket(RegistryFriendlyByteBuf buf) {
 		this.setSwimming(buf.readBoolean());
 		this.setSinking(buf.readBoolean());
 		this.setWet(buf.readBoolean());
 		this.setSwimTime(buf.readInt());
+	}
+
+	@Override
+	public void handleC2SMessage(RegistryFriendlyByteBuf buf) {
 	}
 }

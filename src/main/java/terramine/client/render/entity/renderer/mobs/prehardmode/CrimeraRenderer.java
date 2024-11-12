@@ -34,8 +34,8 @@ public class CrimeraRenderer extends MobRenderer<CrimeraEntity, CrimeraModel<Cri
     }
 
     @Override
-    protected void setupRotations(@NotNull CrimeraEntity entity, @NotNull PoseStack poseStack, float f, float g, float h) {
-        super.setupRotations(entity, poseStack, f, g, h);
+    protected void setupRotations(@NotNull CrimeraEntity entity, @NotNull PoseStack poseStack, float f, float g, float h, float i) {
+        super.setupRotations(entity, poseStack, f, g, h, i);
         poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
     }
 }

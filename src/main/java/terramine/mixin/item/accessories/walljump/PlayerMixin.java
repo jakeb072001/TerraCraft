@@ -28,6 +28,7 @@ import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
 import terramine.common.misc.AccessoriesHelper;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 import terramine.common.utility.InputHandler;
 
 import java.util.HashSet;
@@ -94,7 +95,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
                     ModComponents.MOVEMENT_ORDER.get(this).setWallJumped(true);
                     FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
                     passedData.writeBoolean(true);
-                    ClientPlayNetworking.send(ServerPacketHandler.WALL_JUMP_PACKET_ID, passedData);
+                    ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
                 }
             } else if (this.ticksKeyDown > 0 && this.ticksKeyDown < 4 && !this.walls.isEmpty()) {
                 this.ticksWallClinged = 1;
@@ -107,7 +108,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
                 ModComponents.MOVEMENT_ORDER.get(this).setWallJumped(true);
                 FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
                 passedData.writeBoolean(true);
-                ClientPlayNetworking.send(ServerPacketHandler.WALL_JUMP_PACKET_ID, passedData);
+                ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
             }
 
             return;
@@ -125,7 +126,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
             ModComponents.MOVEMENT_ORDER.get(this).setWallJumped(false);
             FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
             passedData.writeBoolean(false);
-            ClientPlayNetworking.send(ServerPacketHandler.WALL_JUMP_PACKET_ID, passedData);
+            ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
 
             return;
         }
@@ -169,7 +170,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
 
             FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
             passedData.writeFloat((float) (motionY * motionY * 8));
-            ClientPlayNetworking.send(ServerPacketHandler.FALL_DISTANCE_PACKET_ID, passedData);
+            ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.FALL_DISTANCE_PACKET_ID));
         }
 
         this.setDeltaMovement(0.0, motionY, 0.0);
@@ -263,13 +264,13 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
 
     private void playHitSound(BlockPos blockPos) {
         BlockState blockState = this.level().getBlockState(blockPos);
-        SoundType soundType = blockState.getBlock().getSoundType(blockState);
+        SoundType soundType = blockState.getBlock().defaultBlockState().getSoundType();
         this.playSound(soundType.getHitSound(), soundType.getVolume() * 0.25F, soundType.getPitch());
     }
 
     private void playBreakSound(BlockPos blockPos) {
         BlockState blockState = this.level().getBlockState(blockPos);
-        SoundType soundType = blockState.getBlock().getSoundType(blockState);
+        SoundType soundType = blockState.getBlock().defaultBlockState().getSoundType();
         this.playSound(soundType.getFallSound(), soundType.getVolume() * 0.5F, soundType.getPitch());
     }
 

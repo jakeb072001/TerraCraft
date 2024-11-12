@@ -64,8 +64,6 @@
     "cardinal-components-base": ">=5.0.0",
     "cardinal-components-entity": ">=5.0.0",
     "cloth-config2": ">=11.0",
-    "step-height-entity-attribute": ">=1.2.0",
-    "reach-entity-attributes": ">=2.4.0",
     "architectury": ">=9.0.0"
   },
   "suggests": {

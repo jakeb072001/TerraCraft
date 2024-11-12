@@ -33,7 +33,7 @@ public abstract class EntityMixin {
         }
     }
 
-    @WrapWithCondition(method = "lavaHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setSecondsOnFire(I)V"))
+    @WrapWithCondition(method = "lavaHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;igniteForSeconds(I)V"))
     private boolean disableFire(Entity entity, int fireTime) {
         if (entity instanceof Player player) {
             if (isLavaCharmEquipped(player)) {

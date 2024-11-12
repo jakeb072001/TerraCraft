@@ -34,8 +34,8 @@ public class EaterOfSoulsRenderer extends MobRenderer<EaterOfSoulsEntity, EaterO
     }
 
     @Override
-    protected void setupRotations(@NotNull EaterOfSoulsEntity entity, @NotNull PoseStack poseStack, float f, float g, float h) {
-        super.setupRotations(entity, poseStack, f, g, h);
+    protected void setupRotations(@NotNull EaterOfSoulsEntity entity, @NotNull PoseStack poseStack, float f, float g, float h, float i) {
+        super.setupRotations(entity, poseStack, f, g, h, i);
         poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
     }
 }

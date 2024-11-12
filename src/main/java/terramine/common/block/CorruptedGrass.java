@@ -26,7 +26,7 @@ public class CorruptedGrass extends CorruptionHelper implements BonemealableBloc
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState, boolean bl) {
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         return levelReader.getBlockState(blockPos.above()).isAir();
     }
 
@@ -38,7 +38,7 @@ public class CorruptedGrass extends CorruptionHelper implements BonemealableBloc
     @Override
     public void performBonemeal(@NotNull ServerLevel serverLevel, @NotNull RandomSource random, BlockPos blockPos, @NotNull BlockState blockState) {
         BlockPos blockPos2 = blockPos.above();
-        BlockState blockState2 = Blocks.GRASS.defaultBlockState();
+        BlockState blockState2 = Blocks.GRASS_BLOCK.defaultBlockState();
         Optional<Holder.Reference<PlacedFeature>> optional = serverLevel.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL);
 
         label49:

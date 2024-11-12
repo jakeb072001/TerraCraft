@@ -3,6 +3,7 @@ package terramine.common.world;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
@@ -67,7 +68,7 @@ public class NetherChestFeature extends Feature<NoneFeatureConfiguration> {
 			}
 		} else {
 			this.setBlock(level, pos, ModBlocks.SHADOW_CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(random)));
-			RandomizableContainerBlockEntity.setLootTable(level, random, pos, ModLootTables.SHADOW_CHEST);
+			RandomizableContainer.setBlockEntityLootTable(level, random, pos, ModLootTables.SHADOW_CHEST);
 		}
 	}
 }

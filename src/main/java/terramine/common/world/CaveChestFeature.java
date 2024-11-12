@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
@@ -112,16 +113,16 @@ public class CaveChestFeature extends Feature<NoneFeatureConfiguration> {
 		}
 
 		if (pos.getY() <= TerraMine.CONFIG.worldgen.caveChest.deepCaveY) {
-			RandomizableContainerBlockEntity.setLootTable(level, random, pos, ModLootTables.DEEP_CAVE_CHEST);
+			RandomizableContainer.setBlockEntityLootTable(level, random, pos, ModLootTables.DEEP_CAVE_CHEST);
 		} else {
 			if (frozen) {
-				RandomizableContainerBlockEntity.setLootTable(level, random, pos, ModLootTables.FROZEN_CAVE_CHEST);
+				RandomizableContainer.setBlockEntityLootTable(level, random, pos, ModLootTables.FROZEN_CAVE_CHEST);
 			} else if (jungle) {
-				RandomizableContainerBlockEntity.setLootTable(level, random, pos, ModLootTables.IVY_CAVE_CHEST);
+				RandomizableContainer.setBlockEntityLootTable(level, random, pos, ModLootTables.IVY_CAVE_CHEST);
 			} else if (desert) {
-				RandomizableContainerBlockEntity.setLootTable(level, random, pos, ModLootTables.SANDSTONE_CAVE_CHEST);
+				RandomizableContainer.setBlockEntityLootTable(level, random, pos, ModLootTables.SANDSTONE_CAVE_CHEST);
 			} else {
-				RandomizableContainerBlockEntity.setLootTable(level, random, pos, ModLootTables.CAVE_CHEST);
+				RandomizableContainer.setBlockEntityLootTable(level, random, pos, ModLootTables.CAVE_CHEST);
 			}
 		}
 	}

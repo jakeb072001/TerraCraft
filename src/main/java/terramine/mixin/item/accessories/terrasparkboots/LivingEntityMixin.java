@@ -1,6 +1,5 @@
 package terramine.mixin.item.accessories.terrasparkboots;
 
-import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -31,13 +30,13 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Unique
 	private static final AttributeModifier SPEED_BOOST_MODIFIER = new AttributeModifier(UUID.fromString("ac7ab816-2b08-46b6-879d-e5dea34ff305"),
-			"speed_boost", 0.28, AttributeModifier.Operation.MULTIPLY_TOTAL);
+			"speed_boost", 0.28, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 	@Unique
 	private static final AttributeModifier STEP_HEIGHT_MODIFIER = new AttributeModifier(UUID.fromString("7e97cede-a343-411f-b465-14cdf6df3666"),
-			"step_height", 0.5, AttributeModifier.Operation.ADDITION);
+			"step_height", 0.5, AttributeModifier.Operation.ADD_VALUE);
 	@Unique
 	private static final AttributeModifier ICE_SPEED_BOOST_MODIFIER = new AttributeModifier(UUID.fromString("c5051561-0943-402e-9a36-b3cff979cbdc"),
-			"ice_speed_boost", 0.25, AttributeModifier.Operation.MULTIPLY_TOTAL);
+			"ice_speed_boost", 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 
 	public LivingEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
@@ -52,7 +51,7 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 
 		AttributeInstance movementSpeed = self.getAttribute(Attributes.MOVEMENT_SPEED);
-		AttributeInstance stepHeight = self.getAttribute(StepHeightEntityAttributeMain.STEP_HEIGHT);
+		AttributeInstance stepHeight = self.getAttribute(Attributes.STEP_HEIGHT);
 
 		if (movementSpeed == null || stepHeight == null) {
 			TerraMine.LOGGER.debug("Entity {} missing entity attribute(s)", this);

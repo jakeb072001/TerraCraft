@@ -1,14 +1,15 @@
 package terramine.common.components;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.entity.C2SSelfMessagingComponent;
 
 @SuppressWarnings("UnstableApiUsage")
-public class MovementOrderComponent implements PlayerComponent<Component>, AutoSyncedComponent {
+public class MovementOrderComponent implements C2SSelfMessagingComponent, AutoSyncedComponent {
     private final Player provider;
     private boolean cloud;
     private boolean wings;
@@ -43,10 +44,14 @@ public class MovementOrderComponent implements PlayerComponent<Component>, AutoS
     }
 
     @Override
-    public void readFromNbt(@NotNull CompoundTag tag) {
+    public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
     }
 
     @Override
-    public void writeToNbt(@NotNull CompoundTag tag) {
+    public void writeToNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
+    }
+
+    @Override
+    public void handleC2SMessage(RegistryFriendlyByteBuf buf) {
     }
 }

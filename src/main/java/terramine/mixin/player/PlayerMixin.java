@@ -23,6 +23,7 @@ import terramine.common.init.ModMobEffects;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.misc.TerrariaInventory;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 import terramine.extensions.ItemExtensions;
 import terramine.extensions.PlayerStorages;
 
@@ -75,7 +76,7 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerStorages
 	public void blockUsingShield(LivingEntity attacker, CallbackInfo info) {
 		super.blockUsingShield(attacker);
 		if (((ItemExtensions) attacker.getMainHandItem().getItem()).canDisableShield(attacker.getMainHandItem(), this.getUseItem(), this, attacker)) {
-			(((Player) (Object)this)).disableShield(true);
+			(((Player) (Object)this)).disableShield();
 		}
 	}
 
@@ -124,7 +125,7 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerStorages
 			buf.writeUUID(getUUID());
 			if (getServer() != null) {
 				for (ServerPlayer otherPlayer : getServer().getLevel(level().dimension()).players()) {
-					ServerPlayNetworking.send(otherPlayer, ServerPacketHandler.UPDATE_ACCESSORY_VISIBILITY_PACKET_ID, buf);
+					ServerPlayNetworking.send(otherPlayer, new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.UPDATE_ACCESSORY_VISIBILITY_PACKET_ID));
 				}
 			}
 		}
@@ -169,7 +170,7 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerStorages
 			CompoundTag compoundTag = tags.getCompound(j);
 			int k = compoundTag.getByte("Slot") & 255;
 			if (k >= 0 && k < simpleInventory.getContainerSize()) {
-				simpleInventory.setItem(k, ItemStack.of(compoundTag));
+				simpleInventory.setItem(k, ItemStack.parse(this.registryAccess(), compoundTag).orElse(ItemStack.EMPTY));
 			}
 		}
 	}
@@ -183,8 +184,7 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerStorages
 			if (!itemStack.isEmpty()) {
 				CompoundTag compoundTag = new CompoundTag();
 				compoundTag.putByte("Slot", (byte) i);
-				itemStack.save(compoundTag);
-				listTag.add(compoundTag);
+				listTag.add(simpleInventory.items.get(i).save(this.registryAccess(), compoundTag));
 			}
 		}
 

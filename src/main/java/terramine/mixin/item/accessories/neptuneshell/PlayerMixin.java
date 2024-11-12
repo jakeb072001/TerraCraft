@@ -23,19 +23,19 @@ public abstract class PlayerMixin  extends LivingEntity {
 
     @Unique
     private static final AttributeModifier charmMeleeModifier = new AttributeModifier(UUID.fromString("f1d1c64e-4a5c-4d56-86c6-d6e6affc8c97"),
-            "moon_charm_melee",0.051, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            "moon_charm_melee",0.051, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     @Unique
     private static final AttributeModifier charmMovementSpeedModifier = new AttributeModifier(UUID.fromString("f8fa8653-da98-4e1b-a88b-b2f33abb5d18"),
-            "moon_charm_movement_speed",0.05, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            "moon_charm_movement_speed",0.05, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     @Unique
     private static final AttributeModifier charmDefenseModifier = new AttributeModifier(UUID.fromString("71d7a7da-fca0-4bc1-8fae-b9f622a5b29d"),
-            "moon_charm_defense",3, AttributeModifier.Operation.ADDITION);
+            "moon_charm_defense",3, AttributeModifier.Operation.ADD_VALUE);
     @Unique
     private static final AttributeModifier celestialMeleeModifier = new AttributeModifier(UUID.fromString("0c835c4a-64b3-4a3e-a913-c6a517e7a8be"),
-            "celestial_stone_melee",0.1, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            "celestial_stone_melee",0.1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     @Unique
     private static final AttributeModifier celestialDefenseModifier = new AttributeModifier(UUID.fromString("dcf873c8-0cf6-451f-aa52-2e7572ec3b18"),
-            "celestial_stone_defense",4, AttributeModifier.Operation.ADDITION);
+            "celestial_stone_defense",4, AttributeModifier.Operation.ADD_VALUE);
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level world) {
         super(entityType, world);

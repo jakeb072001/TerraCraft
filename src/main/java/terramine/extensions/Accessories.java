@@ -3,6 +3,7 @@ package terramine.extensions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -11,10 +12,13 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import terramine.common.utility.AttributeComponent;
 
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
+
+import static terramine.common.init.ModDataComponents.ATTRIBUTE_MODIFIER_COMPONENT;
 
 public interface Accessories {
     default void tick(ItemStack stack, Player player) {
@@ -26,27 +30,12 @@ public interface Accessories {
     default void onUnequip(ItemStack stack, Player player) {
     }
 
-    default Multimap<Attribute, AttributeModifier> getModifiers(ItemStack stack, Player player, UUID uuid) {
-        Multimap<Attribute, AttributeModifier> map = Multimaps.newMultimap(Maps.newLinkedHashMap(), ArrayList::new);
+    default Multimap<Holder<Attribute>, AttributeModifier> getModifiers(ItemStack stack, Player player, UUID uuid) {
+        Multimap<Holder<Attribute>, AttributeModifier> map = Multimaps.newMultimap(Maps.newLinkedHashMap(), ArrayList::new);
 
-        if (stack.hasTag() && stack.getTag().contains("AccessoriesAttributeModifiers", 9)) {
-            ListTag list = stack.getTag().getList("AccessoriesAttributeModifiers", 10);
-
-            for (int i = 0; i < list.size(); i++) {
-                CompoundTag tag = list.getCompound(i);
-
-                Optional<Attribute> optional = BuiltInRegistries.ATTRIBUTE
-                        .getOptional(ResourceLocation.tryParse(tag.getString("AttributeName")));
-
-                if (optional.isPresent()) {
-                    AttributeModifier entityAttributeModifier = AttributeModifier.load(tag);
-
-                    if (entityAttributeModifier != null
-                            && entityAttributeModifier.getId().getLeastSignificantBits() != 0L
-                            && entityAttributeModifier.getId().getMostSignificantBits() != 0L) {
-                        map.put(optional.get(), entityAttributeModifier);
-                    }
-                }
+        if (stack.has(ATTRIBUTE_MODIFIER_COMPONENT)) {
+            for (AttributeComponent.Entry entry : stack.getOrDefault(ATTRIBUTE_MODIFIER_COMPONENT, AttributeComponent.DEFAULT).modifiers()) {
+                map.put(entry.attribute(), entry.modifier());
             }
         }
         return map;

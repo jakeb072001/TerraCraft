@@ -31,7 +31,7 @@ public class RedStoneStoneBlock extends RedStoneWireBlock {
     }
 
     @Override
-    public InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
+    public @NotNull InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
         return InteractionResult.PASS;
     }
 }

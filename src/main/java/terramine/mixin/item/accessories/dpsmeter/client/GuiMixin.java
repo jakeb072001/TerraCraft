@@ -23,9 +23,6 @@ import java.text.DecimalFormat;
 
 @Mixin(Gui.class)
 public abstract class GuiMixin {
-
-	@Shadow private int screenHeight;
-	@Shadow private int screenWidth;
 	@Unique private int timer;
 	@Unique private int seconds = 1;
 	@Unique private static final DecimalFormat df = new DecimalFormat("0.00");
@@ -43,8 +40,8 @@ public abstract class GuiMixin {
 			return;
 		}
 
-		int left = this.screenWidth - 22 - this.getFont().width(getDPS());
-		int top = this.screenHeight - 83;
+		int left = guiGraphics.guiWidth() - 22 - this.getFont().width(getDPS());
+		int top = guiGraphics.guiHeight() - 83;
 
 		guiGraphics.drawString(Minecraft.getInstance().font, getDPS(), left, top, 0xffffff);
 	}

@@ -34,7 +34,7 @@ public class FlamingArrowEntity extends AbstractArrow {
     public void onHitEntity(@NotNull EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
         if (random.nextInt(3) == 0) {
-            entityHitResult.getEntity().setSecondsOnFire(3);
+            entityHitResult.getEntity().setRemainingFireTicks(3);
         }
     }
 
@@ -59,7 +59,7 @@ public class FlamingArrowEntity extends AbstractArrow {
     }
 
     @Override
-    protected @NotNull ItemStack getPickupItem() {
+    protected @NotNull ItemStack getDefaultPickupItem() {
         if (random.nextInt(3) == 0) {
             return ModItems.FLAMING_ARROW.getDefaultInstance();
         }

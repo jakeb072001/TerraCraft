@@ -15,18 +15,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import terramine.TerraMine;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
+import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 import terramine.extensions.LivingEntityExtensions;
 
 public class BlueHorseshoeBalloonItem extends AccessoryTerrariaItem {
-
-	public static final ResourceLocation C2S_DOUBLE_JUMPED_ID = TerraMine.id("c2s_double_jumped");
-
 	public BlueHorseshoeBalloonItem() {
-		ServerPlayNetworking.registerGlobalReceiver(C2S_DOUBLE_JUMPED_ID, BlueHorseshoeBalloonItem::handleDoubleJumpPacket);
+		ServerPlayNetworking.registerGlobalReceiver(ServerPacketHandler.C2S_DOUBLE_JUMPED_ID, BlueHorseshoeBalloonItem::handleDoubleJumpPacket);
 	}
 
-	private static void handleDoubleJumpPacket(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
-		server.execute(() -> {
+	private static void handleDoubleJumpPacket(BufferConverter bufferConverter, ServerPlayNetworking.Context context) {
+		context.player().server.execute(() -> {
+			ServerPlayer player = context.player();
 			((LivingEntityExtensions) player).terramine$doubleJump();
 
 			// Spawn particles

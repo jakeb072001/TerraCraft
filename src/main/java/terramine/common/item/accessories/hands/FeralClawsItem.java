@@ -1,6 +1,7 @@
 package terramine.common.item.accessories.hands;
 
 import com.google.common.collect.Multimap;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -18,11 +19,11 @@ import static terramine.common.utility.Utilities.autoSwing;
 public class FeralClawsItem extends AccessoryTerrariaItem {
 
     @Override
-	protected Multimap<Attribute, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
-		Multimap<Attribute, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
+	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
+		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
 		AttributeModifier modifier = new AttributeModifier(uuid,
 				TerraMine.id("feral_claws_attack_speed").toString(),
-				0.12, AttributeModifier.Operation.MULTIPLY_TOTAL);
+				0.12, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 		result.put(Attributes.ATTACK_SPEED, modifier);
 		return result;
 	}
@@ -46,6 +47,6 @@ public class FeralClawsItem extends AccessoryTerrariaItem {
 
 	@Override
 	public SoundInfo getEquipSoundInfo() {
-		return new SoundInfo(SoundEvents.ARMOR_EQUIP_NETHERITE);
+		return new SoundInfo(SoundEvents.ARMOR_EQUIP_NETHERITE.value());
 	}
 }

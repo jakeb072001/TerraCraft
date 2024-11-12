@@ -32,18 +32,17 @@ public abstract class BillboardEntityRenderer<T extends Entity> extends EntityRe
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
         PoseStack.Pose pose = poseStack.last();
         Matrix4f matrix4f = pose.pose();
-        Matrix3f matrix3f = pose.normal();
         VertexConsumer vertexConsumer = buffer.getBuffer(RENDER_TYPE);
-        vertex(vertexConsumer, matrix4f, matrix3f, packedLight, 0.0F, 0, 0, 1);
-        vertex(vertexConsumer, matrix4f, matrix3f, packedLight, 1.0F, 0, 1, 1);
-        vertex(vertexConsumer, matrix4f, matrix3f, packedLight, 1.0F, 1, 1, 0);
-        vertex(vertexConsumer, matrix4f, matrix3f, packedLight, 0.0F, 1, 0, 0);
+        vertex(vertexConsumer, matrix4f, pose, packedLight, 0.0F, 0, 0, 1);
+        vertex(vertexConsumer, matrix4f, pose, packedLight, 1.0F, 0, 1, 1);
+        vertex(vertexConsumer, matrix4f, pose, packedLight, 1.0F, 1, 1, 0);
+        vertex(vertexConsumer, matrix4f, pose, packedLight, 0.0F, 1, 0, 0);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 
-    private static void vertex(VertexConsumer vertexConsumer, Matrix4f matrix4f, Matrix3f matrix3f, int i, float f, int j, int k, int l) {
-        vertexConsumer.vertex(matrix4f, f - 0.5F, (float)j - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float)k, (float)l).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(i).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+    private static void vertex(VertexConsumer vertexConsumer, Matrix4f matrix4f, PoseStack.Pose pose, int i, float f, int j, int k, int l) {
+        vertexConsumer.vertex(matrix4f, f - 0.5F, (float)j - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float)k, (float)l).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(i).normal(pose, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     @Override

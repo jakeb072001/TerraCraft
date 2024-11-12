@@ -2,6 +2,7 @@ package terramine.common.item.accessories;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -46,7 +47,7 @@ public class AccessoryTerrariaItem extends TerrariaItem implements Accessories {
 				if (inventory.getItem(i).isEmpty()) {
 					ItemStack newStack = stack.copy();
 					inventory.setItem(i, newStack);
-					SoundEvent soundEvent = stack.getItem() instanceof Equipable item ? item.getEquipSound() : null;
+					SoundEvent soundEvent = stack.getItem() instanceof Equipable item ? item.getEquipSound().value() : null;
 					if (!stack.isEmpty() && soundEvent != null) {
 						player.gameEvent(GameEvent.EQUIP);
 						player.playSound(soundEvent, 1.0F, 1.0F);
@@ -89,14 +90,14 @@ public class AccessoryTerrariaItem extends TerrariaItem implements Accessories {
 	}
 
 	@Override
-	public final Multimap<Attribute, AttributeModifier> getModifiers(ItemStack stack, Player player, UUID uuid) {
-		Multimap<Attribute, AttributeModifier> modifiers = Accessories.super.getModifiers(stack, player, uuid);
-		Multimap<Attribute, AttributeModifier> accessoryModifiers = this.applyModifiers(stack, player, uuid);
+	public final Multimap<Holder<Attribute>, AttributeModifier> getModifiers(ItemStack stack, Player player, UUID uuid) {
+		Multimap<Holder<Attribute>, AttributeModifier> modifiers = Accessories.super.getModifiers(stack, player, uuid);
+		Multimap<Holder<Attribute>, AttributeModifier> accessoryModifiers = this.applyModifiers(stack, player, uuid);
 		modifiers.putAll(accessoryModifiers);
 		return modifiers;
 	}
 
-	protected Multimap<Attribute, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
+	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		return HashMultimap.create();
 	}
 
@@ -104,7 +105,7 @@ public class AccessoryTerrariaItem extends TerrariaItem implements Accessories {
 	 * @return The {@link SoundInfo} to play when the accessory is right-click equipped
 	 */
 	public SoundInfo getEquipSoundInfo() {
-		return new SoundInfo(SoundEvents.ARMOR_EQUIP_GENERIC);
+		return new SoundInfo(SoundEvents.ARMOR_EQUIP_GENERIC.value());
 	}
 
 	/**

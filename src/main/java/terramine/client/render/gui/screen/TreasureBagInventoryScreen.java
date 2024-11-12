@@ -43,7 +43,7 @@ public class TreasureBagInventoryScreen extends EffectRenderingInventoryScreen<T
     }
 
     public void render(@NotNull GuiGraphics guiGraphics, int i, int j, float f) {
-        this.renderBackground(guiGraphics);
+        this.renderBackground(guiGraphics, i, j, f);
         super.render(guiGraphics, i, j, f);
         this.renderTooltip(guiGraphics, i, j);
     }

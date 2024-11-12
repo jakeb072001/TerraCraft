@@ -92,7 +92,7 @@ public class DevourerBodyEntity extends Monster implements Enemy {
 
     @Override
     public boolean isInWall() {
-        float f = this.getDimensions(this.getPose()).width * 0.8f;
+        float f = this.getDimensions(this.getPose()).width() * 0.8f;
         AABB aABB = AABB.ofSize(this.getEyePosition(), f, 1.0E-6, f);
         return BlockPos.betweenClosedStream(aABB).anyMatch(blockPos -> {
             BlockState blockState = this.level().getBlockState(blockPos);

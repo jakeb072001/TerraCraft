@@ -3,6 +3,7 @@ package terramine.common.item.armor.vanity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorMaterial;
 import terramine.TerraMine;
@@ -11,7 +12,7 @@ import terramine.common.init.ModModelLayers;
 
 // todo: custom models don't work on server
 public class TopHatVanity extends VanityArmor {
-    public TopHatVanity(String armorType, ArmorMaterial armorMaterial, Type type, Properties properties) {
+    public TopHatVanity(String armorType, Holder<ArmorMaterial> armorMaterial, Type type, Properties properties) {
         super(armorType, armorMaterial, type, properties);
     }
 

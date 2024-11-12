@@ -1,5 +1,6 @@
 package terramine.common.utility;
 
+import com.mojang.serialization.MapCodec;
 import dev.architectury.networking.NetworkManager;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.*;
@@ -18,12 +19,10 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SnowLayerBlock;
-import net.minecraft.world.level.block.SpreadingSnowyDirtBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.*;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.lighting.LightEngine;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
@@ -31,12 +30,18 @@ import terramine.common.block.CorruptedSnowLayer;
 import terramine.common.init.ModBiomes;
 import terramine.common.init.ModBlocks;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 
 import java.util.Optional;
 
 public class CorruptionHelper extends SpreadingSnowyDirtBlock  {
     protected CorruptionHelper(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected @NotNull MapCodec<? extends SpreadingSnowyDirtBlock> codec() {
+        return GrassBlock.CODEC;
     }
 
     public static boolean canNotBeGrass(BlockState blockState, LevelReader levelReader, BlockPos blockPos) {
@@ -229,7 +234,7 @@ public class CorruptionHelper extends SpreadingSnowyDirtBlock  {
             FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
             passedData.writeInt(chunkPos.x);
             passedData.writeInt(chunkPos.z);
-            NetworkManager.sendToPlayer(player, ServerPacketHandler.UPDATE_BIOME_PACKET_ID, passedData);
+            NetworkManager.sendToPlayer(player, new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.UPDATE_BIOME_PACKET_ID));
         });
     }
 }

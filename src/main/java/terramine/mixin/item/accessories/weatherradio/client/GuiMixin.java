@@ -18,9 +18,6 @@ import java.text.DecimalFormat;
 
 @Mixin(Gui.class)
 public abstract class GuiMixin {
-
-	@Shadow private int screenHeight;
-	@Shadow private int screenWidth;
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 	@Shadow protected abstract Player getCameraPlayer();
@@ -34,8 +31,8 @@ public abstract class GuiMixin {
 			return;
 		}
 
-		int left = this.screenWidth - 22 - this.getFont().width(getWeather());
-		int top = this.screenHeight - 43;
+		int left = guiGraphics.guiWidth() - 22 - this.getFont().width(getWeather());
+		int top = guiGraphics.guiHeight() - 43;
 
 		guiGraphics.drawString(Minecraft.getInstance().font, getWeather(), left, top, 0xffffff);
 	}

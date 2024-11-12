@@ -1,5 +1,6 @@
 package terramine.common.potions;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffect;
@@ -49,7 +50,7 @@ public class TerrariaPotion extends Potion {
 
     public static class TerrariaPotionInstant extends TerrariaPotion {
 
-        public TerrariaPotionInstant(String name, MobEffect statusEffect, int amplifier) {
+        public TerrariaPotionInstant(String name, Holder<MobEffect> statusEffect, int amplifier) {
             super(name, new MobEffectInstance(statusEffect, 0, amplifier, false, true));
         }
 
@@ -58,7 +59,7 @@ public class TerrariaPotion extends Potion {
             return true;
         }
 
-        public static TerrariaPotionInstant generateAll(String name, MobEffect statusEffect) {
+        public static TerrariaPotionInstant generateAll(String name, Holder<MobEffect> statusEffect) {
             TerrariaPotionInstant base = new TerrariaPotionInstant(name, statusEffect, 0);
             base.setEmpowered(new TerrariaPotionInstant(name, statusEffect, 1));
             return base;
@@ -68,7 +69,7 @@ public class TerrariaPotion extends Potion {
 
     public static class TerrariaPotionTimed extends TerrariaPotion {
 
-        public TerrariaPotionTimed(String name, MobEffect statusEffect, int length, int amplifier) {
+        public TerrariaPotionTimed(String name, Holder<MobEffect> statusEffect, int length, int amplifier) {
             super(name, new MobEffectInstance(statusEffect, length, amplifier, false, true));
         }
 
@@ -77,14 +78,14 @@ public class TerrariaPotion extends Potion {
             return false;
         }
 
-        public static TerrariaPotionTimed generateAll(String name, MobEffect statusEffect, int lengthNormal, int lengthExtended, int lengthEmpowered) {
+        public static TerrariaPotionTimed generateAll(String name, Holder<MobEffect> statusEffect, int lengthNormal, int lengthExtended, int lengthEmpowered) {
             TerrariaPotionTimed base = new TerrariaPotionTimed(name, statusEffect, lengthNormal, 0);
             base.setEmpowered(new TerrariaPotionTimed(name, statusEffect, lengthEmpowered, 1));
             base.setExtended(new TerrariaPotionTimed(name, statusEffect, lengthExtended, 0));
             return base;
         }
 
-        public static TerrariaPotionTimed generateWithLengthened(String name, MobEffect statusEffect, int lengthNormal, int lengthExtended) {
+        public static TerrariaPotionTimed generateWithLengthened(String name, Holder<MobEffect> statusEffect, int lengthNormal, int lengthExtended) {
             TerrariaPotionTimed base = new TerrariaPotionTimed(name, statusEffect, lengthNormal, 0);
             base.setEmpowered(null);
             base.setExtended(new TerrariaPotionTimed(name, statusEffect, lengthExtended, 0));

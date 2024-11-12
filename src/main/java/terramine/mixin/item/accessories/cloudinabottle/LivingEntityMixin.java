@@ -23,6 +23,8 @@ import terramine.common.init.ModItems;
 import terramine.common.init.ModSoundEvents;
 import terramine.common.item.accessories.belt.CloudInABottleItem;
 import terramine.common.misc.AccessoriesHelper;
+import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 import terramine.common.utility.equipmentchecks.WingsEquippedCheck;
 import terramine.extensions.LivingEntityExtensions;
 
@@ -99,7 +101,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityEx
 	@Unique
 	@Environment(EnvType.CLIENT)
 	private static void sendDoubleJumpPacket() {
-		ClientPlayNetworking.send(CloudInABottleItem.C2S_DOUBLE_JUMPED_ID, PacketByteBufs.empty());
+		ClientPlayNetworking.send(new BufferConverter(null, null, null, null).setCustomType(ServerPacketHandler.C2S_DOUBLE_JUMPED_ID));
 	}
 
 	@ModifyVariable(method = "causeFallDamage", ordinal = 0, at = @At("HEAD"), argsOnly = true)

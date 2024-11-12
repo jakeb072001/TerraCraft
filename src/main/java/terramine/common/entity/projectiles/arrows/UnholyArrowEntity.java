@@ -36,7 +36,7 @@ public class UnholyArrowEntity extends AbstractArrow {
     }
 
     @Override
-    protected @NotNull ItemStack getPickupItem() {
+    protected @NotNull ItemStack getDefaultPickupItem() {
         return ModItems.UNHOLY_ARROW.getDefaultInstance();
     }
 }

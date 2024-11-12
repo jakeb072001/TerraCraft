@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +17,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -43,10 +45,11 @@ public class TreasureBagInventory implements ImplementedInventory {
     public TreasureBagInventory(ItemStack stack, Player player, ResourceKey<LootTable> lootTable)
     {
         this.stack = stack;
-        CompoundTag tag = stack.getTagElement("treasure_bag");
+        ItemContainerContents tag = stack.get(DataComponents.CONTAINER);
 
         if (tag != null) {
-            ContainerHelper.loadAllItems(tag, items);
+            //ContainerHelper.loadAllItems(tag, items);
+            tag.copyInto(items);
         } else {
             unpackLootTable(player, lootTable, player.getRandom().nextLong());
         }
@@ -90,9 +93,9 @@ public class TreasureBagInventory implements ImplementedInventory {
             }
 
             if (itemStack.isEmpty()) {
-                container.setItem(list.remove(list.size() - 1), ItemStack.EMPTY);
+                container.setItem(list.removeLast(), ItemStack.EMPTY);
             } else {
-                container.setItem(list.remove(list.size() - 1), itemStack);
+                container.setItem(list.removeLast(), itemStack);
             }
         }
     }
@@ -105,7 +108,8 @@ public class TreasureBagInventory implements ImplementedInventory {
 
         if (lootContext.pushVisitedElement(visitedEntry)) {
             Consumer<ItemStack> consumer2 = LootItemFunction.decorate(lootTable.compositeFunction, objectArrayList::add, lootContext);
-            LootPool[] var5 = lootTable.pools;
+            //LootPool[] var5 = lootTable.pools;
+            LootPool[] var5 = lootTable.pools.toArray(new LootPool[0]);
 
             for (LootPool lootPool : var5) {
                 addRandomItems(lootPool, consumer2, lootContext);
@@ -124,7 +128,8 @@ public class TreasureBagInventory implements ImplementedInventory {
             RandomSource randomSource = lootContext.getRandom();
             Consumer<ItemStack> consumer2 = LootItemFunction.decorate(lootPool.compositeFunction, consumer, lootContext);
             int i = lootPool.rolls.getInt(lootContext) + Mth.floor(lootPool.bonusRolls.getFloat(lootContext) * lootContext.getLuck());
-            LootPoolEntryContainer[] lootContainer = lootPool.entries;
+            //LootPoolEntryContainer[] lootContainer = lootPool.entries;
+            LootPoolEntryContainer[] lootContainer = lootPool.entries.toArray(new LootPoolEntryContainer[0]);
 
             if (i > lootContainer.length) {
                 i = lootContainer.length;
@@ -196,7 +201,8 @@ public class TreasureBagInventory implements ImplementedInventory {
     @Override
     public void setChanged()
     {
-        CompoundTag tag = stack.getOrCreateTagElement("treasure_bag");
-        ContainerHelper.saveAllItems(tag, items);
+        //CompoundTag tag = stack.getOrCreateTagElement("treasure_bag");
+        //ContainerHelper.saveAllItems(tag, items);
+        stack.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(items));
     }
 }

@@ -7,8 +7,11 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -75,7 +78,7 @@ public class ExplosionConfigurable extends Explosion {
     }
 
     public ExplosionConfigurable(Level level, @Nullable Entity entity, @Nullable DamageSource damageSource, @Nullable ExplosionDamageCalculator explosionDamageCalculator, double x, double y, double z, float radius, float damage, boolean fire, boolean isMeteorite, Explosion.BlockInteraction blockInteraction) {
-        super(level, entity, damageSource, explosionDamageCalculator, x, y, z, radius, fire, blockInteraction);
+        super(level, entity, damageSource, explosionDamageCalculator, x, y, z, radius, fire, blockInteraction, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.GENERIC_EXPLODE);
         this.random = RandomSource.create();
         this.toBlow = new ObjectArrayList<>();
         this.hitPlayers = Maps.newHashMap();
@@ -158,7 +161,7 @@ public class ExplosionConfigurable extends Explosion {
         Vec3 vec3 = new Vec3(this.x, this.y, this.z);
 
         for (Entity entity : list) {
-            if (!entity.ignoreExplosion()) {
+            if (!entity.ignoreExplosion(this)) {
                 double y = Math.sqrt(entity.distanceToSqr(vec3)) / (double) q;
                 if (y <= 1.0D) {
                     double z = entity.getX() - this.x;
@@ -192,7 +195,7 @@ public class ExplosionConfigurable extends Explosion {
     public void finalizeExplosion(boolean bl) {
         boolean bl2 = this.blockInteraction != BlockInteraction.KEEP;
         if (this.level.isClientSide) {
-            this.level.playLocalSound(this.x, this.y, this.z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0f, (1.0f + (random.nextFloat() - random.nextFloat()) * 0.2f) * 0.7f, false);
+            this.level.playLocalSound(this.x, this.y, this.z, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 4.0f, (1.0f + (random.nextFloat() - random.nextFloat()) * 0.2f) * 0.7f, false);
         }
         if (bl) {
             if (this.radius < 2.0f || !bl2) {

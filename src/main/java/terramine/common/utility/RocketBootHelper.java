@@ -14,6 +14,7 @@ import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
 import terramine.common.misc.AccessoriesHelper;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 import terramine.common.utility.equipmentchecks.CloudBottleEquippedCheck;
 
 public class RocketBootHelper {
@@ -120,25 +121,18 @@ public class RocketBootHelper {
                     fly(player, Math.abs(Math.min(motionY + currentAccel, currentSpeedVertical)));
                     if ((wings && soundTimer >= 6) || (!wings && soundTimer >= 4)) {
                         FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-                        passedData.writeId(BuiltInRegistries.SOUND_EVENT, sound);
                         passedData.writeFloat(soundVolume);
                         passedData.writeFloat(soundPitch);
-                        ClientPlayNetworking.send(ServerPacketHandler.ROCKET_BOOTS_SOUND_PACKET_ID, passedData);
+                        ClientPlayNetworking.send(new BufferConverter(passedData, null, null, sound).setCustomType(ServerPacketHandler.ROCKET_BOOTS_SOUND_PACKET_ID));
                         soundTimer = 0;
                     }
 
-                    FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
                     if (particle1 != null) {
-                        passedData.writeId(BuiltInRegistries.PARTICLE_TYPE, particle1);
-                    } else {
-                        passedData.writeId(BuiltInRegistries.PARTICLE_TYPE, ParticleTypes.DRIPPING_WATER);
+                        ClientPlayNetworking.send(new BufferConverter(null, null, particle1, null).setCustomType(ServerPacketHandler.ROCKET_BOOTS_PARTICLE_PACKET_ID));
                     }
                     if (particle2 != null) {
-                        passedData.writeId(BuiltInRegistries.PARTICLE_TYPE, particle2);
-                    } else {
-                        passedData.writeId(BuiltInRegistries.PARTICLE_TYPE, ParticleTypes.DRIPPING_WATER);
+                        ClientPlayNetworking.send(new BufferConverter(null, null, particle2, null).setCustomType(ServerPacketHandler.ROCKET_BOOTS_PARTICLE_PACKET_ID));
                     }
-                    ClientPlayNetworking.send(ServerPacketHandler.ROCKET_BOOTS_PARTICLE_PACKET_ID, passedData);
                 }
 
                 float speedSideways = (float) (player.isCrouching() ? glideSpeed * 0.5F : glideSpeed);
@@ -184,7 +178,7 @@ public class RocketBootHelper {
         passedData.writeDouble(motion.x());
         passedData.writeDouble(y);
         passedData.writeDouble(motion.z());
-        ClientPlayNetworking.send(ServerPacketHandler.PLAYER_MOVEMENT_PACKET_ID, passedData);
+        ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.PLAYER_MOVEMENT_PACKET_ID));
         player.setDeltaMovement(motion.x(), y, motion.z());
     }
 

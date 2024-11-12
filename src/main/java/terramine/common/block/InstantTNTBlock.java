@@ -45,11 +45,12 @@ public class InstantTNTBlock extends TntBlock {
     }
 
     @Override
-    public void playerWillDestroy(Level level, @NotNull BlockPos blockPos, @NotNull BlockState blockState, @NotNull Player player) {
+    public @NotNull BlockState playerWillDestroy(Level level, @NotNull BlockPos blockPos, @NotNull BlockState blockState, @NotNull Player player) {
         if (!level.isClientSide() && !player.isCreative() && blockState.getValue(UNSTABLE)) {
             InstantTNTBlock.explode(level, blockPos);
         }
         super.playerWillDestroy(level, blockPos, blockState, player);
+        return blockState;
     }
 
     private static void explode(Level level, BlockPos blockPos, @Nullable LivingEntity livingEntity) {
@@ -59,7 +60,7 @@ public class InstantTNTBlock extends TntBlock {
         InstantPrimedTNTEntity primedTnt = ModEntities.INSTANT_TNT.create(level);
         if (primedTnt != null) {
             primedTnt.setValues(level, (double) blockPos.getX() + 0.5, blockPos.getY(), (double) blockPos.getZ() + 0.5, livingEntity);
-            level.playSound(null, primedTnt.getX(), primedTnt.getY(), primedTnt.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            level.playSound(null, primedTnt.getX(), primedTnt.getY(), primedTnt.getZ(), SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 1.0f, 1.0f);
             level.addFreshEntity(primedTnt);
             level.gameEvent(livingEntity, GameEvent.PRIME_FUSE, blockPos);
         }
@@ -73,7 +74,7 @@ public class InstantTNTBlock extends TntBlock {
         InstantPrimedTNTEntity primedTnt = ModEntities.INSTANT_TNT.create(level);
         if (primedTnt != null) {
             primedTnt.setValues(level, (double) blockPos.getX() + 0.5, blockPos.getY(), (double) blockPos.getZ() + 0.5, explosion.getIndirectSourceEntity());
-            level.playSound(null, primedTnt.getX(), primedTnt.getY(), primedTnt.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            level.playSound(null, primedTnt.getX(), primedTnt.getY(), primedTnt.getZ(), SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 1.0f, 1.0f);
             level.addFreshEntity(primedTnt);
         }
     }

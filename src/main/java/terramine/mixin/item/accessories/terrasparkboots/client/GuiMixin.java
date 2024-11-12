@@ -18,9 +18,6 @@ public abstract class GuiMixin {
 
 	@Unique private final ResourceLocation LAVACHARM_ICONS_TEXTURE = TerraMine.id("textures/gui/lavacharmbar.png");
 
-	@Shadow private int screenHeight;
-	@Shadow private int screenWidth;
-
 	@Shadow protected abstract Player getCameraPlayer();
 
 	@Inject(method = "renderPlayerHealth", require = 0, at = @At(value = "TAIL"))
@@ -34,8 +31,8 @@ public abstract class GuiMixin {
 		float charge = (float) ModComponents.LAVA_IMMUNITY.get(player).getLavaImmunityTimer();
 
 		if (charge < 140) {
-			int left = this.screenWidth / 2 - 91;
-			int top = this.screenHeight + getStatusBarHeightOffset(player);
+			int left = guiGraphics.guiWidth() / 2 - 91;
+			int top = guiGraphics.guiHeight() + getStatusBarHeightOffset(player);
 
 			int count = (int) Math.floor(charge / 20F);
 			if (count >= 7) {

@@ -11,10 +11,13 @@ import terramine.common.potions.effects.TerrariaEffect;
 
 import java.util.UUID;
 
+// todo: maybe not working after update
 public class IronSkinEffect extends TerrariaEffect {
 
     public static final AttributeModifier IRONSKIN_ARMOR = new AttributeModifier(UUID.fromString("3419d896-3f29-4bdc-9837-e8244712b17d"),
-            "ironskin_armor", 8, AttributeModifier.Operation.ADDITION);
+            "ironskin_armor", 8, AttributeModifier.Operation.ADD_VALUE);
+
+    private LivingEntity livingEntity;
 
     public IronSkinEffect(MobEffectCategory type, int color, boolean isInstant) {
         super(type, color, isInstant);
@@ -26,17 +29,19 @@ public class IronSkinEffect extends TerrariaEffect {
     }
 
     @Override
-    public void removeAttributeModifiers(LivingEntity livingEntity, @NotNull AttributeMap attributeMap, int i) {
+    public void removeAttributeModifiers(AttributeMap attributeMap) {
         if (livingEntity.getAttributes().hasAttribute(Attributes.ARMOR)) {
             AccessoryTerrariaItem.removeModifier(livingEntity.getAttribute(Attributes.ARMOR), IRONSKIN_ARMOR);
         }
-        super.removeAttributeModifiers(livingEntity, attributeMap, i);
+        super.removeAttributeModifiers(attributeMap);
     }
 
     @Override
-    public void applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
+    public boolean applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
         if (livingEntity.getAttributes().hasAttribute(Attributes.ARMOR)) {
             AccessoryTerrariaItem.addModifier(livingEntity.getAttribute(Attributes.ARMOR), IRONSKIN_ARMOR);
         }
+        this.livingEntity = livingEntity;
+        return false;
     }
 }

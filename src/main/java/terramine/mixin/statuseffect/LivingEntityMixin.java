@@ -2,6 +2,7 @@ package terramine.mixin.statuseffect;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -53,27 +54,29 @@ public abstract class LivingEntityMixin extends Entity {
 				if (!ItemStack.isSameItem(newStack, oldStack)) {
 					if (!this.level().isClientSide) {
 						if (!oldStack.isEmpty()) {
-							Multimap<Attribute, AttributeModifier> map = getOldStackAccessory(i).getModifiers(getOldStack(i), player, uuid);
+							Multimap<Holder<Attribute>, AttributeModifier> map = getOldStackAccessory(i).getModifiers(getOldStack(i), player, uuid);
 							Multimap<String, AttributeModifier> slotMap = HashMultimap.create();
 
-							for (Attribute attr : map.keySet()) {
+							for (Holder<Attribute> attr : map.keySet()) {
 								slotMap.putAll("accessorySlot/" + i, map.get(attr));
+								for (AttributeModifier modifier : map.get(attr)) {
+									this.getAttributes().getInstance(attr).removeModifier(modifier);
+								}
 							}
-
-							this.getAttributes().removeAttributeModifiers(map);
 						}
 
 						if (!newStack.isEmpty()) {
 							if (inventory.getItem(i).getItem() instanceof AccessoryTerrariaItem item) {
-								Multimap<Attribute, AttributeModifier> map = item.getModifiers(inventory.getItem(i), player, uuid);
+								Multimap<Holder<Attribute>, AttributeModifier> map = item.getModifiers(inventory.getItem(i), player, uuid);
 
 								Multimap<String, AttributeModifier> slotMap = HashMultimap.create();
 
-								for (Attribute attr : map.keySet()) {
+								for (Holder<Attribute> attr : map.keySet()) {
 									slotMap.putAll("accessorySlot/" + i, map.get(attr));
+									for (AttributeModifier modifier : map.get(attr)) {
+										this.getAttributes().getInstance(attr).addOrUpdateTransientModifier(modifier);
+									}
 								}
-
-								this.getAttributes().addTransientAttributeModifiers(map);
 							}
 						}
 					}

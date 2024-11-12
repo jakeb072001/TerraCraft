@@ -37,7 +37,7 @@ public class CorruptedSnowLayer extends CorruptionHelper {
     }
 
     @Override
-    public boolean isPathfindable(@NotNull BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, PathComputationType pathComputationType) {
+    public boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
         switch (pathComputationType) {
             case LAND -> {
                 return blockState.getValue(LAYERS) < 5;

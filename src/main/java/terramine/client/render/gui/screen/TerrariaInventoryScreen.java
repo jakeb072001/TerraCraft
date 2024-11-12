@@ -15,6 +15,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.ImageWidget;
 import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -41,6 +42,7 @@ import terramine.client.render.gui.menu.TerrariaInventoryContainerMenu;
 import terramine.common.init.ModComponents;
 import terramine.common.misc.TeamColours;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 import terramine.extensions.PlayerStorages;
 
 import java.util.List;
@@ -72,6 +74,12 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
         super.init();
         rotation = 0;
         //this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
+        /**
+        this.addRenderableWidget(new ImageButton(this.leftPos + 63, this.height / 2 - 100, 8, 8, new WidgetSprites(ROTATE_RIGHT_TEX, ROTATE_RIGHT_TEX), (buttonWidget) -> {
+            rotation -= 40;
+        }));
+         **/
+        // todo: replace the below 4 with ImageButton (if i can figure out how it works)
         this.addRenderableWidget(new ToggleImageButton(this.leftPos + 63, this.height / 2 - 100, 8, 8, 0, 0, 8, 0, 0, false, ROTATE_RIGHT_TEX, 8, 16, (buttonWidget) -> {
             rotation -= 40;
         }));
@@ -79,12 +87,12 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
             rotation += 40;
         }));
         if (this.minecraft.gameMode.hasInfiniteItems()) {
-            this.addRenderableWidget(new ImageButton(this.leftPos + 105, this.height / 2 - 40, 8, 8, 0, 0, 8, BUTTON_TEX, 8, 16, (buttonWidget) -> {
+            this.addRenderableWidget(new ToggleImageButton(this.leftPos + 105, this.height / 2 - 40, 8, 8, 0, 0, 8, 0, 0, false, BUTTON_TEX, 8, 16, (buttonWidget) -> {
                 this.minecraft.setScreen(new CreativeModeInventoryScreen(this.minecraft.player, this.minecraft.player.connection.enabledFeatures(), this.minecraft.options.operatorItemsTab().get()));
                 this.buttonClicked = true;
             }));
         } else {
-            this.addRenderableWidget(new ImageButton(this.leftPos + 105, this.height / 2 - 40, 8, 8, 0, 0, 8, BUTTON_TEX, 8, 16, (buttonWidget) -> {
+            this.addRenderableWidget(new ToggleImageButton(this.leftPos + 105, this.height / 2 - 40, 8, 8, 0, 0, 8, 0, 0, false, BUTTON_TEX, 8, 16, (buttonWidget) -> {
                 this.minecraft.setScreen(new InventoryScreen(minecraft.player));
                 this.buttonClicked = true;
             }));
@@ -97,7 +105,7 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
                 FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
                 buf.writeInt(finalI);
                 buf.writeBoolean(!((PlayerStorages) this.minecraft.player).getSlotVisibility(finalI));
-                ClientPlayNetworking.send(ServerPacketHandler.UPDATE_ACCESSORY_VISIBILITY_PACKET_ID, buf);
+                ClientPlayNetworking.send(new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.UPDATE_ACCESSORY_VISIBILITY_PACKET_ID));
             }));
         }
 
@@ -107,11 +115,11 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
             this.addRenderableWidget(new ToggleImageButton(this.leftPos + 6 + (10 * i) - (i > 2 ? 30 : 0), this.height / 2 - 20 - (i > 2 ? 0 : 10), 10, 10, 0, 20 * i, 10, 10, i + 1, true, TEAM_TEX, 20, 120, (buttonWidget) -> {
                 FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
                 buf.writeInt(finalI + 1);
-                ClientPlayNetworking.send(ServerPacketHandler.UPDATE_TEAM_PACKET_ID, buf);
+                ClientPlayNetworking.send(new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.UPDATE_TEAM_PACKET_ID));
             }));
         }
 
-        this.addRenderableWidget(new ImageWidget(this.leftPos + 39, this.height / 2 - 29, 19, 19, SHIELD_TEX));
+        this.addRenderableWidget(ImageWidget.texture(this.leftPos + 39, this.height / 2 - 29, SHIELD_TEX, 19, 19));
         this.addRenderableWidget(new ArmorValueTextWidget(this.leftPos + 48, this.height / 2 - 20, 1, 1, this.font));
     }
 
@@ -119,7 +127,7 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
     }
 
     public void render(@NotNull GuiGraphics guiGraphics, int i, int j, float f) {
-        this.renderBackground(guiGraphics);
+        this.renderBackground(guiGraphics, i, j, f);
         super.render(guiGraphics, i, j, f);
         this.renderTooltip(guiGraphics, i, j);
         this.xMouse = (float)i;
@@ -168,7 +176,7 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
         quaternionf.mul(quaternion);
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(i, j, 50.0);
-        guiGraphics.pose().mulPoseMatrix((new Matrix4f()).scaling((float)k, (float)k, (float)(-k)));
+        guiGraphics.pose().mulPose((new Matrix4f()).scaling((float)k, (float)k, (float)(-k)));
         guiGraphics.pose().mulPose(quaternionf);
         Lighting.setupForEntityInInventory();
         EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();

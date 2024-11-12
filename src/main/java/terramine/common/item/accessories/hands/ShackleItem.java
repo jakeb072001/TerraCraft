@@ -1,6 +1,7 @@
 package terramine.common.item.accessories.hands;
 
 import com.google.common.collect.Multimap;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -19,11 +20,11 @@ public class ShackleItem extends AccessoryTerrariaItem {
 	}
 
 	@Override
-	protected Multimap<Attribute, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
-		Multimap<Attribute, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
+	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
+		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
 		AttributeModifier modifier = new AttributeModifier(uuid,
 				TerraMine.id("shackle_defence").toString(),
-				1, AttributeModifier.Operation.ADDITION);
+				1, AttributeModifier.Operation.ADD_VALUE);
 		result.put(Attributes.ARMOR, modifier);
 		return result;
 	}
@@ -40,6 +41,6 @@ public class ShackleItem extends AccessoryTerrariaItem {
 
 	@Override
 	public SoundInfo getEquipSoundInfo() {
-		return new SoundInfo(SoundEvents.ARMOR_EQUIP_IRON);
+		return new SoundInfo(SoundEvents.ARMOR_EQUIP_IRON.value());
 	}
 }

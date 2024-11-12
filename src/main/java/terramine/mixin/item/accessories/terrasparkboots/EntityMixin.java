@@ -97,7 +97,7 @@ public abstract class EntityMixin {
                     } else {
                         return;
                     }
-                    level.addParticle(particle, getX() + (random.nextDouble() - 0.5) * dimensions.width, getY(), getZ() + (random.nextDouble() - 0.5) * dimensions.width, motion.x, motion.y, motion.z);
+                    level.addParticle(particle, getX() + (random.nextDouble() - 0.5) * dimensions.width(), getY(), getZ() + (random.nextDouble() - 0.5) * dimensions.width(), motion.x, motion.y, motion.z);
                 }
             }
         }

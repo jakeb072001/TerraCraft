@@ -1,5 +1,6 @@
 package terramine.mixin.item.accessories.umbrella;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -23,7 +24,7 @@ public abstract class LivingEntityMixin extends Entity {
 	}
 
 	@Shadow
-	public abstract boolean hasEffect(MobEffect effect);
+	public abstract boolean hasEffect(Holder<MobEffect> effect);
 
 	@ModifyVariable(method = "travel", ordinal = 0, name = "d", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/world/level/Level;getFluidState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/material/FluidState;"))
 	private double changeGravity(double gravity) {

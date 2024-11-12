@@ -19,9 +19,10 @@ public class InstantManaEffect extends TerrariaEffect {
     }
 
     @Override
-    public void applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
+    public boolean applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
         if (livingEntity instanceof Player player) {
             ModComponents.MANA_HANDLER.get(player).addCurrentMana((level + 1) * 50);
         }
+        return false;
     }
 }

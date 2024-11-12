@@ -13,7 +13,7 @@ import java.util.UUID;
 public class AgletItem extends AccessoryTerrariaItem {
 
 	public static final AttributeModifier SPEED_BOOST_MODIFIER = new AttributeModifier(UUID.fromString("ac7ab816-2b08-46b6-879d-e5dea34ff307"),
-			"terramine:aglet_movement_speed", 0.05, AttributeModifier.Operation.MULTIPLY_TOTAL);
+			"terramine:aglet_movement_speed", 0.05, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 
 	@Override
 	public void onEquip(ItemStack stack, Player player) {

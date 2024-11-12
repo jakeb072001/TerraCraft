@@ -19,6 +19,8 @@ import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
 import terramine.common.item.accessories.hands.BlueHorseshoeBalloonItem;
 import terramine.common.misc.AccessoriesHelper;
+import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.packet.BufferConverter;
 import terramine.common.utility.equipmentchecks.WingsEquippedCheck;
 import terramine.extensions.LivingEntityExtensions;
 
@@ -48,7 +50,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityEx
 	@Unique
 	@Environment(EnvType.CLIENT)
 	private static void sendDoubleJumpPacket() {
-		ClientPlayNetworking.send(BlueHorseshoeBalloonItem.C2S_DOUBLE_JUMPED_ID, PacketByteBufs.empty());
+		ClientPlayNetworking.send(new BufferConverter(null, null, null, null).setCustomType(ServerPacketHandler.C2S_DOUBLE_JUMPED_ID));
 	}
 
 	@SuppressWarnings("ConstantConditions")

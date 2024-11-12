@@ -43,7 +43,7 @@ public class ModEntities {
 			.dimensions(EntityDimensions.fixed(0.53f, 0.53f))
 			.spawnGroup(MobCategory.MONSTER)
 			.defaultAttributes(DemonEyeEntity::createMobAttributes)
-			.spawnRestriction(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DemonEyeEntity::checkMobSpawnRules)
+			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DemonEyeEntity::checkMobSpawnRules)
 			.build());
 
 	public static final EntityType<EaterOfSoulsEntity> EATER_OF_SOULS = register("eater_of_souls", FabricEntityTypeBuilder
@@ -52,7 +52,7 @@ public class ModEntities {
 			.dimensions(EntityDimensions.fixed(1f, 0.6f))
 			.spawnGroup(MobCategory.MONSTER)
 			.defaultAttributes(EaterOfSoulsEntity::createMobAttributes)
-			.spawnRestriction(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EaterOfSoulsEntity::checkMobSpawnRules)
+			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EaterOfSoulsEntity::checkMobSpawnRules)
 			.build());
 
 	public static final EntityType<DevourerEntity> DEVOURER = register("devourer", FabricEntityTypeBuilder
@@ -61,7 +61,7 @@ public class ModEntities {
 			.dimensions(EntityDimensions.fixed(0.8f, 0.4f))
 			.spawnGroup(MobCategory.MONSTER)
 			.defaultAttributes(DevourerEntity::createMobAttributes)
-			.spawnRestriction(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DevourerEntity::checkMobSpawnRules)
+			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DevourerEntity::checkMobSpawnRules)
 			.build());
 
 	public static final EntityType<DevourerBodyEntity> DEVOURER_BODY = register("devourer_body", FabricEntityTypeBuilder
@@ -88,7 +88,7 @@ public class ModEntities {
 			.dimensions(EntityDimensions.fixed(0.85f, 0.5f))
 			.spawnGroup(MobCategory.MONSTER)
 			.defaultAttributes(CrimeraEntity::createMobAttributes)
-			.spawnRestriction(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrimeraEntity::checkMobSpawnRules)
+			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrimeraEntity::checkMobSpawnRules)
 			.build());
 
 	/**
@@ -100,7 +100,7 @@ public class ModEntities {
 			.dimensions(EntityDimensions.fixed(1f, 2f))
 			.spawnGroup(MobCategory.MONSTER)
 			.defaultAttributes(TestBoss::createMobAttributes)
-			.spawnRestriction(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TestBoss::checkMobSpawnRules)
+			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TestBoss::checkMobSpawnRules)
 			.build());
 
 	public static final EntityType<ClientItemEntity> CLIENT_ITEM = register("client_item", FabricEntityTypeBuilder

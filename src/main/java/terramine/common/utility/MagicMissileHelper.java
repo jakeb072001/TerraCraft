@@ -72,7 +72,7 @@ public class MagicMissileHelper extends AbstractArrow {
         if (entityHitResult.getEntity() != this.getOwner()) {
             entityHitResult.getEntity().hurt(ModDamageSource.indirectMagicProjectile(entityHitResult.getEntity(), this.getOwner(), wandItem), damage * damageMultiplier(this.getOwner()));
             if (canIgnite) {
-                entityHitResult.getEntity().setSecondsOnFire(rand.nextInt(4) + 4);
+                entityHitResult.getEntity().setRemainingFireTicks(rand.nextInt(4) + 4);
             }
             this.explode();
         }
@@ -164,8 +164,8 @@ public class MagicMissileHelper extends AbstractArrow {
     }
 
     @Override
-    protected ItemStack getPickupItem() {
-        return null;
+    protected @NotNull ItemStack getDefaultPickupItem() {
+        return ItemStack.EMPTY;
     }
 
     @Override

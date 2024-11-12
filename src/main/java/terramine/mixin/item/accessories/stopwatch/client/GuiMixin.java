@@ -23,9 +23,6 @@ import java.util.ArrayList;
 
 @Mixin(Gui.class)
 public abstract class GuiMixin {
-
-	@Shadow private int screenHeight;
-	@Shadow private int screenWidth;
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 	private static final ArrayList<Double> speeds = new ArrayList<Double>();
 
@@ -42,8 +39,8 @@ public abstract class GuiMixin {
 			return;
 		}
 
-		int left = this.screenWidth - 22 - this.getFont().width(getSpeed());
-		int top = this.screenHeight - 73;
+		int left = guiGraphics.guiWidth() - 22 - this.getFont().width(getSpeed());
+		int top = guiGraphics.guiHeight() - 73;
 
 		guiGraphics.drawString(Minecraft.getInstance().font, getSpeed(), left, top, 0xffffff);
 	}

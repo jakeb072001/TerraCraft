@@ -27,9 +27,6 @@ import java.util.stream.Stream;
 
 @Mixin(Gui.class)
 public abstract class GuiMixin {
-
-	@Shadow private int screenHeight;
-	@Shadow private int screenWidth;
 	@Unique private int timer = 0;
 	@Unique MutableComponent detectedText = Component.translatable(TerraMine.MOD_ID + ".ui.oreDetected");
 	@Unique MutableComponent noDetectedText = Component.translatable(TerraMine.MOD_ID + ".ui.oreNotDetected");
@@ -56,8 +53,8 @@ public abstract class GuiMixin {
 		}
 
 
-		int left = this.screenWidth - 22 - this.getFont().width(lastOre);
-		int top = this.screenHeight - 63;
+		int left = guiGraphics.guiWidth() - 22 - this.getFont().width(lastOre);
+		int top = guiGraphics.guiHeight() - 63;
 
 		guiGraphics.drawString(Minecraft.getInstance().font, lastOre, left, top, 0xffffff);
 	}

@@ -19,7 +19,7 @@ public class TerrariaEffect extends MobEffect {
     }
 
     @Override
-    public boolean isDurationEffectTick(int remainingTicks, int level) {
+    public boolean shouldApplyEffectTickThisTick(int remainingTicks, int level) {
         if (isInstantenous()) {
             return true;
         }
@@ -34,10 +34,11 @@ public class TerrariaEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(@NotNull LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(@NotNull LivingEntity entity, int amplifier) {
         if (isInstantenous()) {
             applyInstantenousEffect(null, null, entity, amplifier, 1.0d);
         }
+        return true;
     }
 
     public TerrariaEffect onRegister() {

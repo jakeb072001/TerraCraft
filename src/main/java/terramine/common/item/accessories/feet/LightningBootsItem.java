@@ -17,7 +17,7 @@ import java.util.UUID;
 public class LightningBootsItem extends AccessoryTerrariaItem {
 
 	public static final AttributeModifier SPEED_BOOST_MODIFIER_WALK = new AttributeModifier(UUID.fromString("0bb62526-1cf9-4d7d-be51-ada9c7648422"),
-			"lightning_boots_movement_speed_walk", 0.08, AttributeModifier.Operation.MULTIPLY_TOTAL);
+			"lightning_boots_movement_speed_walk", 0.08, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 	public RocketBootHelper rocketHelper = new RocketBootHelper();
 	public double speed = 0.4D;
 

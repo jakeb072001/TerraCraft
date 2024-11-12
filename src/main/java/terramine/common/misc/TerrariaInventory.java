@@ -27,8 +27,8 @@ public class TerrariaInventory extends SimpleContainer {
     }
 
     public void addModifier(AttributeModifier modifier) {
-        this.modifiers.put(modifier.getId(), modifier);
-        this.getModifiersByOperation(modifier.getOperation()).add(modifier);
+        this.modifiers.put(modifier.id(), modifier);
+        this.getModifiersByOperation(modifier.operation()).add(modifier);
         this.setChanged();
     }
 
@@ -41,7 +41,7 @@ public class TerrariaInventory extends SimpleContainer {
         AttributeModifier modifier = this.modifiers.remove(uuid);
         if (modifier != null) {
             this.persistentModifiers.remove(modifier);
-            this.getModifiersByOperation(modifier.getOperation()).remove(modifier);
+            this.getModifiersByOperation(modifier.operation()).remove(modifier);
             this.setChanged();
         }
     }
@@ -52,7 +52,7 @@ public class TerrariaInventory extends SimpleContainer {
 
     public void clearCachedModifiers() {
         for (AttributeModifier cachedModifier : this.cachedModifiers) {
-            this.removeModifier(cachedModifier.getId());
+            this.removeModifier(cachedModifier.id());
         }
         this.cachedModifiers.clear();
     }

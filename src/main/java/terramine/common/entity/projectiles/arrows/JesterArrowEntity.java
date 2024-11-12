@@ -62,7 +62,7 @@ public class JesterArrowEntity extends AbstractArrow {
     }
 
     @Override
-    protected @NotNull ItemStack getPickupItem() {
+    protected @NotNull ItemStack getDefaultPickupItem() {
         return ItemStack.EMPTY;
     }
 }
