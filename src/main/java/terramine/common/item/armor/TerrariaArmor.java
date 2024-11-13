@@ -69,11 +69,13 @@ public class TerrariaArmor extends ArmorItem {
                 builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uUID, "Armor knockback resistance", g, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
             }
 
-            attributeModifiers.asMap().forEach((attribute, attributeModifiers) -> {
-                for (AttributeModifier attributeModifier : attributeModifiers) {
-                    builder.add(attribute, attributeModifier, equipmentSlotGroup);
-                }
-            });
+            if (attributeModifiers != null) {
+                attributeModifiers.asMap().forEach((attribute, attributeModifiers) -> {
+                    for (AttributeModifier attributeModifier : attributeModifiers) {
+                        builder.add(attribute, attributeModifier, equipmentSlotGroup);
+                    }
+                });
+            }
 
             return builder.build();
         });

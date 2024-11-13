@@ -1,10 +1,8 @@
 package terramine.mixin.player;
 
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EntityType;
@@ -23,7 +21,7 @@ import terramine.common.init.ModMobEffects;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.misc.TerrariaInventory;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.IntBoolUUIDNetworkType;
 import terramine.extensions.ItemExtensions;
 import terramine.extensions.PlayerStorages;
 
@@ -119,13 +117,9 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerStorages
 	public void setSlotVisibility(int slot, boolean visible) {
 		slotVisibility.put(slot, visible);
 		if (!this.isLocalPlayer()) {
-			FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-			buf.writeInt(slot);
-			buf.writeBoolean(visible);
-			buf.writeUUID(getUUID());
 			if (getServer() != null) {
 				for (ServerPlayer otherPlayer : getServer().getLevel(level().dimension()).players()) {
-					ServerPlayNetworking.send(otherPlayer, new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.UPDATE_ACCESSORY_VISIBILITY_PACKET_ID));
+					ServerPlayNetworking.send(otherPlayer, new IntBoolUUIDNetworkType(slot, 0, visible, getUUID()).setCustomType(ServerPacketHandler.UPDATE_ACCESSORY_VISIBILITY_PACKET_ID));
 				}
 			}
 		}

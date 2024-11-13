@@ -58,8 +58,8 @@ public abstract class ExplosiveThrowableEntity extends ThrowableProjectile {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        this.entityData.set(STICKY, false);
-        this.entityData.set(BOUNCY, false);
+        this.getEntityData().set(STICKY, false);
+        this.getEntityData().set(BOUNCY, false);
     }
 
     @Override

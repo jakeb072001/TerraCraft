@@ -1,16 +1,14 @@
 package terramine.mixin.player;
 
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -19,8 +17,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import terramine.TerraMine;
 import terramine.client.render.gui.ToggleImageButton;
+import terramine.common.init.ModParticles;
+import terramine.common.init.ModSoundEvents;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.ItemNetworkType;
+import terramine.common.network.types.LongNetworkType;
 
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends EffectRenderingInventoryScreen<InventoryMenu> implements RecipeUpdateListener {
@@ -39,7 +40,7 @@ public abstract class InventoryScreenMixin extends EffectRenderingInventoryScree
         if (!this.minecraft.gameMode.hasInfiniteItems()) {
             this.addRenderableWidget(new ToggleImageButton(this.leftPos + 66, this.height / 2 - 14, 8, 8, 0, 0, 8, 0, 0, false, BUTTON_TEX, 8, 16, (buttonWidget) -> {
                 //this.minecraft.setScreen(new TerrariaInventoryHandler(this.minecraft.player));
-                ClientPlayNetworking.send(new BufferConverter(null, null, null, null).setCustomType(ServerPacketHandler.OPEN_INVENTORY_PACKET_ID));
+                ClientPlayNetworking.send(new LongNetworkType(0L).setCustomType(ServerPacketHandler.OPEN_INVENTORY_PACKET_ID));
                 this.buttonClicked = true;
             }));
         }

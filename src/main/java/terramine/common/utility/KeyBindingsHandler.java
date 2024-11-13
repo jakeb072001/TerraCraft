@@ -7,9 +7,15 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.ItemStack;
+import terramine.common.init.ModParticles;
+import terramine.common.init.ModSoundEvents;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.InputNetworkType;
+import terramine.common.network.types.ItemNetworkType;
 import terramine.common.network.packet.UpdateInputPacket;
+
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class KeyBindingsHandler {
@@ -47,14 +53,22 @@ public class KeyBindingsHandler {
             left = leftNow;
             right = rightNow;
 
-            sendToServer(new UpdateInputPacket(jumpNow, attackNow, shiftNow, forwardsNow, backwardsNow, leftNow, rightNow));
+            List<Boolean> booleanList = new java.util.ArrayList<>(List.of());
+            booleanList.add(jumpNow);
+            booleanList.add(attackNow);
+            booleanList.add(shiftNow);
+            booleanList.add(forwardsNow);
+            booleanList.add(backwardsNow);
+            booleanList.add(leftNow);
+            booleanList.add(rightNow);
+            sendToServer(new UpdateInputPacket(booleanList));
             InputHandler.update(client.player, jumpNow, attackNow, shiftNow, forwardsNow, backwardsNow, leftNow, rightNow);
         }
     }
 
     public static void sendToServer(UpdateInputPacket packet) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        UpdateInputPacket.write(packet, buf);
-        ClientPlayNetworking.send(new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.CONTROLS_PACKET_ID));
+        List<Boolean> booleanList = new java.util.ArrayList<>(List.of());
+        UpdateInputPacket.write(packet, booleanList);
+        ClientPlayNetworking.send(new InputNetworkType(booleanList).setCustomType(ServerPacketHandler.CONTROLS_PACKET_ID));
     }
 }

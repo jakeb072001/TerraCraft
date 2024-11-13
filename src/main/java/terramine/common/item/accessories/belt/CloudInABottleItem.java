@@ -1,18 +1,13 @@
 package terramine.common.item.accessories.belt;
 
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.sounds.SoundEvents;
-import terramine.TerraMine;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.ItemNetworkType;
+import terramine.common.network.types.LongNetworkType;
 import terramine.extensions.LivingEntityExtensions;
 
 public class CloudInABottleItem extends AccessoryTerrariaItem {
@@ -20,7 +15,7 @@ public class CloudInABottleItem extends AccessoryTerrariaItem {
         ServerPlayNetworking.registerGlobalReceiver(ServerPacketHandler.C2S_DOUBLE_JUMPED_ID, CloudInABottleItem::handleDoubleJumpPacket);
 	}
 
-	private static void handleDoubleJumpPacket(BufferConverter bufferConverter, ServerPlayNetworking.Context context) {
+	private static void handleDoubleJumpPacket(LongNetworkType bufferConverter, ServerPlayNetworking.Context context) {
 		context.player().server.execute(() -> {
 			ServerPlayer player = context.player();
 			((LivingEntityExtensions) player).terramine$doubleJump();

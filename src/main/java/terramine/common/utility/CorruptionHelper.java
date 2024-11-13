@@ -2,10 +2,8 @@ package terramine.common.utility;
 
 import com.mojang.serialization.MapCodec;
 import dev.architectury.networking.NetworkManager;
-import io.netty.buffer.Unpooled;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerChunkCache;
@@ -30,7 +28,7 @@ import terramine.common.block.CorruptedSnowLayer;
 import terramine.common.init.ModBiomes;
 import terramine.common.init.ModBlocks;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.IntBoolUUIDNetworkType;
 
 import java.util.Optional;
 
@@ -231,10 +229,7 @@ public class CorruptionHelper extends SpreadingSnowyDirtBlock  {
         }
         ((ServerChunkCache) level.getChunkSource()).chunkMap.getPlayers(chunkPos, false).forEach((player) -> {
             player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, ((ServerChunkCache) level.getChunkSource()).chunkMap.getLightEngine(), null, null));
-            FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-            passedData.writeInt(chunkPos.x);
-            passedData.writeInt(chunkPos.z);
-            NetworkManager.sendToPlayer(player, new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.UPDATE_BIOME_PACKET_ID));
+            NetworkManager.sendToPlayer(player, new IntBoolUUIDNetworkType(chunkPos.x, chunkPos.z, false, null).setCustomType(ServerPacketHandler.UPDATE_BIOME_PACKET_ID));
         });
     }
 }

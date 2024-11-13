@@ -19,13 +19,15 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 import terramine.common.init.ModComponents;
+import terramine.common.init.ModParticles;
 import terramine.common.init.ModScreenHandlerType;
+import terramine.common.init.ModSoundEvents;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.item.accessories.ShieldAccessoryItem;
 import terramine.common.item.dye.BasicDye;
 import terramine.common.misc.TerrariaInventory;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.ItemNetworkType;
 import terramine.extensions.PlayerStorages;
 
 public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
@@ -236,12 +238,9 @@ public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
     }
 
     private void updatePacket(Player player, TerrariaInventory terrariaInventory, int slot) {
-        FriendlyByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(slot);
-        buf.writeUUID(player.getUUID());
         for (Player otherPlayer : player.level().players()) {
             if (otherPlayer instanceof ServerPlayer serverPlayer) {
-                ServerPlayNetworking.send(serverPlayer, new BufferConverter(buf, terrariaInventory.getItem(slot), null, null).setCustomType(ServerPacketHandler.UPDATE_INVENTORY_PACKET_ID));
+                ServerPlayNetworking.send(serverPlayer, new ItemNetworkType(terrariaInventory.getItem(slot), slot, player.getUUID()).setCustomType(ServerPacketHandler.UPDATE_INVENTORY_PACKET_ID));
             }
         }
     }

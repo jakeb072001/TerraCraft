@@ -3,11 +3,11 @@ package terramine.mixin.item.accessories.bundleofballoons;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -18,10 +18,12 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
-import terramine.common.item.accessories.hands.BundleOfBalloonsItem;
+import terramine.common.init.ModParticles;
+import terramine.common.init.ModSoundEvents;
 import terramine.common.misc.AccessoriesHelper;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.ItemNetworkType;
+import terramine.common.network.types.LongNetworkType;
 import terramine.common.utility.equipmentchecks.WingsEquippedCheck;
 import terramine.extensions.LivingEntityExtensions;
 
@@ -58,7 +60,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityEx
 	@Unique
 	@Environment(EnvType.CLIENT)
 	private static void sendDoubleJumpPacket() {
-		ClientPlayNetworking.send(new BufferConverter(null, null, null, null).setCustomType(ServerPacketHandler.C2S_QUADRUPLE_JUMPED_ID));
+		ClientPlayNetworking.send(new LongNetworkType(0L).setCustomType(ServerPacketHandler.C2S_QUADRUPLE_JUMPED_ID));
 	}
 
 	@ModifyVariable(method = "causeFallDamage", ordinal = 0, at = @At("HEAD"), argsOnly = true)

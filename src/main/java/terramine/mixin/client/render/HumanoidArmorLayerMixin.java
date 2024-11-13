@@ -19,16 +19,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import terramine.TerraMine;
 import terramine.common.item.armor.TerrariaArmor;
 import terramine.common.item.armor.vanity.FamiliarVanity;
@@ -48,7 +45,8 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 	@Unique
 	private Player retrievedPlayer;
 
-	@Shadow protected abstract ResourceLocation getArmorLocation(ArmorItem armorItem, boolean bl, @Nullable String string);
+	@Unique
+	private EquipmentSlot retrievedSlot;
 
 	public HumanoidArmorLayerMixin(RenderLayerParent<T, M> renderLayerParent) {
 		super(renderLayerParent);
@@ -58,6 +56,7 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 	private ItemStack vanityArmor(ItemStack itemStack, PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot, int i, A humanoidModel) {
 		if (livingEntity instanceof Player player) {
 			this.retrievedPlayer = player;
+			this.retrievedSlot = equipmentSlot;
 			if (((PlayerStorages)player).getTerrariaInventory().getItem(equipmentSlot.getIndex() + 23) != ItemStack.EMPTY) {
 				if (((PlayerStorages)player).getTerrariaInventory().getItem(equipmentSlot.getIndex() + 23).getItem() instanceof ElytraItem) {
 					return itemStack;
@@ -74,32 +73,35 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/HumanoidModel;FFFLnet/minecraft/resources/ResourceLocation;)V")
 	)
 	private void armorDyeVanity(HumanoidArmorLayer<T, M, A> instance, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, A humanoidModel, float f, float g, float h, ResourceLocation resourceLocation, Operation<Void> original) {
-		ItemStack armorItem = livingEntity.getItemBySlot(equipmentSlot);
-		if (!(armorItem instanceof FamiliarVanity)) {
-			if (armorItem instanceof TerrariaArmor terrariaArmor && terrariaArmor.getCustomArmorModel() != null) {
-				A customModel = (A) terrariaArmor.getCustomArmorModel();
-				humanoidModel.copyPropertiesTo(customModel);
-				humanoidModel = customModel;
-			}
-			if (this.retrievedPlayer != null) {
+		if (this.retrievedPlayer != null) {
+			ItemStack armorItemStack = retrievedPlayer.getItemBySlot(this.retrievedSlot);
+			ArmorItem armorItem = (ArmorItem) armorItemStack.getItem();
+			if (!(armorItem instanceof FamiliarVanity)) {
+				if (armorItem instanceof TerrariaArmor terrariaArmor && terrariaArmor.getCustomArmorModel() != null) {
+					A customModel = (A) terrariaArmor.getCustomArmorModel();
+					humanoidModel.copyPropertiesTo(customModel);
+					humanoidModel = customModel;
+				}
 				if (((PlayerStorages) this.retrievedPlayer).getTerrariaInventory().getItem(armorItem.getEquipmentSlot().getIndex() + 27).getItem() instanceof BasicDye dye) {
-					ResourceLocation location = this.getArmorLocation(armorItem, bl, string);
+					ResourceLocation location = getArmorLocation(armorItem);
 					Vector3f colour = dye.getColour();
-					VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(multiBufferSource, RenderType.armorCutoutNoCull(location), false, bl);
+					VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(multiBufferSource, RenderType.armorCutoutNoCull(location), false, armorItem.getDefaultInstance().hasFoil());
 					humanoidModel.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, colour.x(), colour.y(), colour.z(), 1.0F);
 					return;
 				}
 			}
-			original.call(instance, poseStack, multiBufferSource, i, humanoidModel, f, g, h, resourceLocation);
 		}
+		original.call(instance, poseStack, multiBufferSource, i, humanoidModel, f, g, h, resourceLocation);
 	}
 
-	@Inject(method = "getArmorLocation", at = @At(value = "HEAD"), cancellable = true)
-	private void getArmorTexture(ArmorItem item, boolean secondLayer, String overlay, CallbackInfoReturnable<ResourceLocation> cir) {
+	@Unique
+	private ResourceLocation getArmorLocation(ArmorItem item) {
 		if (item instanceof VanityArmor vanityArmor) {
 			if (vanityArmor.getCustomArmorLocation() != null) {
-				cir.setReturnValue(ARMOR_LOCATION_CACHE.computeIfAbsent(TerraMine.MOD_ID + ":textures/models/vanity/" + vanityArmor.getCustomArmorLocation() + ".png", ResourceLocation::new));
+				return ARMOR_LOCATION_CACHE.computeIfAbsent(TerraMine.MOD_ID + ":textures/models/vanity/" + vanityArmor.getCustomArmorLocation() + ".png", ResourceLocation::new);
 			}
 		}
+
+		return null;
 	}
 }

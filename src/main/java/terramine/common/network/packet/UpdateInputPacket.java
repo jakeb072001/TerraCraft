@@ -5,31 +5,33 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import terramine.common.utility.InputHandler;
 
+import java.util.List;
+
 public class UpdateInputPacket {
     private final boolean jump, attack, shift, forwards, backwards, left, right;
 
-    public UpdateInputPacket(boolean jump, boolean attack, boolean shift, boolean forwards, boolean backwards, boolean left, boolean right) {
-        this.jump = jump;
-        this.attack = attack;
-        this.shift = shift;
-        this.forwards = forwards;
-        this.backwards = backwards;
-        this.left = left;
-        this.right = right;
+    public UpdateInputPacket(List<Boolean> list) {
+        this.jump = list.get(0);
+        this.attack = list.get(1);
+        this.shift = list.get(2);
+        this.forwards = list.get(3);
+        this.backwards = list.get(4);
+        this.left = list.get(5);
+        this.right = list.get(6);
     }
 
-    public static UpdateInputPacket read(FriendlyByteBuf buffer) {
-        return new UpdateInputPacket(buffer.readBoolean(), buffer.readBoolean(), buffer.readBoolean(), buffer.readBoolean(), buffer.readBoolean(), buffer.readBoolean(), buffer.readBoolean());
+    public static UpdateInputPacket read(List<Boolean> list) {
+        return new UpdateInputPacket(list);
     }
 
-    public static void write(UpdateInputPacket message, FriendlyByteBuf buffer) {
-        buffer.writeBoolean(message.jump);
-        buffer.writeBoolean(message.attack);
-        buffer.writeBoolean(message.shift);
-        buffer.writeBoolean(message.forwards);
-        buffer.writeBoolean(message.backwards);
-        buffer.writeBoolean(message.left);
-        buffer.writeBoolean(message.right);
+    public static void write(UpdateInputPacket message, List<Boolean> list) {
+        list.add(message.jump);
+        list.add(message.attack);
+        list.add(message.shift);
+        list.add(message.forwards);
+        list.add(message.backwards);
+        list.add(message.left);
+        list.add(message.right);
     }
 
     public static void onMessage(UpdateInputPacket message, MinecraftServer server, ServerPlayer player) {

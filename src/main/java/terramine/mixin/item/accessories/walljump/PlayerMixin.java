@@ -1,7 +1,6 @@
 package terramine.mixin.item.accessories.walljump;
 
 import com.mojang.authlib.GameProfile;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -12,7 +11,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.RenderShape;
@@ -28,7 +26,8 @@ import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
 import terramine.common.misc.AccessoriesHelper;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.FloatSoundNetworkType;
+import terramine.common.network.types.IntBoolUUIDNetworkType;
 import terramine.common.utility.InputHandler;
 
 import java.util.HashSet;
@@ -93,9 +92,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
                     this.spawnWallParticle(this.getWallPos());
 
                     ModComponents.MOVEMENT_ORDER.get(this).setWallJumped(true);
-                    FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-                    passedData.writeBoolean(true);
-                    ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
+                    ClientPlayNetworking.send(new IntBoolUUIDNetworkType(0, 0, true, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
                 }
             } else if (this.ticksKeyDown > 0 && this.ticksKeyDown < 4 && !this.walls.isEmpty()) {
                 this.ticksWallClinged = 1;
@@ -106,9 +103,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
                 this.spawnWallParticle(this.getWallPos());
 
                 ModComponents.MOVEMENT_ORDER.get(this).setWallJumped(true);
-                FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-                passedData.writeBoolean(true);
-                ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
+                ClientPlayNetworking.send(new IntBoolUUIDNetworkType(0, 0, true, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
             }
 
             return;
@@ -124,9 +119,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
             }
 
             ModComponents.MOVEMENT_ORDER.get(this).setWallJumped(false);
-            FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-            passedData.writeBoolean(false);
-            ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
+            ClientPlayNetworking.send(new IntBoolUUIDNetworkType(0, 0,false, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
 
             return;
         }
@@ -168,9 +161,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
         if(this.fallDistance > 2) {
             this.fallDistance = 0;
 
-            FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-            passedData.writeFloat((float) (motionY * motionY * 8));
-            ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.FALL_DISTANCE_PACKET_ID));
+            ClientPlayNetworking.send(new FloatSoundNetworkType((float) (motionY * motionY * 8), 0, null).setCustomType(ServerPacketHandler.FALL_DISTANCE_PACKET_ID));
         }
 
         this.setDeltaMovement(0.0, motionY, 0.0);

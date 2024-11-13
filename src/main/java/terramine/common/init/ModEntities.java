@@ -2,6 +2,7 @@ package terramine.common.init;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityType;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,145 +29,124 @@ import terramine.common.entity.misc.ClientItemEntity;
 
 public class ModEntities {
 
-	public static final EntityType<MimicEntity> MIMIC = register("mimic", FabricEntityTypeBuilder
-			.<MimicEntity>createMob()
-			.entityFactory(MimicEntity::new)
-			.dimensions(EntityDimensions.fixed(14 / 16F, 14 / 16F))
-			.spawnGroup(MobCategory.MONSTER)
-			.defaultAttributes(MimicEntity::createMobAttributes)
-			.trackRangeBlocks(64)
+	public static final EntityType<MimicEntity> MIMIC = register("mimic", FabricEntityType.Builder
+			.createMob(MimicEntity::new, MobCategory.MONSTER, (builder) ->
+					builder.defaultAttributes(MimicEntity::createMobAttributes))
+			.sized(14 / 16F, 14 / 16F)
+			.clientTrackingRange(64)
 			.build());
 
-	public static final EntityType<DemonEyeEntity> DEMON_EYE = register("demon_eye", FabricEntityTypeBuilder
-			.<DemonEyeEntity>createMob()
-			.entityFactory(DemonEyeEntity::new)
-			.dimensions(EntityDimensions.fixed(0.53f, 0.53f))
-			.spawnGroup(MobCategory.MONSTER)
-			.defaultAttributes(DemonEyeEntity::createMobAttributes)
-			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DemonEyeEntity::checkMobSpawnRules)
+	public static final EntityType<DemonEyeEntity> DEMON_EYE = register("demon_eye", FabricEntityType.Builder
+			.createMob(DemonEyeEntity::new, MobCategory.MONSTER, (builder) ->
+					builder.defaultAttributes(DemonEyeEntity::createMobAttributes).spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DemonEyeEntity::checkMobSpawnRules))
+			.sized(0.53f, 0.53f)
 			.build());
 
-	public static final EntityType<EaterOfSoulsEntity> EATER_OF_SOULS = register("eater_of_souls", FabricEntityTypeBuilder
-			.<EaterOfSoulsEntity>createMob()
-			.entityFactory(EaterOfSoulsEntity::new)
-			.dimensions(EntityDimensions.fixed(1f, 0.6f))
-			.spawnGroup(MobCategory.MONSTER)
-			.defaultAttributes(EaterOfSoulsEntity::createMobAttributes)
-			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EaterOfSoulsEntity::checkMobSpawnRules)
+	public static final EntityType<EaterOfSoulsEntity> EATER_OF_SOULS = register("eater_of_souls", FabricEntityType.Builder
+			.createMob(EaterOfSoulsEntity::new, MobCategory.MONSTER, (builder) ->
+					builder.defaultAttributes(EaterOfSoulsEntity::createMobAttributes).spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EaterOfSoulsEntity::checkMobSpawnRules))
+			.sized(1f, 0.6f)
 			.build());
 
-	public static final EntityType<DevourerEntity> DEVOURER = register("devourer", FabricEntityTypeBuilder
-			.<DevourerEntity>createMob()
-			.entityFactory(DevourerEntity::new)
-			.dimensions(EntityDimensions.fixed(0.8f, 0.4f))
-			.spawnGroup(MobCategory.MONSTER)
-			.defaultAttributes(DevourerEntity::createMobAttributes)
-			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DevourerEntity::checkMobSpawnRules)
+	public static final EntityType<DevourerEntity> DEVOURER = register("devourer", FabricEntityType.Builder
+			.createMob(DevourerEntity::new, MobCategory.MONSTER, (builder) ->
+					builder.defaultAttributes(DevourerEntity::createMobAttributes).spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DevourerEntity::checkMobSpawnRules))
+			.sized(0.8f, 0.4f)
 			.build());
 
-	public static final EntityType<DevourerBodyEntity> DEVOURER_BODY = register("devourer_body", FabricEntityTypeBuilder
-			.<DevourerBodyEntity>createMob()
-			.entityFactory(DevourerBodyEntity::new)
-			.dimensions(EntityDimensions.fixed(0.8f, 0.4f))
-			.spawnGroup(MobCategory.MONSTER)
-			.defaultAttributes(DevourerBodyEntity::createMobAttributes)
-			.disableSummon()
+	public static final EntityType<DevourerBodyEntity> DEVOURER_BODY = register("devourer_body", FabricEntityType.Builder
+			.createMob(DevourerBodyEntity::new, MobCategory.MONSTER, (builder) ->
+					builder.defaultAttributes(DevourerBodyEntity::createMobAttributes))
+			.sized(0.8f, 0.4f)
+			.noSummon()
 			.build());
 
-	public static final EntityType<DevourerTailEntity> DEVOURER_TAIL = register("devourer_tail", FabricEntityTypeBuilder
-			.<DevourerTailEntity>createMob()
-			.entityFactory(DevourerTailEntity::new)
-			.dimensions(EntityDimensions.fixed(0.8f, 0.4f))
-			.spawnGroup(MobCategory.MONSTER)
-			.defaultAttributes(DevourerTailEntity::createMobAttributes)
-			.disableSummon()
+	public static final EntityType<DevourerTailEntity> DEVOURER_TAIL = register("devourer_tail", FabricEntityType.Builder
+			.createMob(DevourerTailEntity::new, MobCategory.MONSTER, (builder) ->
+					builder.defaultAttributes(DevourerTailEntity::createMobAttributes))
+			.sized(0.8f, 0.4f)
+			.noSummon()
 			.build());
 
-	public static final EntityType<CrimeraEntity> CRIMERA = register("crimera", FabricEntityTypeBuilder
-			.<CrimeraEntity>createMob()
-			.entityFactory(CrimeraEntity::new)
-			.dimensions(EntityDimensions.fixed(0.85f, 0.5f))
-			.spawnGroup(MobCategory.MONSTER)
-			.defaultAttributes(CrimeraEntity::createMobAttributes)
-			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrimeraEntity::checkMobSpawnRules)
+	public static final EntityType<CrimeraEntity> CRIMERA = register("crimera", FabricEntityType.Builder
+			.createMob(CrimeraEntity::new, MobCategory.MONSTER, (builder) ->
+					builder.defaultAttributes(CrimeraEntity::createMobAttributes).spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrimeraEntity::checkMobSpawnRules))
+			.sized(0.85f, 0.5f)
 			.build());
 
 	/**
 	 * Testing, remove later
 	 */
-	public static final EntityType<TestBoss> TEST_BOSS = register("test_boss", FabricEntityTypeBuilder
-			.<TestBoss>createMob()
-			.entityFactory(TestBoss::new)
-			.dimensions(EntityDimensions.fixed(1f, 2f))
-			.spawnGroup(MobCategory.MONSTER)
-			.defaultAttributes(TestBoss::createMobAttributes)
-			.spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TestBoss::checkMobSpawnRules)
+	public static final EntityType<TestBoss> TEST_BOSS = register("test_boss", FabricEntityType.Builder
+			.createMob(TestBoss::new, MobCategory.MONSTER, (builder) ->
+					builder.defaultAttributes(TestBoss::createMobAttributes).spawnRestriction(SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TestBoss::checkMobSpawnRules))
+			.sized(1f, 2f)
 			.build());
 
-	public static final EntityType<ClientItemEntity> CLIENT_ITEM = register("client_item", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, ClientItemEntity::new)
-			.dimensions(EntityDimensions.fixed(0.25F, 0.25F))
-			.disableSummon()
+	public static final EntityType<ClientItemEntity> CLIENT_ITEM = register("client_item", EntityType.Builder
+			.of(ClientItemEntity::new, MobCategory.MISC)
+			.sized(0.25F, 0.25F)
+			.noSummon()
 			.build());
 
-	public static final EntityType<FallingStarEntity> FALLING_STAR = register("falling_star", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, FallingStarEntity::new)
-			.dimensions(EntityDimensions.fixed(0.25f, 0.25f))
+	public static final EntityType<FallingStarEntity> FALLING_STAR = register("falling_star", EntityType.Builder
+			.of(FallingStarEntity::new, MobCategory.MISC)
+			.sized(0.25f, 0.25f)
 			.build());
 
-	public static final EntityType<FallingMeteoriteEntity> METEORITE = register("meteorite", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, FallingMeteoriteEntity::new)
-			.dimensions(EntityDimensions.fixed(1f, 1f))
+	public static final EntityType<FallingMeteoriteEntity> METEORITE = register("meteorite", EntityType.Builder
+			.of(FallingMeteoriteEntity::new, MobCategory.MISC)
+			.sized(1f, 1f)
 			.build());
 
-	public static final EntityType<MagicMissileEntity> MAGIC_MISSILE = register("magic_missile", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, MagicMissileEntity::new)
-			.dimensions(EntityDimensions.fixed(0.25f, 0.25f))
-			.disableSummon()
+	public static final EntityType<MagicMissileEntity> MAGIC_MISSILE = register("magic_missile", EntityType.Builder
+			.of(MagicMissileEntity::new, MobCategory.MISC)
+			.sized(0.25f, 0.25f)
+			.noSummon()
 			.build());
 
-	public static final EntityType<FlamelashMissileEntity> FLAMELASH_MISSILE = register("flamelash_missile", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, FlamelashMissileEntity::new)
-			.dimensions(EntityDimensions.fixed(0.25f, 0.25f))
-			.disableSummon()
+	public static final EntityType<FlamelashMissileEntity> FLAMELASH_MISSILE = register("flamelash_missile", EntityType.Builder
+			.of(FlamelashMissileEntity::new, MobCategory.MISC)
+			.sized(0.25f, 0.25f)
+			.noSummon()
 			.build());
 
-	public static final EntityType<RainbowMissileEntity> RAINBOW_MISSILE = register("rainbow_missile", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, RainbowMissileEntity::new)
-			.dimensions(EntityDimensions.fixed(0.25f, 0.25f))
-			.disableSummon()
+	public static final EntityType<RainbowMissileEntity> RAINBOW_MISSILE = register("rainbow_missile", EntityType.Builder
+			.of(RainbowMissileEntity::new, MobCategory.MISC)
+			.sized(0.25f, 0.25f)
+			.noSummon()
 			.build());
 
-	public static final EntityType<LaserEntity> LASER = register("laser", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, LaserEntity::new)
-			.dimensions(EntityDimensions.fixed(0.60f, 0.10f))
-			.disableSummon()
+	public static final EntityType<LaserEntity> LASER = register("laser", EntityType.Builder
+			.of(LaserEntity::new, MobCategory.MISC)
+			.sized(0.60f, 0.10f)
+			.noSummon()
 			.build());
 
-	public static final EntityType<DynamiteEntity> DYNAMITE = register("dynamite", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, DynamiteEntity::new)
-			.dimensions(EntityDimensions.fixed(0.25f, 0.25f))
-			.disableSummon()
+	public static final EntityType<DynamiteEntity> DYNAMITE = register("dynamite", EntityType.Builder
+			.of(DynamiteEntity::new, MobCategory.MISC)
+			.sized(0.25f, 0.25f)
+			.noSummon()
 			.build());
 
-	public static final EntityType<GrenadeEntity> GRENADE = register("grenade", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, GrenadeEntity::new)
-			.dimensions(EntityDimensions.fixed(0.25f, 0.25f))
-			.disableSummon()
+	public static final EntityType<GrenadeEntity> GRENADE = register("grenade", EntityType.Builder
+			.of(GrenadeEntity::new, MobCategory.MISC)
+			.sized(0.25f, 0.25f)
+			.noSummon()
 			.build());
 
-	public static final EntityType<BombEntity> BOMB = register("bomb", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, BombEntity::new)
-			.dimensions(EntityDimensions.fixed(0.5f, 0.5f))
-			.disableSummon()
+	public static final EntityType<BombEntity> BOMB = register("bomb", EntityType.Builder
+			.of(BombEntity::new, MobCategory.MISC)
+			.sized(0.5f, 0.5f)
+			.noSummon()
 			.build());
 
-	public static final EntityType<InstantPrimedTNTEntity> INSTANT_TNT = register("instant_tnt", FabricEntityTypeBuilder
-			.create(MobCategory.MISC, InstantPrimedTNTEntity::new)
+	public static final EntityType<InstantPrimedTNTEntity> INSTANT_TNT = register("instant_tnt", EntityType.Builder
+			.of(InstantPrimedTNTEntity::new, MobCategory.MISC)
 			.fireImmune()
-			.dimensions(EntityDimensions.fixed(0.98f, 0.98f))
-			.trackRangeBlocks(10)
-			.trackedUpdateRate(10)
+			.sized(0.98f, 0.98f)
+			.clientTrackingRange(10)
+			.updateInterval(10)
 			.build());
 
 	public static final EntityType<FlamingArrowEntity> FLAMING_ARROW = register("flaming_arrow", createArrow(FlamingArrowEntity::new));

@@ -1,26 +1,23 @@
 package terramine.common.network.packet;
 
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import terramine.common.network.ServerPacketHandler;
+import terramine.common.network.types.LongNetworkType;
 
 public class BoneMealPacket {
     public static void send(BlockPos pos) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        buf.writeLong(pos.asLong());
-        ClientPlayNetworking.send(new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.BONE_MEAL_PACKET_ID));
+        ClientPlayNetworking.send(new LongNetworkType(pos.asLong()).setCustomType(ServerPacketHandler.BONE_MEAL_PACKET_ID));
     }
 
-    public static void receive(BufferConverter type, ServerPlayNetworking.Context context) {
-        BlockPos pos = BlockPos.of(type.getFriendlybyteBuf().readLong());
+    public static void receive(LongNetworkType type, ServerPlayNetworking.Context context) {
+        BlockPos pos = BlockPos.of(type.getLong());
         context.player().server.execute(() -> {
             ServerPlayer player = context.player();
                 BlockState state = player.level().getBlockState(pos);

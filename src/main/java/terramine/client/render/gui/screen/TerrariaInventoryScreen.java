@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
-import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.api.EnvType;
@@ -12,16 +11,12 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.ImageWidget;
-import net.minecraft.client.gui.components.StringWidget;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundContainerClickPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -40,9 +35,8 @@ import terramine.client.render.gui.ArmorValueTextWidget;
 import terramine.client.render.gui.ToggleImageButton;
 import terramine.client.render.gui.menu.TerrariaInventoryContainerMenu;
 import terramine.common.init.ModComponents;
-import terramine.common.misc.TeamColours;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.IntBoolUUIDNetworkType;
 import terramine.extensions.PlayerStorages;
 
 import java.util.List;
@@ -102,10 +96,7 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
         for (int i = 0; i < 5 + ModComponents.ACCESSORY_SLOTS_ADDER.get(this.minecraft.player).get(); i++) {
             int finalI = i;
             this.addRenderableWidget(new ToggleImageButton(this.leftPos + 130, this.height / 2 - 105 + (18 * i), 8, 8, 0, 0, 8, 8, i, false, EYE_TEX, 16, 16, (buttonWidget) -> {
-                FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeInt(finalI);
-                buf.writeBoolean(!((PlayerStorages) this.minecraft.player).getSlotVisibility(finalI));
-                ClientPlayNetworking.send(new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.UPDATE_ACCESSORY_VISIBILITY_PACKET_ID));
+                ClientPlayNetworking.send(new IntBoolUUIDNetworkType(finalI, 0, !((PlayerStorages) this.minecraft.player).getSlotVisibility(finalI), null).setCustomType(ServerPacketHandler.UPDATE_ACCESSORY_VISIBILITY_PACKET_ID));
             }));
         }
 
@@ -113,9 +104,7 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
         for (int i = 0; i < 6; i++) {
             int finalI = i;
             this.addRenderableWidget(new ToggleImageButton(this.leftPos + 6 + (10 * i) - (i > 2 ? 30 : 0), this.height / 2 - 20 - (i > 2 ? 0 : 10), 10, 10, 0, 20 * i, 10, 10, i + 1, true, TEAM_TEX, 20, 120, (buttonWidget) -> {
-                FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeInt(finalI + 1);
-                ClientPlayNetworking.send(new BufferConverter(buf, null, null, null).setCustomType(ServerPacketHandler.UPDATE_TEAM_PACKET_ID));
+                ClientPlayNetworking.send(new IntBoolUUIDNetworkType(finalI + 1, 0, false, null).setCustomType(ServerPacketHandler.UPDATE_TEAM_PACKET_ID));
             }));
         }
 

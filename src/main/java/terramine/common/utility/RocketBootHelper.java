@@ -2,19 +2,23 @@ package terramine.common.utility;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
+import terramine.common.init.ModParticles;
+import terramine.common.init.ModSoundEvents;
 import terramine.common.misc.AccessoriesHelper;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.packet.BufferConverter;
+import terramine.common.network.types.DoubleNetworkType;
+import terramine.common.network.types.FloatSoundNetworkType;
+import terramine.common.network.types.ItemNetworkType;
+import terramine.common.network.types.ParticleNetworkType;
 import terramine.common.utility.equipmentchecks.CloudBottleEquippedCheck;
 
 public class RocketBootHelper {
@@ -120,18 +124,15 @@ public class RocketBootHelper {
                 if (InputHandler.isHoldingJump(player)) {
                     fly(player, Math.abs(Math.min(motionY + currentAccel, currentSpeedVertical)));
                     if ((wings && soundTimer >= 6) || (!wings && soundTimer >= 4)) {
-                        FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-                        passedData.writeFloat(soundVolume);
-                        passedData.writeFloat(soundPitch);
-                        ClientPlayNetworking.send(new BufferConverter(passedData, null, null, sound).setCustomType(ServerPacketHandler.ROCKET_BOOTS_SOUND_PACKET_ID));
+                        ClientPlayNetworking.send(new FloatSoundNetworkType(soundVolume, soundPitch, sound).setCustomType(ServerPacketHandler.ROCKET_BOOTS_SOUND_PACKET_ID));
                         soundTimer = 0;
                     }
 
                     if (particle1 != null) {
-                        ClientPlayNetworking.send(new BufferConverter(null, null, particle1, null).setCustomType(ServerPacketHandler.ROCKET_BOOTS_PARTICLE_PACKET_ID));
+                        ClientPlayNetworking.send(new ParticleNetworkType(particle1).setCustomType(ServerPacketHandler.ROCKET_BOOTS_PARTICLE_PACKET_ID));
                     }
                     if (particle2 != null) {
-                        ClientPlayNetworking.send(new BufferConverter(null, null, particle2, null).setCustomType(ServerPacketHandler.ROCKET_BOOTS_PARTICLE_PACKET_ID));
+                        ClientPlayNetworking.send(new ParticleNetworkType(particle2).setCustomType(ServerPacketHandler.ROCKET_BOOTS_PARTICLE_PACKET_ID));
                     }
                 }
 
@@ -178,7 +179,7 @@ public class RocketBootHelper {
         passedData.writeDouble(motion.x());
         passedData.writeDouble(y);
         passedData.writeDouble(motion.z());
-        ClientPlayNetworking.send(new BufferConverter(passedData, null, null, null).setCustomType(ServerPacketHandler.PLAYER_MOVEMENT_PACKET_ID));
+        ClientPlayNetworking.send(new DoubleNetworkType(motion.x(), y, motion.z()).setCustomType(ServerPacketHandler.PLAYER_MOVEMENT_PACKET_ID));
         player.setDeltaMovement(motion.x(), y, motion.z());
     }
 
