@@ -14,8 +14,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:long_regeneration\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_regeneration"
             }
           ]
         },
@@ -29,8 +29,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:long_swiftness\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_swiftness"
             }
           ]
         },
@@ -44,8 +44,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:long_water_breathing\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_water_breathing"
             }
           ]
         },
@@ -59,8 +59,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"terramine:mining_speed\"}"
+              "function": "minecraft:set_potion",
+              "id": "terramine:mining_speed"
             }
           ]
         }

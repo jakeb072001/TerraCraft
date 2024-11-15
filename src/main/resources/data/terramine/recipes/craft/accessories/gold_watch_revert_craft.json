@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "minecraft:clock",
+    "id": "minecraft:clock",
     "count": 1
   }
 }

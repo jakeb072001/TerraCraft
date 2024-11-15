@@ -317,6 +317,7 @@
   "item.terramine.umbrella.tooltip": "Can be used both as a\nshield and as a glider",
   "item.terramine.cobalt_shield.tooltip": "Grants immunity to knockback",
   "item.terramine.obsidian_shield.tooltip": "Grants immunity to knockback\nGrants immunity to fire blocks",
+  "item.terramine.shield_of_cthulhu.tooltip": "Allows the player to dash into the enemy\nDouble tap a direction",
   "item.terramine.everlasting_beef.tooltip": "Not consumed when eaten",
   "item.terramine.eternal_steak.tooltip": "Not consumed when eaten",
   "item.terramine.magic_mirror.tooltip": "Gaze in the mirror to return home",

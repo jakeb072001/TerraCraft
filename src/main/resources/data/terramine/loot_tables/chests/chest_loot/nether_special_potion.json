@@ -14,8 +14,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:long_slow_falling\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_slow_falling"
             }
           ]
         },
@@ -29,8 +29,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"terramine:mana_regen\"}"
+              "function": "minecraft:set_potion",
+              "id": "terramine:mana_regen"
             }
           ]
         },
@@ -44,8 +44,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:long_invisibility\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_invisibility"
             }
           ]
         }

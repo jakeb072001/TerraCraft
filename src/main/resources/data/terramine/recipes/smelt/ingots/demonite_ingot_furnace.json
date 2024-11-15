@@ -4,7 +4,9 @@
   "ingredient": {
     "item": "terramine:raw_demonite"
   },
-  "result": "terramine:demonite_ingot",
+  "result": {
+    "id": "terramine:demonite_ingot"
+  },
   "experience": 0.8,
   "cookingtime": 200
 }

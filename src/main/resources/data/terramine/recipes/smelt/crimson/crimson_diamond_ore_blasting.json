@@ -4,7 +4,9 @@
   "ingredient": {
     "item": "terramine:crimson_diamond_ore"
   },
-  "result": "minecraft:diamond",
+  "result": {
+    "id": "minecraft:diamond"
+  },
   "experience": 1.0,
   "cookingtime": 100
 }

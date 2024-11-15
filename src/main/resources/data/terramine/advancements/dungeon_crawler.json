@@ -2,7 +2,7 @@
   "parent": "terramine:root",
   "display": {
     "icon": {
-      "item": "terramine:purple_brick"
+      "id": "terramine:purple_brick"
     },
     "title": {
       "translate": "terramine.advancements.dungeon_crawler.title"
@@ -24,7 +24,7 @@
                 "entity": "this",
                 "predicate": {
                   "location": {
-                    "structure": "terramine:dungeon_blue"
+                    "structures": "terramine:dungeon_blue"
                   }
                 }
               },
@@ -33,7 +33,7 @@
                 "entity": "this",
                 "predicate": {
                   "location": {
-                    "structure": "terramine:dungeon_green"
+                    "structures": "terramine:dungeon_green"
                   }
                 }
               },
@@ -42,7 +42,7 @@
                 "entity": "this",
                 "predicate": {
                   "location": {
-                    "structure": "terramine:dungeon_purple"
+                    "structures": "terramine:dungeon_purple"
                   }
                 }
               }
@@ -55,7 +55,7 @@
               "entity": "this",
               "predicate": {
                 "type_specific": {
-                  "type": "player",
+                  "type": "minecraft:player",
                   "gamemode": "spectator"
                 }
               }

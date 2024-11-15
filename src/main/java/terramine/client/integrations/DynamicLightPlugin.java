@@ -1,6 +1,6 @@
 package terramine.client.integrations;
 
-// todo: uncomment once dynamic lights is updated, also uncomment in build.gradle
+// todo: uncomment after updating to 1.21 (after 1.20.6 update is finished), also uncomment in build.gradle
 /**
 import dev.lambdaurora.lambdynlights.api.DynamicLightHandlers;
 import dev.lambdaurora.lambdynlights.api.DynamicLightsInitializer;

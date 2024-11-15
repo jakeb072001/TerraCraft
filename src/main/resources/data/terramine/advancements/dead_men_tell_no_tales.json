@@ -2,7 +2,7 @@
   "parent": "terramine:root",
   "display": {
     "icon": {
-      "item": "terramine:trapped_gold_chest"
+      "id": "terramine:trapped_gold_chest"
     },
     "title": {
       "translate": "terramine.advancements.dead_men_tell_no_tales.title"
@@ -13,6 +13,7 @@
   },
   "criteria": {
     "trapped_chest": {
+      "trigger": "minecraft:any_block_use",
       "conditions": {
         "location": [
           {
@@ -29,8 +30,7 @@
             }
           }
         ]
-      },
-      "trigger": "minecraft:item_used_on_block"
+      }
     }
   }
 }

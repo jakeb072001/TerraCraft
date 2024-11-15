@@ -95,14 +95,14 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:strong_healing\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:strong_healing"
             }
           ]
         },
         {
           "type": "minecraft:loot_table",
-          "name": "terramine:chests/chest_loot/deep_cave_special_potion",
+          "value": "terramine:chests/chest_loot/deep_cave_special_potion",
           "weight": 66
         },
         {
@@ -115,8 +115,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:long_invisibility\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_invisibility"
             }
           ]
         },

@@ -2,7 +2,7 @@
   "parent": "terramine:root",
   "display": {
     "icon": {
-      "item": "terramine:gold_chest"
+      "id": "terramine:gold_chest"
     },
     "title": {
       "translate": "terramine.advancements.i_am_loot.title"
@@ -13,6 +13,7 @@
   },
   "criteria": {
     "gold_chest": {
+      "trigger": "minecraft:any_block_use",
       "conditions": {
         "location": [
           {
@@ -20,14 +21,14 @@
             "predicate": {
               "block": {
                 "blocks": [
+                  "terramine:gold_chest",
                   "terramine:trapped_gold_chest"
                 ]
               }
             }
           }
         ]
-      },
-      "trigger": "minecraft:item_used_on_block"
+      }
     }
   }
 }

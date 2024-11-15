@@ -4,7 +4,9 @@
   "ingredient": {
     "item": "terramine:meteorite_ore"
   },
-  "result": "terramine:meteorite_ingot",
+  "result": {
+    "id": "terramine:meteorite_ingot"
+  },
   "experience": 0.8,
   "cookingtime": 100
 }

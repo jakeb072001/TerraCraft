@@ -2,7 +2,7 @@
   "parent": "terramine:i_am_loot",
   "display": {
     "icon": {
-      "item": "terramine:mimic_spawn_egg"
+      "id": "terramine:mimic_spawn_egg"
     },
     "title": {
       "translate": "terramine.advancements.chest_slayer.title"

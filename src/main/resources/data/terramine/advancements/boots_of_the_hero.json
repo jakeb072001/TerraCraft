@@ -2,7 +2,7 @@
   "parent": "terramine:accessorise",
   "display": {
     "icon": {
-      "item": "terramine:terraspark_boots"
+      "id": "terramine:terraspark_boots"
     },
     "title": {
       "translate": "terramine.advancements.boots_of_the_hero.title"

@@ -13,7 +13,7 @@ import terramine.TerraMine;
 
 public record ParticleNetworkType(ParticleOptions particleOptions) implements CustomPacketPayload {
     public static Type<ParticleNetworkType> typeCustom;
-    public static final Type<ParticleNetworkType> TYPE = new Type<>(TerraMine.id("packet_converter"));
+    public static final Type<ParticleNetworkType> TYPE = new Type<>(TerraMine.id("particle_type"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ParticleNetworkType> CODEC = StreamCodec.composite(
             ParticleTypes.STREAM_CODEC, ParticleNetworkType::particleOptions,
             ParticleNetworkType::new);

@@ -13,7 +13,7 @@
           "weight": 33,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 7,
                 "max": 15
@@ -27,7 +27,7 @@
           "weight": 20,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": 1
             }
           ]
@@ -38,7 +38,7 @@
           "weight": 33,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 10,
                 "max": 20
@@ -52,7 +52,7 @@
           "weight": 50,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 5,
                 "max": 15
@@ -66,7 +66,7 @@
           "weight": 50,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 5,
                 "max": 15
@@ -80,7 +80,7 @@
           "weight": 50,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 10,
                 "max": 30
@@ -94,18 +94,18 @@
           "weight": 50,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:healing\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:healing"
             }
           ]
         },
         {
           "type": "minecraft:loot_table",
-          "name": "terramine:chests/chest_loot/cave_special_potion",
+          "value": "terramine:chests/chest_loot/cave_special_potion",
           "weight": 66
         },
         {
@@ -114,7 +114,7 @@
           "weight": 50,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 10,
                 "max": 20

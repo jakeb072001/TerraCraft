@@ -12,7 +12,7 @@
         {
           "type": "minecraft:loot_table",
           "weight": 66,
-          "name": "terramine:entities/eater_of_souls_armor"
+          "value": "terramine:entities/eater_of_souls_armor"
         }
       ]
     }

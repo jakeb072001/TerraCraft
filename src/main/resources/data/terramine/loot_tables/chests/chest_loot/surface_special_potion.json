@@ -14,8 +14,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:long_swiftness\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_swiftness"
             }
           ]
         },
@@ -29,8 +29,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:long_night_vision\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_night_vision"
             }
           ]
         },
@@ -44,8 +44,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"terramine:mining_speed\"}"
+              "function": "minecraft:set_potion",
+              "id": "terramine:mining_speed"
             }
           ]
         },
@@ -59,8 +59,8 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"terramine:ironskin\"}"
+              "function": "minecraft:set_potion",
+              "id": "terramine:ironskin"
             }
           ]
         }

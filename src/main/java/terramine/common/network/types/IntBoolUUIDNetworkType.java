@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public record IntBoolUUIDNetworkType(int integer1, int integer2, boolean bool, UUID uuid) implements CustomPacketPayload {
     public static Type<IntBoolUUIDNetworkType> typeCustom;
-    public static final Type<IntBoolUUIDNetworkType> TYPE = new Type<>(TerraMine.id("packet_converter"));
+    public static final Type<IntBoolUUIDNetworkType> TYPE = new Type<>(TerraMine.id("int_bool_uuid_type"));
     public static final StreamCodec<RegistryFriendlyByteBuf, IntBoolUUIDNetworkType> CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, IntBoolUUIDNetworkType::integer1,
             ByteBufCodecs.INT, IntBoolUUIDNetworkType::integer2,

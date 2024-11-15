@@ -2,7 +2,7 @@
   "parent": "terramine:root",
   "display": {
     "icon": {
-      "item": "terramine:mana_crystal"
+      "id": "terramine:mana_crystal"
     },
     "title": {
       "translate": "terramine.advancements.star_power.title"

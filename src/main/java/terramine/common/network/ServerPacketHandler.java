@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 // todo: fucking redo networking i guess, very good job mojang, very cool: https://fabricmc.net/2024/04/19/1205.html
-// options: either create a converter for old bytebuf to type OR create a packet for what is needed, such as transferring long for the bone meal packet or for rocket boots sounds, etc, probably easier especially since friendlybytebuf cant store a lot of things anymore...
 public class ServerPacketHandler {
     // Server
     public static final CustomPacketPayload.Type<LongNetworkType> BONE_MEAL_PACKET_ID = registerType(TerraMine.id("bone_meal"), false, LongNetworkType.CODEC);

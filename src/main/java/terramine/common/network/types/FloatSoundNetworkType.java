@@ -10,7 +10,7 @@ import terramine.TerraMine;
 
 public record FloatSoundNetworkType(float float1, float float2, SoundEvent soundEvent) implements CustomPacketPayload {
     public static Type<FloatSoundNetworkType> typeCustom;
-    public static final Type<FloatSoundNetworkType> TYPE = new Type<>(TerraMine.id("packet_converter"));
+    public static final Type<FloatSoundNetworkType> TYPE = new Type<>(TerraMine.id("two_float_sound_type"));
     public static final StreamCodec<RegistryFriendlyByteBuf, FloatSoundNetworkType> CODEC = StreamCodec.composite(
             ByteBufCodecs.FLOAT, FloatSoundNetworkType::float1,
             ByteBufCodecs.FLOAT, FloatSoundNetworkType::float2,

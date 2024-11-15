@@ -11,13 +11,14 @@ import net.minecraft.world.item.ItemStack;
 import terramine.common.item.TerrariaItem;
 import terramine.common.item.armor.TerrariaArmor;
 import terramine.common.item.armor.vanity.VanityArmor;
+import terramine.common.item.dye.BasicDye;
 
 public class REIPlugin implements REIClientPlugin {
 
 	@Override
 	public void registerDisplays(DisplayRegistry recipeHelper) {
 		BuiltInRegistries.ITEM.stream()
-				.filter(item -> item instanceof TerrariaItem)
+				.filter(item -> (item instanceof TerrariaItem && !(item instanceof BasicDye)))
 				.map(item -> {
 					DefaultInformationDisplay display = DefaultInformationDisplay.createFromEntry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(item)), item.getDescription());
 					for (String string : ((TerrariaItem) item).getREITooltip()) {

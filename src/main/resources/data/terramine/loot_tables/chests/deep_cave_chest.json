@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "terramine:chests/chest_loot/deep_cave",
+          "value": "terramine:chests/chest_loot/deep_cave",
           "weight": 100
         }
       ]
@@ -17,7 +17,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "terramine:chests/chest_loot/deep_cave_extra",
+          "value": "terramine:chests/chest_loot/deep_cave_extra",
           "weight": 100
         }
       ]

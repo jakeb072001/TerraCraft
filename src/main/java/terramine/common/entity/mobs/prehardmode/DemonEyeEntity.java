@@ -19,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import terramine.common.entity.mobs.FlyingEntityAI;
 import terramine.common.init.ModLootTables;
 
-// todo: getEntityData() is null for some reason, need to fix
 public class DemonEyeEntity extends FlyingEntityAI {
     public static final EntityDataAccessor<Integer> typed_data = SynchedEntityData.defineId(DemonEyeEntity.class, EntityDataSerializers.INT);
 
@@ -32,7 +31,7 @@ public class DemonEyeEntity extends FlyingEntityAI {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        this.getEntityData().set(typed_data, 0);
+        builder.define(typed_data, 0);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class DemonEyeEntity extends FlyingEntityAI {
 
     @SuppressWarnings("ConstantConditions")
     private void setEyeType(int eyeType) {
-        this.getEntityData().set(typed_data, eyeType);
+        this.entityData.set(typed_data, eyeType);
         switch (eyeType) {
             case 0 -> {
                 this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(10);
@@ -91,7 +90,7 @@ public class DemonEyeEntity extends FlyingEntityAI {
     }
 
     private int getEyeType() {
-        return this.getEntityData().get(typed_data);
+        return this.entityData.get(typed_data);
     }
 
     @Override

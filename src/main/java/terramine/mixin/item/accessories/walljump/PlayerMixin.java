@@ -32,6 +32,7 @@ import terramine.common.utility.InputHandler;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Mixin(LocalPlayer.class)
 public abstract class PlayerMixin extends AbstractClientPlayer {
@@ -92,7 +93,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
                     this.spawnWallParticle(this.getWallPos());
 
                     ModComponents.MOVEMENT_ORDER.get(this).setWallJumped(true);
-                    ClientPlayNetworking.send(new IntBoolUUIDNetworkType(0, 0, true, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
+                    ClientPlayNetworking.send(new IntBoolUUIDNetworkType(0, 0, true, UUID.randomUUID()).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
                 }
             } else if (this.ticksKeyDown > 0 && this.ticksKeyDown < 4 && !this.walls.isEmpty()) {
                 this.ticksWallClinged = 1;
@@ -103,7 +104,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
                 this.spawnWallParticle(this.getWallPos());
 
                 ModComponents.MOVEMENT_ORDER.get(this).setWallJumped(true);
-                ClientPlayNetworking.send(new IntBoolUUIDNetworkType(0, 0, true, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
+                ClientPlayNetworking.send(new IntBoolUUIDNetworkType(0, 0, true, UUID.randomUUID()).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
             }
 
             return;
@@ -119,7 +120,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
             }
 
             ModComponents.MOVEMENT_ORDER.get(this).setWallJumped(false);
-            ClientPlayNetworking.send(new IntBoolUUIDNetworkType(0, 0,false, null).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
+            ClientPlayNetworking.send(new IntBoolUUIDNetworkType(0, 0,false, UUID.randomUUID()).setCustomType(ServerPacketHandler.WALL_JUMP_PACKET_ID));
 
             return;
         }

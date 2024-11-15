@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public record LongNetworkType(Long savedLong) implements CustomPacketPayload {
     public static Type<LongNetworkType> typeCustom;
-    public static final Type<LongNetworkType> TYPE = new Type<>(TerraMine.id("packet_converter"));
+    public static final Type<LongNetworkType> TYPE = new Type<>(TerraMine.id("long_type"));
     public static final StreamCodec<RegistryFriendlyByteBuf, LongNetworkType> CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_LONG, LongNetworkType::savedLong,
             LongNetworkType::new);

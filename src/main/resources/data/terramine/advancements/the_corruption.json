@@ -2,7 +2,7 @@
   "parent": "terramine:root",
   "display": {
     "icon": {
-      "item": "terramine:corrupted_grass"
+      "id": "terramine:corrupted_grass"
     },
     "title": {
       "translate": "terramine.advancements.the_corruption.title"
@@ -24,7 +24,7 @@
                 "entity": "this",
                 "predicate": {
                   "location": {
-                    "biome": "terramine:corruption"
+                    "biomes": "terramine:corruption"
                   }
                 }
               },
@@ -33,7 +33,7 @@
                 "entity": "this",
                 "predicate": {
                   "location": {
-                    "biome": "terramine:corruption_desert"
+                    "biomes": "terramine:corruption_desert"
                   }
                 }
               }
@@ -46,7 +46,7 @@
               "entity": "this",
               "predicate": {
                 "type_specific": {
-                  "type": "player",
+                  "type": "minecraft:player",
                   "gamemode": "spectator"
                 }
               }

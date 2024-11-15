@@ -2,7 +2,7 @@
   "parent": "terramine:root",
   "display": {
     "icon": {
-      "item": "terramine:aglet"
+      "id": "terramine:aglet"
     },
     "title": {
       "translate": "terramine.advancements.accessorise.title"
@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "terramine:accessory"
+            "tag": "#terramine:accessory"
           }
         ]
       }

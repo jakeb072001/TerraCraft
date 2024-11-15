@@ -87,19 +87,19 @@
               "count": 1
             },
             {
-              "function": "set_nbt",
-              "tag": "{Potion:\"minecraft:healing\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:healing"
             }
           ]
         },
 		{
           "type": "minecraft:loot_table",
-          "name": "terramine:chests/chest_loot/nether_special_potion",
+          "value": "terramine:chests/chest_loot/nether_special_potion",
           "weight": 75
         },
 		{
           "type": "minecraft:loot_table",
-          "name": "terramine:chests/chest_loot/nether_other_special_potion",
+          "value": "terramine:chests/chest_loot/nether_other_special_potion",
           "weight": 66
         },
         {

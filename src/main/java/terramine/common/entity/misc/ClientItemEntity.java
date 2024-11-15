@@ -31,11 +31,11 @@ public class ClientItemEntity extends ItemEntity {
     }
 
     public void setClientPlayer(@NotNull UUID playerUUID) {
-        this.getEntityData().set(DATA_PLAYER, Optional.of(playerUUID));
+        this.entityData.set(DATA_PLAYER, Optional.of(playerUUID));
     }
 
     public UUID getClientPlayer() {
-        return this.getEntityData().get(DATA_PLAYER).orElseThrow();
+        return this.entityData.get(DATA_PLAYER).orElseThrow();
     }
 
     public void playerTouch(@NotNull Player player) {
@@ -53,7 +53,7 @@ public class ClientItemEntity extends ItemEntity {
 
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        this.getEntityData().set(DATA_PLAYER, Optional.empty());
+        builder.define(DATA_PLAYER, Optional.empty());
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag compoundTag) {

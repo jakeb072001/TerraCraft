@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public record ItemNetworkType(ItemStack itemStack, int integer, UUID uuid) implements CustomPacketPayload {
     public static CustomPacketPayload.Type<ItemNetworkType> typeCustom;
-    public static final CustomPacketPayload.Type<ItemNetworkType> TYPE = new CustomPacketPayload.Type<>(TerraMine.id("packet_converter"));
+    public static final CustomPacketPayload.Type<ItemNetworkType> TYPE = new CustomPacketPayload.Type<>(TerraMine.id("item_int_uuid_type"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ItemNetworkType> CODEC = StreamCodec.composite(
             ItemStack.OPTIONAL_STREAM_CODEC, ItemNetworkType::itemStack,
             ByteBufCodecs.INT, ItemNetworkType::integer,

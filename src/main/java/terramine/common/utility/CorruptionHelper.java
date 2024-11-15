@@ -2,6 +2,7 @@ package terramine.common.utility;
 
 import com.mojang.serialization.MapCodec;
 import dev.architectury.networking.NetworkManager;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
@@ -31,6 +32,7 @@ import terramine.common.network.ServerPacketHandler;
 import terramine.common.network.types.IntBoolUUIDNetworkType;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class CorruptionHelper extends SpreadingSnowyDirtBlock  {
     protected CorruptionHelper(Properties properties) {
@@ -229,7 +231,8 @@ public class CorruptionHelper extends SpreadingSnowyDirtBlock  {
         }
         ((ServerChunkCache) level.getChunkSource()).chunkMap.getPlayers(chunkPos, false).forEach((player) -> {
             player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, ((ServerChunkCache) level.getChunkSource()).chunkMap.getLightEngine(), null, null));
-            NetworkManager.sendToPlayer(player, new IntBoolUUIDNetworkType(chunkPos.x, chunkPos.z, false, null).setCustomType(ServerPacketHandler.UPDATE_BIOME_PACKET_ID));
+            //NetworkManager.sendToPlayer(player, new IntBoolUUIDNetworkType(chunkPos.x, chunkPos.z, false, UUID.randomUUID()).setCustomType(ServerPacketHandler.UPDATE_BIOME_PACKET_ID));
+            ServerPlayNetworking.send(player, new IntBoolUUIDNetworkType(chunkPos.x, chunkPos.z, false, UUID.randomUUID()).setCustomType(ServerPacketHandler.UPDATE_BIOME_PACKET_ID));
         });
     }
 }

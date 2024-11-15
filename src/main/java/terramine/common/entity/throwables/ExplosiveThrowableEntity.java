@@ -41,25 +41,25 @@ public abstract class ExplosiveThrowableEntity extends ThrowableProjectile {
     }
 
     public void setSticky(boolean isSticky) {
-        this.getEntityData().set(STICKY, isSticky);
+        this.entityData.set(STICKY, isSticky);
     }
 
     public boolean isSticky() {
-        return this.getEntityData().get(STICKY);
+        return this.entityData.get(STICKY);
     }
 
     public void setBouncy(boolean isSticky) {
-        this.getEntityData().set(BOUNCY, isSticky);
+        this.entityData.set(BOUNCY, isSticky);
     }
 
     public boolean isBouncy() {
-        return this.getEntityData().get(BOUNCY);
+        return this.entityData.get(BOUNCY);
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        this.getEntityData().set(STICKY, false);
-        this.getEntityData().set(BOUNCY, false);
+        builder.define(STICKY, false);
+        builder.define(BOUNCY, false);
     }
 
     @Override

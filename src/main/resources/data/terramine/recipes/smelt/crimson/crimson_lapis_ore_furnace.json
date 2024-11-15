@@ -4,7 +4,9 @@
   "ingredient": {
     "item": "terramine:crimson_lapis_ore"
   },
-  "result": "minecraft:lapis_lazuli",
+  "result": {
+    "id": "minecraft:lapis_lazuli"
+  },
   "experience": 0.2,
   "cookingtime": 200
 }

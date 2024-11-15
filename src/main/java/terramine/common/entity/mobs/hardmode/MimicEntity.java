@@ -48,17 +48,17 @@ public class MimicEntity extends Mob implements Enemy {
 	 * 0 = vanilla, 1 = christmas, 2 = gold, 3 = frozen, 4 = shadow
 	*/
 	public void setMimicType(int mimicType) {
-		this.getEntityData().set(typed_data, mimicType);
+		this.entityData.set(typed_data, mimicType);
 	}
 
 	public int getMimicType() {
-		return this.getEntityData().get(typed_data);
+		return this.entityData.get(typed_data);
 	}
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
-		this.getEntityData().set(typed_data, 0);
+		builder.define(typed_data, 0);
 	}
 
 	public static AttributeSupplier.Builder createMobAttributes() {

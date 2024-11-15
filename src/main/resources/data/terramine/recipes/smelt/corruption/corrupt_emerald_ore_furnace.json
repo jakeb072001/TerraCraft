@@ -4,7 +4,9 @@
   "ingredient": {
     "item": "terramine:corrupted_emerald_ore"
   },
-  "result": "minecraft:emerald",
+  "result": {
+    "id": "minecraft:emerald"
+  },
   "experience": 1.0,
   "cookingtime": 200
 }

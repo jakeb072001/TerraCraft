@@ -11,7 +11,7 @@ import java.util.List;
 
 public record InputNetworkType(List<Boolean> booleanList) implements CustomPacketPayload {
     public static Type<InputNetworkType> typeCustom;
-    public static final Type<InputNetworkType> TYPE = new Type<>(TerraMine.id("packet_converter"));
+    public static final Type<InputNetworkType> TYPE = new Type<>(TerraMine.id("input_type"));
     public static final StreamCodec<RegistryFriendlyByteBuf, InputNetworkType> CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL.apply(ByteBufCodecs.list()), InputNetworkType::booleanList,
             InputNetworkType::new);

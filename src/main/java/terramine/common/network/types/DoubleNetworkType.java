@@ -9,7 +9,7 @@ import terramine.TerraMine;
 
 public record DoubleNetworkType(double double1, double double2, double double3) implements CustomPacketPayload {
     public static Type<DoubleNetworkType> typeCustom;
-    public static final Type<DoubleNetworkType> TYPE = new Type<>(TerraMine.id("packet_converter"));
+    public static final Type<DoubleNetworkType> TYPE = new Type<>(TerraMine.id("triple_double_type"));
     public static final StreamCodec<RegistryFriendlyByteBuf, DoubleNetworkType> CODEC = StreamCodec.composite(
             ByteBufCodecs.DOUBLE, DoubleNetworkType::double1,
             ByteBufCodecs.DOUBLE, DoubleNetworkType::double2,

@@ -4,7 +4,9 @@
   "ingredient": {
     "item": "terramine:raw_hellstone_hardened"
   },
-  "result": "terramine:hellstone_ingot",
+  "result": {
+    "id": "terramine:hellstone_ingot"
+  },
   "experience": 0.8,
   "cookingtime": 200
 }

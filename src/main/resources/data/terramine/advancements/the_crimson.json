@@ -2,7 +2,7 @@
   "parent": "terramine:root",
   "display": {
     "icon": {
-      "item": "terramine:crimson_grass"
+      "id": "terramine:crimson_grass"
     },
     "title": {
       "translate": "terramine.advancements.the_crimson.title"
@@ -24,7 +24,7 @@
                 "entity": "this",
                 "predicate": {
                   "location": {
-                    "biome": "terramine:crimson"
+                    "biomes": "terramine:crimson"
                   }
                 }
               },
@@ -33,7 +33,7 @@
                 "entity": "this",
                 "predicate": {
                   "location": {
-                    "biome": "terramine:crimson_desert"
+                    "biomes": "terramine:crimson_desert"
                   }
                 }
               }
@@ -46,7 +46,7 @@
               "entity": "this",
               "predicate": {
                 "type_specific": {
-                  "type": "player",
+                  "type": "minecraft:player",
                   "gamemode": "spectator"
                 }
               }

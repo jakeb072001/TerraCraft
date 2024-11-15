@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -21,6 +22,7 @@ import terramine.common.item.dye.BasicDye;
 import terramine.common.network.ServerPacketHandler;
 import terramine.common.network.types.ItemNetworkType;
 
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
 
@@ -105,16 +107,17 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
         return new Vector3f(r, g, b);
     }
 
-    public static int intFromColor(Vector3f color) {
-        int r = (int) (color.x() * 255.0f);
-        int g = (int) (color.y() * 255.0f);
-        int b = (int) (color.z() * 255.0f);
-        return (r << 16) | (g << 8) | b;
+    public static int intFromColor(BasicDye basicDye) {
+        int m = basicDye.getColourInt();
+        int i = FastColor.ARGB32.red(m);
+        int j = FastColor.ARGB32.green(m);
+        int k = FastColor.ARGB32.blue(m);
+        return FastColor.ARGB32.color(i, j, k);
     }
 
     public static int getDyeColour(ItemStack itemStack) {
         if (itemStack.getItem() instanceof BasicDye dyeItem) {
-            return intFromColor(dyeItem.getColour());
+            return intFromColor(dyeItem);
         }
 
         return -1;
@@ -227,6 +230,6 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
 
     @Environment(EnvType.CLIENT)
     private static void sendDash(Item item) {
-        ClientPlayNetworking.send(new ItemNetworkType(item.getDefaultInstance(), 0, null).setCustomType(ServerPacketHandler.DASH_PACKET_ID));
+        ClientPlayNetworking.send(new ItemNetworkType(item.getDefaultInstance(), 0, UUID.randomUUID()).setCustomType(ServerPacketHandler.DASH_PACKET_ID));
     }
 }

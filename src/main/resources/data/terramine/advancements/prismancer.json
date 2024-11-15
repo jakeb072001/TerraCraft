@@ -2,7 +2,7 @@
   "parent": "terramine:root",
   "display": {
     "icon": {
-      "item": "terramine:rainbow_rod"
+      "id": "terramine:rainbow_rod"
     },
     "title": {
       "translate": "terramine.advancements.prismancer.title"

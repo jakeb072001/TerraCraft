@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "terramine:chests/chest_loot/shadow",
+          "value": "terramine:chests/chest_loot/shadow",
           "weight": 100
         }
       ]
@@ -17,7 +17,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "terramine:chests/chest_loot/shadow_extra",
+          "value": "terramine:chests/chest_loot/shadow_extra",
           "weight": 100
         }
       ]

@@ -7,7 +7,7 @@
         {
           "type": "minecraft:loot_table",
           "weight": 50,
-          "name": "terramine:chests/chest_loot/cave"
+          "value": "terramine:chests/chest_loot/cave"
         },
         {
           "type": "minecraft:item",
