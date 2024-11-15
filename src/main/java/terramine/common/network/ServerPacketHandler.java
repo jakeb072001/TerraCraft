@@ -34,7 +34,6 @@ import terramine.extensions.PlayerStorages;
 import java.util.ArrayList;
 import java.util.UUID;
 
-// todo: fucking redo networking i guess, very good job mojang, very cool: https://fabricmc.net/2024/04/19/1205.html
 public class ServerPacketHandler {
     // Server
     public static final CustomPacketPayload.Type<LongNetworkType> BONE_MEAL_PACKET_ID = registerType(TerraMine.id("bone_meal"), false, LongNetworkType.CODEC);

@@ -109,7 +109,11 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
             }));
         }
 
-        this.addRenderableWidget(ImageWidget.texture(this.leftPos + 39, this.height / 2 - 29, SHIELD_TEX, 19, 19));
+        // todo: fix shield texture rendering
+        ImageWidget imageWidget = ImageWidget.texture(19, 19, SHIELD_TEX, 19, 19);
+        imageWidget.setX(this.leftPos + 39);
+        imageWidget.setY(this.height / 2 - 29);
+        this.addRenderableWidget(imageWidget);
         this.addRenderableWidget(new ArmorValueTextWidget(this.leftPos + 48, this.height / 2 - 20, 1, 1, this.font));
     }
 

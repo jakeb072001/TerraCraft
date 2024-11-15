@@ -35,7 +35,6 @@ import terramine.extensions.PlayerStorages;
 
 import java.util.Map;
 
-// todo: needs to be redone, thanks mojang, very cool
 @Mixin(HumanoidArmorLayer.class)
 public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	@Shadow
@@ -83,7 +82,7 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 					humanoidModel = customModel;
 				}
 				if (((PlayerStorages) this.retrievedPlayer).getTerrariaInventory().getItem(armorItem.getEquipmentSlot().getIndex() + 27).getItem() instanceof BasicDye dye) {
-					ResourceLocation location = getArmorLocation(armorItem);
+					ResourceLocation location = getArmorLocation(armorItem, resourceLocation);
 					Vector3f colour = dye.getColour();
 					VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(multiBufferSource, RenderType.armorCutoutNoCull(location), false, armorItem.getDefaultInstance().hasFoil());
 					humanoidModel.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, colour.x(), colour.y(), colour.z(), 1.0F);
@@ -95,13 +94,13 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 	}
 
 	@Unique
-	private ResourceLocation getArmorLocation(ArmorItem item) {
+	private ResourceLocation getArmorLocation(ArmorItem item, ResourceLocation originalResource) {
 		if (item instanceof VanityArmor vanityArmor) {
 			if (vanityArmor.getCustomArmorLocation() != null) {
 				return ARMOR_LOCATION_CACHE.computeIfAbsent(TerraMine.MOD_ID + ":textures/models/vanity/" + vanityArmor.getCustomArmorLocation() + ".png", ResourceLocation::new);
 			}
 		}
 
-		return null;
+		return originalResource;
 	}
 }

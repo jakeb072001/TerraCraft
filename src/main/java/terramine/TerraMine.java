@@ -121,6 +121,8 @@ public class TerraMine implements ModInitializer, TerraBlenderApi {
 
 	// maybe move into inventory itself or something? works perfectly like this though, so I'll just leave it for now
 	// probably not the best way of doing this, but it works for now, maybe look into improving later though
+	// todo: items not syncing until player open terraria inventory, needs fixing
+	// todo: any water walking boot should not give fall damage when landing on liquids, also fix
 	private void syncInventory(ServerPlayer player) {
 		TerrariaInventory terrariaInventory = ((PlayerStorages)player).getTerrariaInventory();
 		List<ItemStack> localItems = new java.util.ArrayList<>(List.of());
