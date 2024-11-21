@@ -1,19 +1,16 @@
 package terramine.mixin.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,7 +18,6 @@ import terramine.TerraMine;
 import terramine.client.render.AccessoryFeatureRenderer;
 import terramine.client.render.AccessoryRenderRegistry;
 import terramine.client.render.accessory.renderer.GloveAccessoryRenderer;
-import terramine.common.init.ModComponents;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.extensions.PlayerStorages;
 

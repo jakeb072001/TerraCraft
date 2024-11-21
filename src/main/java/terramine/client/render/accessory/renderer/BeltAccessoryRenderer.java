@@ -15,7 +15,6 @@ import org.joml.Vector3f;
 import terramine.TerraMine;
 import terramine.client.render.AccessoryRenderer;
 import terramine.client.render.accessory.model.BeltModel;
-import terramine.common.init.ModComponents;
 import terramine.common.item.dye.BasicDye;
 import terramine.extensions.PlayerStorages;
 

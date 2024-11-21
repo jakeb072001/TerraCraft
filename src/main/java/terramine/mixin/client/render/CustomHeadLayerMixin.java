@@ -69,7 +69,7 @@ public abstract class CustomHeadLayerMixin<T extends LivingEntity, M extends Ent
         original.call(direction, f, g, poseStack, multiBufferSource, i, skullModelBase, renderType);
     }
 
-    // todo: add dye support to items displayed on head, probably needs a lot of work
+    // todo: add dye support to items displayed on head, probably needs a lot of work if possible
     /**
     @WrapOperation(
             method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V",

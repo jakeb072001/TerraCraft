@@ -16,13 +16,10 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
-import terramine.TerraMine;
 import terramine.common.entity.mobs.BossEntityAI;
 import terramine.common.init.ModComponents;
-import terramine.common.init.ModEntities;
 import terramine.common.init.ModSoundEvents;
 import terramine.common.item.TerrariaItemConfigurable;
-import terramine.common.utility.MagicMissileHelper;
 
 // todo: add boss spawn limit like in Terraria
 public class BossSpawnItem extends TerrariaItemConfigurable {

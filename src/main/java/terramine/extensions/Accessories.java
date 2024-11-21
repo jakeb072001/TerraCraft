@@ -4,10 +4,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import terramine.common.utility.AttributeComponent;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
 
 import static terramine.common.init.ModDataComponents.ATTRIBUTE_MODIFIER_COMPONENT;

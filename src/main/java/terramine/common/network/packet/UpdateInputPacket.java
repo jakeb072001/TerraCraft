@@ -1,6 +1,5 @@
 package terramine.common.network.packet;
 
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import terramine.common.utility.InputHandler;

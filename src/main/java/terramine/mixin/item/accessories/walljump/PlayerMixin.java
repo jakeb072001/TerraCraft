@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
+import terramine.common.init.ModSoundEvents;
 import terramine.common.misc.AccessoriesHelper;
 import terramine.common.network.ServerPacketHandler;
 import terramine.common.network.types.FloatSoundNetworkType;
@@ -162,7 +163,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
         if(this.fallDistance > 2) {
             this.fallDistance = 0;
 
-            ClientPlayNetworking.send(new FloatSoundNetworkType((float) (motionY * motionY * 8), 0, null).setCustomType(ServerPacketHandler.FALL_DISTANCE_PACKET_ID));
+            ClientPlayNetworking.send(new FloatSoundNetworkType((float) (motionY * motionY * 8), 0, ModSoundEvents.FART).setCustomType(ServerPacketHandler.FALL_DISTANCE_PACKET_ID));
         }
 
         this.setDeltaMovement(0.0, motionY, 0.0);

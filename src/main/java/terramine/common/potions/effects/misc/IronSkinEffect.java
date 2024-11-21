@@ -11,7 +11,6 @@ import terramine.common.potions.effects.TerrariaEffect;
 
 import java.util.UUID;
 
-// todo: maybe not working after update
 public class IronSkinEffect extends TerrariaEffect {
 
     public static final AttributeModifier IRONSKIN_ARMOR = new AttributeModifier(UUID.fromString("3419d896-3f29-4bdc-9837-e8244712b17d"),
@@ -42,6 +41,6 @@ public class IronSkinEffect extends TerrariaEffect {
             AccessoryTerrariaItem.addModifier(livingEntity.getAttribute(Attributes.ARMOR), IRONSKIN_ARMOR);
         }
         this.livingEntity = livingEntity;
-        return false;
+        return true;
     }
 }

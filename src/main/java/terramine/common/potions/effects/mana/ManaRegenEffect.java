@@ -23,6 +23,6 @@ public class ManaRegenEffect extends TerrariaEffect {
         if (livingEntity instanceof Player player) {
             ModComponents.MANA_HANDLER.get(player).setManaBonus(25, true);
         }
-        return false;
+        return true;
     }
 }

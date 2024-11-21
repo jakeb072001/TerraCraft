@@ -6,9 +6,7 @@ import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -37,7 +35,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-// todo: fix, look at vanilla code probably to fix
 public class TreasureBagInventory implements ImplementedInventory {
     private final ItemStack stack;
     private final NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
@@ -185,6 +182,10 @@ public class TreasureBagInventory implements ImplementedInventory {
     @Override
     public NonNullList<ItemStack> getItems() {
         return items;
+    }
+
+    public ItemStack getContainerItem() {
+        return stack;
     }
 
     @Override

@@ -25,6 +25,6 @@ public class ModMobEffects {
     public static final Holder<MobEffect> WEREWOLF = register("werewolf", new BlankEffect(MobEffectCategory.BENEFICIAL, 0x7e5d3f, false));
 
     public static Holder<MobEffect> register(String name, MobEffect effect) {
-        return Holder.direct(Registry.register(BuiltInRegistries.MOB_EFFECT, TerraMine.id(name), effect));
+        return Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, TerraMine.id(name), effect);
     }
 }

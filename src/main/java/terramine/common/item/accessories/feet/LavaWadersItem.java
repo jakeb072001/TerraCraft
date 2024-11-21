@@ -32,6 +32,7 @@ public class LavaWadersItem extends AccessoryTerrariaItem {
 
 	private static boolean onFluidCollision(LivingEntity entity, FluidState fluidState) {
 		if (entity instanceof Player player) {
+			entity.resetFallDistance();
 			return AccessoriesHelper.isEquipped(ModItems.LAVA_WADERS, player) && !entity.isCrouching();
 		}
 		return false;

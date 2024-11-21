@@ -25,10 +25,12 @@ import java.util.List;
 public class TreasureBagItem extends TerrariaItemConfigurable {
     public TreasureBagInventory treasureBagInventory;
     protected ResourceKey<LootTable> lootTable;
+    private final Component title;
 
-    public TreasureBagItem(Properties properties, ResourceKey<LootTable> lootTable) {
+    public TreasureBagItem(Properties properties, ResourceKey<LootTable> lootTable, Component title) {
         super(properties);
         this.lootTable = lootTable;
+        this.title = title;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class TreasureBagItem extends TerrariaItemConfigurable {
 
         if (!level.isClientSide) {
             TreasureBagInventoryContainerMenu menu = new TreasureBagInventoryContainerMenu(player, treasureBagInventory);
-            player.openMenu(new SimpleMenuProvider((id, inventory, player2) -> menu, Component.empty()));
+            player.openMenu(new SimpleMenuProvider((id, inventory, player2) -> menu, title));
         }
 
         return InteractionResultHolder.consume(itemStack);

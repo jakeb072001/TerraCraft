@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.types.ItemNetworkType;
 import terramine.common.network.types.LongNetworkType;
 import terramine.extensions.LivingEntityExtensions;
 

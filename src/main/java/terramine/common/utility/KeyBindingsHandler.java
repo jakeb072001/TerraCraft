@@ -1,19 +1,13 @@
 package terramine.common.utility;
 
-import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.item.ItemStack;
-import terramine.common.init.ModParticles;
-import terramine.common.init.ModSoundEvents;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.types.InputNetworkType;
-import terramine.common.network.types.ItemNetworkType;
 import terramine.common.network.packet.UpdateInputPacket;
+import terramine.common.network.types.InputNetworkType;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package terramine.common.item.accessories.hands;
 
 import com.google.common.collect.Multimap;
-
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;

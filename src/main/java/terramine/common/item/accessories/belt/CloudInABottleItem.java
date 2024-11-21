@@ -6,7 +6,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.network.ServerPacketHandler;
-import terramine.common.network.types.ItemNetworkType;
 import terramine.common.network.types.LongNetworkType;
 import terramine.extensions.LivingEntityExtensions;
 

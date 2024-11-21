@@ -33,6 +33,7 @@ public class WaterWalkingBootsItem extends AccessoryTerrariaItem {
 
 	private static boolean onFluidCollision(LivingEntity entity, FluidState fluidState) {
 		if (AccessoriesHelper.isEquipped(ModItems.WATER_WALKING_BOOTS, entity) && !entity.isCrouching()) {
+			entity.resetFallDistance();
 			return !fluidState.is(FluidTags.LAVA);
 		}
 

@@ -27,11 +27,13 @@ import java.util.List;
 public class TreasureBagInventoryScreen extends EffectRenderingInventoryScreen<TreasureBagInventoryContainerMenu> {
     private static final ResourceLocation CONTAINER = TerraMine.id("textures/gui/container/treasure_bag.png");
     private final int imageWidth = 176;
-    private final int imageHeight = 152;
+    private final int imageHeight = 132;
     private boolean buttonClicked;
 
-    public TreasureBagInventoryScreen(Player player) {
-        super(new TreasureBagInventoryContainerMenu(player), player.getInventory(), Component.empty());
+    public TreasureBagInventoryScreen(Player player, Component title) {
+        super(new TreasureBagInventoryContainerMenu(player), player.getInventory(), title);
+        this.titleLabelX = 7;
+        this.titleLabelY = 20;
     }
 
     protected void init() {
@@ -39,7 +41,7 @@ public class TreasureBagInventoryScreen extends EffectRenderingInventoryScreen<T
     }
 
     protected void renderLabels(@NotNull GuiGraphics guiGraphics, int i, int j) {
-        // todo: add treasure bag name (which boss it's from)
+        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
     }
 
     public void render(@NotNull GuiGraphics guiGraphics, int i, int j, float f) {

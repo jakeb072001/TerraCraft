@@ -1,7 +1,6 @@
 package terramine.common.utility;
 
 import com.mojang.serialization.MapCodec;
-import dev.architectury.networking.NetworkManager;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
@@ -20,7 +19,10 @@ import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.*;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ImposterProtoChunk;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.lighting.LightEngine;
 import org.jetbrains.annotations.NotNull;

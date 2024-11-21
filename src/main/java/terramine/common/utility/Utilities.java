@@ -16,12 +16,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.*;
 import org.joml.Vector3f;
-import terramine.common.init.ModParticles;
-import terramine.common.init.ModSoundEvents;
 import terramine.common.item.dye.BasicDye;
 import terramine.common.network.ServerPacketHandler;
 import terramine.common.network.types.ItemNetworkType;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
@@ -230,6 +229,6 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
 
     @Environment(EnvType.CLIENT)
     private static void sendDash(Item item) {
-        ClientPlayNetworking.send(new ItemNetworkType(item.getDefaultInstance(), 0, UUID.randomUUID()).setCustomType(ServerPacketHandler.DASH_PACKET_ID));
+        ClientPlayNetworking.send(new ItemNetworkType(List.of(item.getDefaultInstance()), 0, UUID.randomUUID()).setCustomType(ServerPacketHandler.DASH_PACKET_ID));
     }
 }

@@ -1,9 +1,7 @@
 package terramine.client.render.gui.menu;
 
 import com.mojang.datafixers.util.Pair;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -19,9 +17,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 import terramine.common.init.ModComponents;
-import terramine.common.init.ModParticles;
 import terramine.common.init.ModScreenHandlerType;
-import terramine.common.init.ModSoundEvents;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.item.accessories.ShieldAccessoryItem;
 import terramine.common.item.dye.BasicDye;
@@ -29,6 +25,8 @@ import terramine.common.misc.TerrariaInventory;
 import terramine.common.network.ServerPacketHandler;
 import terramine.common.network.types.ItemNetworkType;
 import terramine.extensions.PlayerStorages;
+
+import java.util.List;
 
 public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
     public static final ResourceLocation EMPTY_ARMOR_SLOT_HELMET = new ResourceLocation("item/empty_armor_slot_helmet");
@@ -240,7 +238,7 @@ public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
     private void updatePacket(Player player, TerrariaInventory terrariaInventory, int slot) {
         for (Player otherPlayer : player.level().players()) {
             if (otherPlayer instanceof ServerPlayer serverPlayer) {
-                ServerPlayNetworking.send(serverPlayer, new ItemNetworkType(terrariaInventory.getItem(slot), slot, player.getUUID()).setCustomType(ServerPacketHandler.UPDATE_INVENTORY_PACKET_ID));
+                ServerPlayNetworking.send(serverPlayer, new ItemNetworkType(List.of(terrariaInventory.getItem(slot)), slot, player.getUUID()).setCustomType(ServerPacketHandler.UPDATE_INVENTORY_PACKET_ID));
             }
         }
     }

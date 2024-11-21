@@ -2,6 +2,7 @@ package terramine.common.init;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.ComposterBlock;
 import terramine.TerraMine;
@@ -18,7 +19,10 @@ import terramine.common.item.accessories.necklace.*;
 import terramine.common.item.armor.*;
 import terramine.common.item.armor.vanity.FamiliarVanity;
 import terramine.common.item.dye.BasicDye;
-import terramine.common.item.equipment.*;
+import terramine.common.item.equipment.CellPhoneItem;
+import terramine.common.item.equipment.MagicMirrorItem;
+import terramine.common.item.equipment.TerrariaToolTiers;
+import terramine.common.item.equipment.UmbrellaItem;
 import terramine.common.item.equipment.swords.CustomSoundSwordItem;
 import terramine.common.item.equipment.swords.VolcanoSwordItem;
 import terramine.common.item.equipment.tools.MoltenPickaxeItem;
@@ -77,7 +81,7 @@ public class ModItems {
 	public static final Item JESTER_ARROW = register("jester_arrow", new JesterArrowItem(new Item.Properties()));
 
 	// Treasure Bags
-	public static final Item EYE_OF_CTHULHU_TREASURE_BAG = register("eye_of_cthulhu_treasure_bag", new TreasureBagItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), ModLootTables.EYE_OF_CTHULHU));
+	public static final Item EYE_OF_CTHULHU_TREASURE_BAG = register("eye_of_cthulhu_treasure_bag", new TreasureBagItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), ModLootTables.EYE_OF_CTHULHU, Component.translatable("terramine.ui.eye_of_cthulhu_treasure_bag")));
 
 	// Crafting Items
 	public static final Item LENS = register("lens", new CraftingItem(new Item.Properties(), false));

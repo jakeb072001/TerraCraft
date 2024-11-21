@@ -76,6 +76,7 @@ public class TerrasparkBootsItem extends AccessoryTerrariaItem {
 
 	private static boolean onFluidCollision(LivingEntity entity, FluidState fluidState) {
 		if (entity instanceof Player player) {
+			entity.resetFallDistance();
 			return AccessoriesHelper.isEquipped(ModItems.TERRASPARK_BOOTS, player) && !player.isCrouching();
 		}
 		return false;

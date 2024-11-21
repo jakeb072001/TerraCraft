@@ -6,11 +6,9 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.StatFormatter;
@@ -37,6 +35,7 @@ import terramine.common.world.biome.BiomeAdderCrimsonForced;
 import terramine.common.world.biome.BiomeSurfaceRules;
 import terramine.extensions.PlayerStorages;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,12 +120,10 @@ public class TerraMine implements ModInitializer, TerraBlenderApi {
 
 	// maybe move into inventory itself or something? works perfectly like this though, so I'll just leave it for now
 	// probably not the best way of doing this, but it works for now, maybe look into improving later though
-	// todo: items not syncing until player open terraria inventory, needs fixing
-	// todo: any water walking boot should not give fall damage when landing on liquids, also fix
 	private void syncInventory(ServerPlayer player) {
 		TerrariaInventory terrariaInventory = ((PlayerStorages)player).getTerrariaInventory();
-		List<ItemStack> localItems = new java.util.ArrayList<>(List.of());
-		List<ItemStack> remoteItems = new java.util.ArrayList<>(List.of());
+		List<ItemStack> localItems = new ArrayList<>(List.of());
+		List<ItemStack> remoteItems = new ArrayList<>(List.of());
 		for (int i = 0; i < terrariaInventory.getContainerSize(); i++) {
 			localItems.add(terrariaInventory.getItem(i));
 		}
@@ -135,12 +132,9 @@ public class TerraMine implements ModInitializer, TerraBlenderApi {
 			for (int i = 0; i < otherTerrariaInventory.getContainerSize(); i++) {
 				remoteItems.add(otherTerrariaInventory.getItem(i));
 			}
-			for (ItemStack itemStack : remoteItems) {
-				ServerPlayNetworking.send(player, new ItemNetworkType(itemStack, 0, otherPlayer.getUUID()).setCustomType(ServerPacketHandler.SETUP_INVENTORY_PACKET_ID));
-			}
-			for (ItemStack itemStack : localItems) {
-				ServerPlayNetworking.send(otherPlayer, new ItemNetworkType(itemStack, 0, player.getUUID()).setCustomType(ServerPacketHandler.SETUP_INVENTORY_PACKET_ID));
-			}
+
+			ServerPlayNetworking.send(player, new ItemNetworkType(remoteItems, 0, otherPlayer.getUUID()).setCustomType(ServerPacketHandler.SETUP_INVENTORY_PACKET_ID));
+			ServerPlayNetworking.send(otherPlayer, new ItemNetworkType(localItems, 0, player.getUUID()).setCustomType(ServerPacketHandler.SETUP_INVENTORY_PACKET_ID));
 
 			for (int i = 0; i < 7; i++) {
 				((PlayerStorages) otherPlayer).setSlotVisibility(i, ((PlayerStorages) otherPlayer).getSlotVisibility(i));

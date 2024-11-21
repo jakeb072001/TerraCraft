@@ -1,17 +1,11 @@
 package terramine.client.render.gui.menu;
 
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShieldItem;
 import org.jetbrains.annotations.NotNull;
-import terramine.common.init.ModComponents;
 import terramine.common.init.ModScreenHandlerType;
 import terramine.common.misc.TreasureBagInventory;
 
@@ -41,19 +35,24 @@ public class TreasureBagInventoryContainerMenu extends AbstractContainerMenu {
         // Inventory
         for(i = 0; i < 3; ++i) {
             for(j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(inventory, j + (i + 1) * 9, 8 + j * 18, 77 + i * 18));
+                this.addSlot(new Slot(inventory, j + (i + 1) * 9, 8 + j * 18, 67 + i * 18));
             }
         }
 
         // Hotbar
         for(i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(inventory, i, 8 + i * 18, 135));
+            int finalI = i;
+            this.addSlot(new Slot(inventory, finalI, 8 + i * 18, 125) {
+                public boolean mayPickup(Player player) {
+                    return this.getItem() != treasureBagInventory.getContainerItem();
+                }
+            });
         }
 
         if (container == null) { return; }
         // Bag
         for(i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(container, i, 8 + i * 18, 15) {
+            this.addSlot(new Slot(container, i, 8 + i * 18, 30) {
                 public boolean mayPlace(@NotNull ItemStack itemStack) {
                     return false;
                 }

@@ -23,6 +23,6 @@ public class InstantManaEffect extends TerrariaEffect {
         if (livingEntity instanceof Player player) {
             ModComponents.MANA_HANDLER.get(player).addCurrentMana((level + 1) * 50);
         }
-        return false;
+        return true;
     }
 }

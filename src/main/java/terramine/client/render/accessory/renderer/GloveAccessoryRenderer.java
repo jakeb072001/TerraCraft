@@ -19,7 +19,6 @@ import org.joml.Vector3f;
 import terramine.TerraMine;
 import terramine.client.render.AccessoryRenderer;
 import terramine.client.render.accessory.model.ArmsModel;
-import terramine.common.init.ModComponents;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.item.dye.BasicDye;
 import terramine.extensions.PlayerStorages;
@@ -53,7 +52,7 @@ public class GloveAccessoryRenderer implements AccessoryRenderer {
 
     // todo: not sure if correct, test
     protected static boolean hasSlimArms(Entity entity) {
-        return entity instanceof AbstractClientPlayer player && player.getSkin().model().name().equals("slim");
+        return entity instanceof AbstractClientPlayer player && player.getSkin().model().id().equals("slim");
     }
 
     @Override

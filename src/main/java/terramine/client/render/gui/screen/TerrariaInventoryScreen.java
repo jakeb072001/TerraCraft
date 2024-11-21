@@ -74,7 +74,6 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
             rotation -= 40;
         }));
          **/
-        // todo: replace the below 4 with ImageButton (if i can figure out how it works)
         this.addRenderableWidget(new ToggleImageButton(this.leftPos + 63, this.height / 2 - 100, 8, 8, 0, 0, 8, 0, 0, false, ROTATE_RIGHT_TEX, 8, 16, (buttonWidget) -> {
             rotation -= 40;
         }));
@@ -109,7 +108,6 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
             }));
         }
 
-        // todo: fix shield texture rendering
         ImageWidget imageWidget = ImageWidget.texture(19, 19, SHIELD_TEX, 19, 19);
         imageWidget.setX(this.leftPos + 39);
         imageWidget.setY(this.height / 2 - 29);

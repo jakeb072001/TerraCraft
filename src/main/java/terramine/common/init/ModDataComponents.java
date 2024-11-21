@@ -7,11 +7,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import terramine.TerraMine;
 import terramine.common.utility.AttributeComponent;
-
-import java.util.List;
 
 public class ModDataComponents {
     public static final DataComponentType<AttributeComponent> ATTRIBUTE_MODIFIER_COMPONENT = register(TerraMine.id("attribute_modifier_component"), AttributeComponent.CODEC, AttributeComponent.PACKET_CODEC);

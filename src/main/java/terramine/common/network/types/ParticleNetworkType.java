@@ -2,12 +2,9 @@ package terramine.common.network.types;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 

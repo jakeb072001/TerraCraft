@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import terramine.common.entity.projectiles.arrows.FlamingArrowEntity;
-import terramine.common.entity.projectiles.arrows.UnholyArrowEntity;
 
 public class FlamingArrowItem extends ArrowItem {
     public FlamingArrowItem(Properties properties) {

@@ -8,7 +8,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
-import terramine.TerraMine;
 
 public class ModAttributes {
     public static final Holder<Attribute> RANGER_ATTACK_DAMAGE = register("ranger_attack_damage", new RangedAttribute("attribute.name.ranger_attack_damage", 1.0, 0.0, 2048.0).setSyncable(true));

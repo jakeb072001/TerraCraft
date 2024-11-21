@@ -7,17 +7,13 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
-import terramine.common.init.ModParticles;
-import terramine.common.init.ModSoundEvents;
 import terramine.common.misc.AccessoriesHelper;
 import terramine.common.network.ServerPacketHandler;
 import terramine.common.network.types.DoubleNetworkType;
 import terramine.common.network.types.FloatSoundNetworkType;
-import terramine.common.network.types.ItemNetworkType;
 import terramine.common.network.types.ParticleNetworkType;
 import terramine.common.utility.equipmentchecks.CloudBottleEquippedCheck;
 

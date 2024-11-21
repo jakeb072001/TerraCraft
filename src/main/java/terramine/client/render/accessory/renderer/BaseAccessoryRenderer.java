@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3f;
 import terramine.TerraMine;
 import terramine.client.render.AccessoryRenderer;
-import terramine.common.init.ModComponents;
 import terramine.common.item.dye.BasicDye;
 import terramine.extensions.PlayerStorages;
 

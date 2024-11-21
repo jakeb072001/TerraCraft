@@ -10,11 +10,12 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.level.levelgen.Heightmap;
 import terramine.TerraMine;
 import terramine.common.entity.block.InstantPrimedTNTEntity;
+import terramine.common.entity.misc.ClientItemEntity;
 import terramine.common.entity.mobs.bosses.TestBoss;
+import terramine.common.entity.mobs.hardmode.MimicEntity;
 import terramine.common.entity.mobs.prehardmode.CrimeraEntity;
 import terramine.common.entity.mobs.prehardmode.DemonEyeEntity;
 import terramine.common.entity.mobs.prehardmode.EaterOfSoulsEntity;
-import terramine.common.entity.mobs.hardmode.MimicEntity;
 import terramine.common.entity.mobs.prehardmode.devourer.DevourerBodyEntity;
 import terramine.common.entity.mobs.prehardmode.devourer.DevourerEntity;
 import terramine.common.entity.mobs.prehardmode.devourer.DevourerTailEntity;
@@ -25,7 +26,6 @@ import terramine.common.entity.projectiles.arrows.UnholyArrowEntity;
 import terramine.common.entity.throwables.BombEntity;
 import terramine.common.entity.throwables.DynamiteEntity;
 import terramine.common.entity.throwables.GrenadeEntity;
-import terramine.common.entity.misc.ClientItemEntity;
 
 public class ModEntities {
 

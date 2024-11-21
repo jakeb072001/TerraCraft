@@ -6,13 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractStringWidget;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import terramine.common.init.ModComponents;
-import terramine.common.misc.TeamColours;
-import terramine.extensions.PlayerStorages;
 
 import java.util.Objects;
 

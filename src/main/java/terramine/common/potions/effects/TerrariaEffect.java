@@ -6,7 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class TerrariaEffect extends MobEffect {
-    private boolean isRegistered, instant = false;
+    private final boolean instant;
 
     public TerrariaEffect(MobEffectCategory type, int color, boolean isInstant) {
         super(type, color);
@@ -39,14 +39,5 @@ public class TerrariaEffect extends MobEffect {
             applyInstantenousEffect(null, null, entity, amplifier, 1.0d);
         }
         return true;
-    }
-
-    public TerrariaEffect onRegister() {
-        isRegistered = true;
-        return this;
-    }
-
-    public boolean isRegistered() {
-        return isRegistered;
     }
 }

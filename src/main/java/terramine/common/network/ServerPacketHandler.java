@@ -1,6 +1,5 @@
 package terramine.common.network;
 
-import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -27,11 +26,11 @@ import terramine.client.render.gui.menu.TerrariaInventoryContainerMenu;
 import terramine.common.init.ModComponents;
 import terramine.common.misc.TeamColours;
 import terramine.common.network.packet.BoneMealPacket;
-import terramine.common.network.types.*;
 import terramine.common.network.packet.UpdateInputPacket;
+import terramine.common.network.types.*;
 import terramine.extensions.PlayerStorages;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ServerPacketHandler {
@@ -65,7 +64,7 @@ public class ServerPacketHandler {
                 UpdateInputPacket.onMessage(UpdateInputPacket.read(buf.getBooleans()), context.player().server, context.player()));
 
         ServerPlayNetworking.registerGlobalReceiver(DASH_PACKET_ID, (buf, context) -> {
-            ItemStack gear = buf.getItemStack();
+            ItemStack gear = buf.getItemStacks().getFirst();
             int cooldown = 10;
 
             context.player().server.execute(() -> {
@@ -158,10 +157,7 @@ public class ServerPacketHandler {
     public static void registerClient() {
         ClientPlayNetworking.registerGlobalReceiver(SETUP_INVENTORY_PACKET_ID, (buf, context) -> {
             UUID uuid = buf.getUUID();
-            ArrayList<ItemStack> items = Lists.newArrayList();
-            for (int i = 0; i < 35; i++) {
-                items.add(buf.getItemStack());
-            }
+            List<ItemStack> items = buf.getItemStacks();
             context.client().execute(() -> {
                 if (context.client().level.getPlayerByUUID(uuid) != null) {
                     for (int i = 0; i < items.size(); i++) {
@@ -173,7 +169,7 @@ public class ServerPacketHandler {
 
         ClientPlayNetworking.registerGlobalReceiver(UPDATE_INVENTORY_PACKET_ID, (buf, context) -> {
             int slot = buf.getInteger();
-            ItemStack itemStack = buf.getItemStack();
+            ItemStack itemStack = buf.getItemStacks().getFirst();
             UUID uuid = buf.getUUID();
             context.client().execute(() -> {
                 if (context.client().level.getPlayerByUUID(uuid) != null) {

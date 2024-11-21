@@ -6,7 +6,6 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorMaterial;
-import terramine.TerraMine;
 import terramine.client.render.accessory.model.HeadModel;
 import terramine.common.init.ModModelLayers;
 
