@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.RandomizableContainer;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -62,7 +63,7 @@ public class CaveChestFeature extends Feature<NoneFeatureConfiguration> {
 		boolean jungle = false;
 		boolean desert = false;
 
-		if (level.getBiome(offsetPos).value().coldEnoughToSnow(offsetPos)) {
+		if (level.getBiome(offsetPos).value().coldEnoughToSnow(offsetPos, 0)) {
 			frozen = true;
 		} else if (level.getBiome(offsetPos).is(BiomeTags.IS_JUNGLE)) {
 			jungle = true;
@@ -71,7 +72,7 @@ public class CaveChestFeature extends Feature<NoneFeatureConfiguration> {
 		}
 
 		if (!desert && !jungle && ModComponents.HARDMODE.get(level.getLevelData()).get() && random.nextFloat() * 100 < TerraMine.CONFIG.worldgen.caveChest.mimicChance) {
-			MimicEntity mimic = ModEntities.MIMIC.create(level.getLevel());
+			MimicEntity mimic = ModEntities.MIMIC.create(level.getLevel(), EntitySpawnReason.STRUCTURE);
 			if (mimic != null) {
 				if (frozen) {
 					mimic.setMimicType(3);

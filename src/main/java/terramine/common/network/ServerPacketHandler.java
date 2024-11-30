@@ -78,7 +78,7 @@ public class ServerPacketHandler {
                 }
 
                 player.level().playSound(null, player.blockPosition(), SoundEvents.PHANTOM_FLAP, SoundSource.PLAYERS, 1.0F, 2.0F);
-                player.getCooldowns().addCooldown(gear.getItem(), cooldown);
+                player.getCooldowns().addCooldown(gear, cooldown);
             });
         });
 

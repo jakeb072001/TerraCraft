@@ -13,6 +13,7 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
@@ -29,10 +30,10 @@ import terramine.extensions.PlayerStorages;
 import java.util.List;
 
 public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
-    public static final ResourceLocation EMPTY_ARMOR_SLOT_HELMET = new ResourceLocation("item/empty_armor_slot_helmet");
-    public static final ResourceLocation EMPTY_ARMOR_SLOT_CHESTPLATE = new ResourceLocation("item/empty_armor_slot_chestplate");
-    public static final ResourceLocation EMPTY_ARMOR_SLOT_LEGGINGS = new ResourceLocation("item/empty_armor_slot_leggings");
-    public static final ResourceLocation EMPTY_ARMOR_SLOT_BOOTS = new ResourceLocation("item/empty_armor_slot_boots");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_HELMET = ResourceLocation.withDefaultNamespace("item/empty_armor_slot_helmet");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_CHESTPLATE = ResourceLocation.withDefaultNamespace("item/empty_armor_slot_chestplate");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_LEGGINGS = ResourceLocation.withDefaultNamespace("item/empty_armor_slot_leggings");
+    public static final ResourceLocation EMPTY_ARMOR_SLOT_BOOTS = ResourceLocation.withDefaultNamespace("item/empty_armor_slot_boots");
     public static final ResourceLocation EMPTY_ACCESSORY_SLOT = TerraMine.id("gui/slots/accessory");
     public static final ResourceLocation EMPTY_ACCESSORY_VANITY_SLOT = TerraMine.id("gui/slots/accessory_vanity");
     public static final ResourceLocation EMPTY_ACCESSORY_DYE_SLOT = TerraMine.id("gui/slots/accessory_dye");
@@ -69,12 +70,12 @@ public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
                 }
 
                 public boolean mayPlace(@NotNull ItemStack itemStack) {
-                    return equipmentSlot == Mob.getEquipmentSlotForItem(itemStack);
+                    return equipmentSlot == player.getEquipmentSlotForItem(itemStack);
                 }
 
                 public boolean mayPickup(@NotNull Player player) {
                     ItemStack itemStack = this.getItem();
-                    return (itemStack.isEmpty() || player.isCreative() || !EnchantmentHelper.hasBindingCurse(itemStack)) && super.mayPickup(player);
+                    return (itemStack.isEmpty() || player.isCreative() || !EnchantmentHelper.has(itemStack, EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE)) && super.mayPickup(player);
                 }
 
                 public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
@@ -206,7 +207,7 @@ public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
                     if (isDye) {
                         return itemStack.getItem() instanceof BasicDye;
                     }
-                    return equipmentSlot == Mob.getEquipmentSlotForItem(itemStack);
+                    return equipmentSlot == player.getEquipmentSlotForItem(itemStack);
                 }
 
                 public boolean mayPickup(@NotNull Player player) {
@@ -253,7 +254,7 @@ public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
         if (slot != null && slot.hasItem()) {
             ItemStack itemStack2 = slot.getItem();
             itemStack = itemStack2.copy();
-            EquipmentSlot equipmentSlot = Mob.getEquipmentSlotForItem(itemStack);
+            EquipmentSlot equipmentSlot = player.getEquipmentSlotForItem(itemStack);
             int extraSlots = ModComponents.ACCESSORY_SLOTS_ADDER.get(player).get();
             if (i == 0) {
                 if (!this.moveItemStackTo(itemStack2, 9, 45, true)) {
@@ -297,12 +298,12 @@ public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
                 if (!this.moveItemStackTo(itemStack2, 9, 45, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (equipmentSlot.getType() == EquipmentSlot.Type.ARMOR && !this.slots.get(8 - equipmentSlot.getIndex()).hasItem()) {
+            } else if (equipmentSlot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR && !this.slots.get(8 - equipmentSlot.getIndex()).hasItem()) {
                 int j = 8 - equipmentSlot.getIndex();
                 if (!this.moveItemStackTo(itemStack2, j, j + 1, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (equipmentSlot.getType() == EquipmentSlot.Type.ARMOR && !this.slots.get(72 - equipmentSlot.getIndex()).hasItem()) {
+            } else if (equipmentSlot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR && !this.slots.get(72 - equipmentSlot.getIndex()).hasItem()) {
                 int j = 72 - equipmentSlot.getIndex();
                 if (!this.moveItemStackTo(itemStack2, j, j + 1, false)) {
                     return ItemStack.EMPTY;

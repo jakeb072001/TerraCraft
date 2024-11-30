@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -82,7 +83,7 @@ public abstract class ExplosiveThrowableEntity extends ThrowableProjectile {
 
     protected void explode() {
         if (!this.level().isClientSide) {
-            new ExplosionConfigurable(level(), this, this.position().x(), this.position().y(), this.position().z(), radius, damage, explosionType);
+            new ExplosionConfigurable((ServerLevel) level(), this, this.position().x(), this.position().y(), this.position().z(), radius, damage, explosionType);
             this.discard();
         }
 

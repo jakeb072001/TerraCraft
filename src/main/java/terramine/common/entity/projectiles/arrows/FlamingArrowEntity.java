@@ -42,14 +42,14 @@ public class FlamingArrowEntity extends AbstractArrow {
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
-            if (this.inGround) {
+            if (this.isInGround()) {
                 if (this.inGroundTime % 30 == 0) { // todo: rewrite to use random, also make entity turn into regular arrow entity 1/3 of the time it hits anything
                     this.spawnParticles();
                 }
             } else {
                 this.spawnParticles();
             }
-        } else if (this.inGround && this.inGroundTime != 0 && this.inGroundTime >= 600) {
+        } else if (this.isInGround() && this.inGroundTime != 0 && this.inGroundTime >= 600) {
             this.level().broadcastEntityEvent(this, (byte)0);
         }
     }

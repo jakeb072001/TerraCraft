@@ -37,15 +37,17 @@ public class ModLootTables {
 	public static final ResourceKey<LootTable> SANDSTONE_CAVE_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/sandstone_cave_chest"));
 	public static final ResourceKey<LootTable> SHADOW_CHEST = ResourceKey.create(Registries.LOOT_TABLE, TerraMine.id("chests/shadow_chest"));
 
+	// Repair Items
+
 	public static final List<ResourceLocation> INJECT_TABLE_IDS = Arrays.asList(
-			new ResourceLocation("chests/spawn_bonus_chest"),
-			new ResourceLocation("entities/bat"),
-			new ResourceLocation("entities/blaze"),
-			new ResourceLocation("entities/ghast"),
-			new ResourceLocation("entities/zombie")
+			ResourceLocation.withDefaultNamespace("chests/spawn_bonus_chest"),
+			ResourceLocation.withDefaultNamespace("entities/bat"),
+			ResourceLocation.withDefaultNamespace("entities/blaze"),
+			ResourceLocation.withDefaultNamespace("entities/ghast"),
+			ResourceLocation.withDefaultNamespace("entities/zombie")
 	);
 
-	public static void onLootTableLoad(ResourceKey<LootTable> id, FabricLootTableBuilder supplier) {
+	public static void onLootTableLoad(ResourceKey<LootTable> id, LootTable.Builder supplier) {
 		if (INJECT_TABLE_IDS.contains(id.location())) {
 			supplier.pool(LootPool.lootPool().add(getInjectEntry(id.location().getPath())).build());
 		}

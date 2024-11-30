@@ -11,8 +11,8 @@ import terramine.common.misc.AccessoriesHelper;
 import terramine.common.utility.Utilities;
 
 public class ShieldOfCthulhuItem extends ShieldAccessoryItem {
-    public ShieldOfCthulhuItem(Properties settings, Item... repairItems) {
-        super(settings, repairItems);
+    public ShieldOfCthulhuItem(Item.Properties settings) {
+        super(settings);
     }
 
     @Override

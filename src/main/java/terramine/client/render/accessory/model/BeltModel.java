@@ -8,15 +8,15 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
 import terramine.client.render.accessory.AccessoryRenderers;
 import terramine.common.init.ModModelLayers;
 
 import java.util.function.Function;
 
-public class BeltModel extends HumanoidModel<LivingEntity> {
+public class BeltModel extends HumanoidModel<HumanoidRenderState> {
 
     protected final ModelPart charm = body.getChild("charm");
 
@@ -45,25 +45,15 @@ public class BeltModel extends HumanoidModel<LivingEntity> {
         charm.yRot = rotation;
     }
 
-    @Override
-    protected Iterable<ModelPart> headParts() {
-        return ImmutableList.of();
-    }
-
-    @Override
-    protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(body);
-    }
-
     public static BeltModel createCloudInABottleModel() {
         return new BeltModel(AccessoryRenderers.bakeLayer(ModModelLayers.CLOUD_IN_A_BOTTLE), RenderType::entityTranslucent, 3, -3, -0.5F) {
             private final ModelPart cloud = charm.getChild("cloud");
 
             @Override
-            public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-                super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-                cloud.yRot = (ageInTicks) / 50;
-                cloud.y = Mth.cos((ageInTicks) / 30) / 2;
+            public void setupAnim(HumanoidRenderState renderState) {
+                super.setupAnim(renderState);
+                cloud.yRot = (renderState.ageInTicks) / 50;
+                cloud.y = Mth.cos((renderState.ageInTicks) / 30) / 2;
             }
         };
     }

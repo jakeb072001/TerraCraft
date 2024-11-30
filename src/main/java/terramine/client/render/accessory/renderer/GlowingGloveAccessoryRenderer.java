@@ -52,7 +52,8 @@ public class GlowingGloveAccessoryRenderer extends GloveAccessoryRenderer {
         VertexConsumer builder = ItemRenderer.getFoilBuffer(multiBufferSource, RenderTypes.unlit(getGlowTexture(hasSlimArms)), false, hasFoil);
         if (((PlayerStorages)player).getTerrariaInventory().getItem(slot + 14).getItem() instanceof BasicDye dye) {
             Vector3f color = dye.getColour();
-            arm.render(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, color.x(), color.y(), color.z(), 1);
+            builder.setColor(color.x(), color.y(), color.z(), 1);
+            arm.render(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, 1);
             return;
         }
         arm.render(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY);

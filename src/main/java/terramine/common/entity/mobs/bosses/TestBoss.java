@@ -56,8 +56,8 @@ public class TestBoss extends BossEntityAI {
         super.aiStep();
     }
 
-    public boolean doHurtTarget(@NotNull Entity entity) {
-        return super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel serverLevel, @NotNull Entity entity) {
+        return super.doHurtTarget(serverLevel, entity);
     }
 
     protected SoundEvent getAmbientSound() {

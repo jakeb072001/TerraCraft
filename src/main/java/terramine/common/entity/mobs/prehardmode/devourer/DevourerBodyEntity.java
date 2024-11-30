@@ -2,6 +2,7 @@ package terramine.common.entity.mobs.prehardmode.devourer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -77,15 +78,15 @@ public class DevourerBodyEntity extends Monster implements Enemy {
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource source, float f) {
+    public boolean hurtServer(ServerLevel serverLevel, @NotNull DamageSource source, float f) {
         if (source != damageSources().fall() && source != damageSources().inWall() && source != damageSources().cramming()) {
             if (this.head != null) {
                 if (f != 0) {
                     this.head.hurt(source, f);
-                    return super.hurt(source, 0);
+                    return super.hurtServer(serverLevel, source, 0);
                 }
             }
-            return super.hurt(source, f);
+            return super.hurtServer(serverLevel, source, f);
         }
         return false;
     }

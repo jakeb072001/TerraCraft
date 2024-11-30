@@ -13,7 +13,7 @@ public class ArmorSetCheck {
 
         for (ItemStack item : livingEntity.getArmorSlots()) {
             if (item.getItem() instanceof TerrariaArmor armorItem) {
-                isEquipped = Objects.equals(armorItem.getArmorType(), armorType);
+                isEquipped = Objects.equals(armorItem.getTerramineArmorType(), armorType);
                 if (!isEquipped) {
                     break;
                 }

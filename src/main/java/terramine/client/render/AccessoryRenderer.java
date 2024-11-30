@@ -10,6 +10,9 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,10 +24,9 @@ public interface AccessoryRenderer {
      * @param stack The {@link ItemStack} for the Accessory being rendered
      * @param contextModel The model this Accessory is being rendered on
      */
-    void render(ItemStack stack, int dyeSlot, int realSlot, EntityModel<? extends LivingEntity> contextModel,
+    void render(ItemStack stack, int dyeSlot, int realSlot, EntityModel<? extends HumanoidRenderState> contextModel,
                 PoseStack poseStack, MultiBufferSource vertexConsumers, int light, Player player,
-                float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw,
-                float headPitch);
+                float f, float g);
 
     /**
      * Rotates the rendering for the models based on the entity's poses and movements. This will do
@@ -35,19 +37,17 @@ public interface AccessoryRenderer {
      * @param model The model to align to the body movement
      */
     @SuppressWarnings("unchecked")
-    static void followBodyRotations(final LivingEntity entity, final HumanoidModel<LivingEntity> model) {
+    static void followBodyRotations(final LivingEntity entity, final HumanoidModel<HumanoidRenderState> model) {
 
-        EntityRenderer<? super LivingEntity> render = Minecraft.getInstance()
+        EntityRenderer<? super LivingEntity, ?> render = Minecraft.getInstance()
                 .getEntityRenderDispatcher().getRenderer(entity);
 
         if (render instanceof LivingEntityRenderer) {
-            //noinspection unchecked
-            LivingEntityRenderer<LivingEntity, EntityModel<LivingEntity>> livingRenderer =
-                    (LivingEntityRenderer<LivingEntity, EntityModel<LivingEntity>>) render;
-            EntityModel<LivingEntity> entityModel = livingRenderer.getModel();
+            LivingEntityRenderer<LivingEntity, HumanoidRenderState, EntityModel<HumanoidRenderState>> livingRenderer =
+                    (LivingEntityRenderer<LivingEntity, HumanoidRenderState, EntityModel<HumanoidRenderState>>) render;
+            EntityModel<HumanoidRenderState> entityModel = livingRenderer.getModel();
 
-            if (entityModel instanceof HumanoidModel) {
-                HumanoidModel<LivingEntity> bipedModel = (HumanoidModel<LivingEntity>) entityModel;
+            if (entityModel instanceof HumanoidModel<HumanoidRenderState> bipedModel) {
                 bipedModel.copyPropertiesTo(model);
             }
         }
@@ -56,7 +56,7 @@ public interface AccessoryRenderer {
     /**
      * Translates the rendering context to the center of the player's face
      */
-    static void translateToFace(PoseStack poseStack, PlayerModel<AbstractClientPlayer> model,
+    static void translateToFace(PoseStack poseStack, PlayerModel model,
                                 AbstractClientPlayer player, float headYaw, float headPitch) {
 
         if (player.isVisuallySwimming() || player.isFallFlying()) {
@@ -65,7 +65,7 @@ public interface AccessoryRenderer {
             poseStack.mulPose(Axis.XP.rotationDegrees(-45.0F));
         } else {
 
-            if (player.isCrouching() && !model.riding) {
+            if (player.isCrouching() && !player.isPassenger()) {
                 poseStack.translate(0.0F, 0.25F, 0.0F);
             }
             poseStack.mulPose(Axis.YP.rotationDegrees(headYaw));
@@ -77,10 +77,10 @@ public interface AccessoryRenderer {
     /**
      * Translates the rendering context to the center of the player's chest/torso segment
      */
-    static void translateToChest(PoseStack poseStack, PlayerModel<AbstractClientPlayer> model,
+    static void translateToChest(PoseStack poseStack, PlayerModel model,
                                  AbstractClientPlayer player) {
 
-        if (player.isCrouching() && !model.riding && !player.isSwimming()) {
+        if (player.isCrouching() && !player.isPassenger() && !player.isSwimming()) {
             poseStack.translate(0.0F, 0.2F, 0.0F);
             poseStack.mulPose(Axis.XP.rotation(model.body.xRot));
         }
@@ -91,10 +91,10 @@ public interface AccessoryRenderer {
     /**
      * Translates the rendering context to the center of the bottom of the player's right arm
      */
-    static void translateToRightArm(PoseStack poseStack, PlayerModel<AbstractClientPlayer> model,
+    static void translateToRightArm(PoseStack poseStack, PlayerModel model,
                                     AbstractClientPlayer player) {
 
-        if (player.isCrouching() && !model.riding && !player.isSwimming()) {
+        if (player.isCrouching() && !player.isPassenger() && !player.isSwimming()) {
             poseStack.translate(0.0F, 0.2F, 0.0F);
         }
         poseStack.mulPose(Axis.YP.rotation(model.body.yRot));
@@ -108,10 +108,10 @@ public interface AccessoryRenderer {
     /**
      * Translates the rendering context to the center of the bottom of the player's left arm
      */
-    static void translateToLeftArm(PoseStack poseStack, PlayerModel<AbstractClientPlayer> model,
+    static void translateToLeftArm(PoseStack poseStack, PlayerModel model,
                                    AbstractClientPlayer player) {
 
-        if (player.isCrouching() && !model.riding && !player.isSwimming()) {
+        if (player.isCrouching() && !player.isPassenger() && !player.isSwimming()) {
             poseStack.translate(0.0F, 0.2F, 0.0F);
         }
         poseStack.mulPose(Axis.YP.rotation(model.body.yRot));
@@ -125,10 +125,10 @@ public interface AccessoryRenderer {
     /**
      * Translates the rendering context to the center of the bottom of the player's right leg
      */
-    static void translateToRightLeg(PoseStack poseStack, PlayerModel<AbstractClientPlayer> model,
+    static void translateToRightLeg(PoseStack poseStack, PlayerModel model,
                                     AbstractClientPlayer player) {
 
-        if (player.isCrouching() && !model.riding && !player.isSwimming()) {
+        if (player.isCrouching() && !player.isPassenger() && !player.isSwimming()) {
             poseStack.translate(0.0F, 0.0F, 0.25F);
         }
         poseStack.translate(-0.125F, 0.75F, 0.0F);
@@ -141,10 +141,10 @@ public interface AccessoryRenderer {
     /**
      * Translates the rendering context to the center of the bottom of the player's left leg
      */
-    static void translateToLeftLeg(PoseStack poseStack, PlayerModel<AbstractClientPlayer> model,
+    static void translateToLeftLeg(PoseStack poseStack, PlayerModel model,
                                    AbstractClientPlayer player) {
 
-        if (player.isCrouching() && !model.riding && !player.isSwimming()) {
+        if (player.isCrouching() && !player.isPassenger() && !player.isSwimming()) {
             poseStack.translate(0.0F, 0.0F, 0.25F);
         }
         poseStack.translate(0.125F, 0.75F, 0.0F);

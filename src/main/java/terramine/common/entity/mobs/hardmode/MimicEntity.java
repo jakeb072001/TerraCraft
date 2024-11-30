@@ -7,6 +7,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Difficulty;
@@ -30,6 +31,7 @@ import terramine.common.init.ModLootTables;
 import terramine.common.init.ModSoundEvents;
 
 import java.util.EnumSet;
+import java.util.Optional;
 
 public class MimicEntity extends Mob implements Enemy {
 	public static final EntityDataAccessor<Integer> typed_data = SynchedEntityData.defineId(MimicEntity.class, EntityDataSerializers.INT);
@@ -41,6 +43,7 @@ public class MimicEntity extends Mob implements Enemy {
 		super(type, world);
 		moveControl = new MimicMovementController(this);
 		xpReward = 10;
+		this.lootTable = Optional.of(ModLootTables.MIMIC);
 	}
 
 	/**
@@ -77,7 +80,7 @@ public class MimicEntity extends Mob implements Enemy {
 	}
 
 	@Override
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, EntitySpawnReason mobSpawnType, @Nullable SpawnGroupData spawnGroupData) {
 		if (getMoveControl() instanceof MimicMovementController mimicMoveControl) {
 			mimicMoveControl.setDirection(random.nextInt(4) * 90, false);
 		}
@@ -101,7 +104,7 @@ public class MimicEntity extends Mob implements Enemy {
 		goalSelector.addGoal(3, new FaceRandomGoal(this));
 		goalSelector.addGoal(5, new HopGoal(this));
 		//noinspection ConstantConditions
-		targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 1, true, false, (entity) -> !isDormant || distanceTo(entity) < getAttribute(Attributes.FOLLOW_RANGE).getValue() / 2.5));
+		targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 1, true, false, (entity, serverLevel) -> !isDormant || distanceTo(entity) < getAttribute(Attributes.FOLLOW_RANGE).getValue() / 2.5));
 	}
 
 	@Override
@@ -156,9 +159,9 @@ public class MimicEntity extends Mob implements Enemy {
 		// noinspection ConstantConditions
 		if (attackCooldown <= 0 && player.getCommandSenderWorld().getDifficulty() != Difficulty.PEACEFUL && hasLineOfSight(player)
 				&& distanceToSqr(player.getBoundingBox().getCenter().subtract(0, getBoundingBox().getYsize() / 2, 0)) < 1
-				&& player.hurt(damageSources().mobAttack(this), (float) getAttribute(Attributes.ATTACK_DAMAGE).getValue())) {
+				&& player.hurtServer(level().getServer().getLevel(player.level().dimension()), damageSources().mobAttack(this), (float) getAttribute(Attributes.ATTACK_DAMAGE).getValue())) {
 			attackCooldown = 20;
-			doEnchantDamageEffects(this, player);
+			//doEnchantDamageEffects(this, player);
 		}
 	}
 
@@ -169,12 +172,12 @@ public class MimicEntity extends Mob implements Enemy {
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
+	public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount) {
 		if (source.getEntity() instanceof Player player) {
 			setTarget(player);
 		}
 
-		if (ticksInAir <= 0 && source.isIndirect()) {
+		if (ticksInAir <= 0 && !source.isDirect()) {
 			playSound(ModSoundEvents.MIMIC_HURT, getSoundVolume(), getVoicePitch());
 			return false;
 		}
@@ -183,7 +186,7 @@ public class MimicEntity extends Mob implements Enemy {
 			mimicMoveControl.setDirection(getRandom().nextInt(4) * 90, true);
 		}
 
-		return super.hurt(source, amount);
+		return super.hurtServer(serverLevel, source, amount);
 	}
 
 	@Override
@@ -202,11 +205,6 @@ public class MimicEntity extends Mob implements Enemy {
 
 	protected SoundEvent getLandingSound() {
 		return ModSoundEvents.MIMIC_CLOSE;
-	}
-
-	@Override
-	protected ResourceKey<LootTable> getDefaultLootTable() {
-		return ModLootTables.MIMIC;
 	}
 
 	public void setDormant(boolean isDormant) {

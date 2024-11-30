@@ -8,6 +8,8 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -50,13 +52,12 @@ public class GloveAccessoryRenderer implements AccessoryRenderer {
         return hasSlimArms ? slimModel : defaultModel;
     }
 
-    // todo: not sure if correct, test
     protected static boolean hasSlimArms(Entity entity) {
         return entity instanceof AbstractClientPlayer player && player.getSkin().model().id().equals("slim");
     }
 
     @Override
-    public final void render(ItemStack stack, int dyeSlot, int realSlot, EntityModel<? extends LivingEntity> contextModel, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, Player player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public final void render(ItemStack stack, int dyeSlot, int realSlot, EntityModel<? extends HumanoidRenderState> contextModel, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, Player player, float f, float g) {
         if (!((PlayerStorages) player).getSlotVisibility(realSlot)) {
             return;
         }
@@ -64,8 +65,8 @@ public class GloveAccessoryRenderer implements AccessoryRenderer {
         boolean hasSlimArms = hasSlimArms(player);
         ArmsModel model = getModel(hasSlimArms);
 
-        model.setupAnim(player, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        model.prepareMobModel(player, limbSwing, limbSwingAmount, partialTicks);
+        model.setupAnim(new PlayerRenderState());
+        //model.prepareMobModel(player, limbSwing, limbSwingAmount, partialTicks);
         AccessoryRenderer.followBodyRotations(player, model);
 
         if (stack.getItem() instanceof AccessoryTerrariaItem item) {
@@ -98,9 +99,9 @@ public class GloveAccessoryRenderer implements AccessoryRenderer {
             model.setAllVisible(false);
             arm.visible = true;
 
-            model.crouching = false;
-            model.attackTime = model.swimAmount = 0;
-            model.setupAnim(player, 0, 0, 0, 0, 0);
+            //model.crouching = false;
+            //model.attackTime = model.swimAmount = 0;
+            model.setupAnim(new PlayerRenderState());
             arm.xRot = 0;
 
             renderFirstPersonArm(model, arm, matrixStack, buffer, player, slot, light, hasSlimArms, hasFoil);
@@ -112,7 +113,8 @@ public class GloveAccessoryRenderer implements AccessoryRenderer {
         VertexConsumer builder = ItemRenderer.getFoilBuffer(buffer, renderType, false, hasFoil);
         if (((PlayerStorages)player).getTerrariaInventory().getItem(slot + 14).getItem() instanceof BasicDye dye) {
             Vector3f color = dye.getColour();
-            arm.render(matrixStack, builder, light, OverlayTexture.NO_OVERLAY, color.x(), color.y(), color.z(), 1);
+            builder.setColor(color.x(), color.y(), color.z(), 1);
+            arm.render(matrixStack, builder, light, OverlayTexture.NO_OVERLAY, 1);
             return;
         }
         arm.render(matrixStack, builder, light, OverlayTexture.NO_OVERLAY);

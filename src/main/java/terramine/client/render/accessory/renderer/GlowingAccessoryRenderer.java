@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,7 +22,7 @@ public class GlowingAccessoryRenderer extends BaseAccessoryRenderer {
 
     private final ResourceLocation glowTexture;
 
-    public GlowingAccessoryRenderer(String name, HumanoidModel<LivingEntity> model) {
+    public GlowingAccessoryRenderer(String name, HumanoidModel<HumanoidRenderState> model) {
         super(String.format("%s/%s", name, name), model);
         this.glowTexture = TerraMine.id(String.format("textures/entity/accessory/%s/%s_glow.png", name, name));
     }
@@ -37,9 +38,10 @@ public class GlowingAccessoryRenderer extends BaseAccessoryRenderer {
         VertexConsumer builder = ItemRenderer.getFoilBuffer(multiBufferSource, renderType, false, hasFoil);
         if (((PlayerStorages)player).getTerrariaInventory().getItem(slot + 14).getItem() instanceof BasicDye dye) {
             Vector3f color = dye.getColour();
-            getModel().renderToBuffer(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, color.x(), color.y(), color.z(), 1);
+            builder.setColor(color.x(), color.y(), color.z(), 1);
+            getModel().renderToBuffer(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, 1);
             return;
         }
-        getModel().renderToBuffer(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        getModel().renderToBuffer(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, 1);
     }
 }

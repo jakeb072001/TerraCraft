@@ -1,6 +1,5 @@
 package terramine.common.init;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,17 +20,17 @@ import terramine.common.block.plants.EvilMushroom;
 
 public class ModBlocks {
     // Chests
-    public static final Block GOLD_CHEST = register("gold_chest", new GoldChestBlock(FabricBlockSettings.create().mapColor(MapColor.GOLD).strength(3.0f, 6.0f).sounds(SoundType.METAL).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.GOLD_CHEST));
-    public static final Block TRAPPED_GOLD_CHEST = register("trapped_gold_chest", new GoldChestBlock(FabricBlockSettings.create().mapColor(MapColor.GOLD).strength(3.0f, 6.0f).sounds(SoundType.METAL).requiresCorrectToolForDrops(), true, () -> ModBlockEntityType.GOLD_CHEST));
-    public static final Block FROZEN_CHEST = register("frozen_chest", new FrozenChestBlock(FabricBlockSettings.create().mapColor(MapColor.ICE).strength(2.0f, 5.0f).sounds(SoundType.METAL).friction(0.98f).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.FROZEN_CHEST));
-    public static final Block TRAPPED_FROZEN_CHEST = register("trapped_frozen_chest", new FrozenChestBlock(FabricBlockSettings.create().mapColor(MapColor.ICE).strength(2.0f, 5.0f).sounds(SoundType.METAL).friction(0.98f).requiresCorrectToolForDrops(), true, () -> ModBlockEntityType.FROZEN_CHEST));
-    public static final Block IVY_CHEST = register("ivy_chest", new IvyChestBlock(FabricBlockSettings.create().mapColor(MapColor.WOOD).strength(2.5f).sounds(SoundType.WOOD), false, () -> ModBlockEntityType.IVY_CHEST));
-    public static final Block TRAPPED_IVY_CHEST = register("trapped_ivy_chest", new IvyChestBlock(FabricBlockSettings.create().mapColor(MapColor.WOOD).strength(2.5f).sounds(SoundType.WOOD), true, () -> ModBlockEntityType.IVY_CHEST));
-    public static final Block SANDSTONE_CHEST = register("sandstone_chest", new SandstoneChestBlock(FabricBlockSettings.create().mapColor(MapColor.SAND).strength(3.0f).sounds(SoundType.STONE).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.SANDSTONE_CHEST));
-    public static final Block TRAPPED_SANDSTONE_CHEST = register("trapped_sandstone_chest", new SandstoneChestBlock(FabricBlockSettings.create().mapColor(MapColor.SAND).strength(3.0f).sounds(SoundType.STONE).requiresCorrectToolForDrops(), true, () -> ModBlockEntityType.SANDSTONE_CHEST));
-    public static final Block WATER_CHEST = register("water_chest", new WaterChestBlock(FabricBlockSettings.create().mapColor(MapColor.WATER).strength(3.0f, 6.0f).sounds(SoundType.METAL).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.WATER_CHEST));
-    public static final Block SKYWARE_CHEST = register("skyware_chest", new SkywareChestBlock(FabricBlockSettings.create().mapColor(MapColor.LAPIS).strength(3.0f, 6.0f).sounds(SoundType.METAL).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.SKYWARE_CHEST));
-    public static final Block SHADOW_CHEST = register("shadow_chest", new ShadowChestBlock(FabricBlockSettings.create().mapColor(MapColor.COLOR_PURPLE).strength(3.0f, 6.0f).sounds(SoundType.METAL).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.SHADOW_CHEST));
+    public static final Block GOLD_CHEST = register("gold_chest", new GoldChestBlock(Properties.of().mapColor(MapColor.GOLD).strength(3.0f, 6.0f).sound(SoundType.METAL).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.GOLD_CHEST));
+    public static final Block TRAPPED_GOLD_CHEST = register("trapped_gold_chest", new GoldChestBlock(Properties.of().mapColor(MapColor.GOLD).strength(3.0f, 6.0f).sound(SoundType.METAL).requiresCorrectToolForDrops(), true, () -> ModBlockEntityType.GOLD_CHEST));
+    public static final Block FROZEN_CHEST = register("frozen_chest", new FrozenChestBlock(Properties.of().mapColor(MapColor.ICE).strength(2.0f, 5.0f).sound(SoundType.METAL).friction(0.98f).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.FROZEN_CHEST));
+    public static final Block TRAPPED_FROZEN_CHEST = register("trapped_frozen_chest", new FrozenChestBlock(Properties.of().mapColor(MapColor.ICE).strength(2.0f, 5.0f).sound(SoundType.METAL).friction(0.98f).requiresCorrectToolForDrops(), true, () -> ModBlockEntityType.FROZEN_CHEST));
+    public static final Block IVY_CHEST = register("ivy_chest", new IvyChestBlock(Properties.of().mapColor(MapColor.WOOD).strength(2.5f).sound(SoundType.WOOD), false, () -> ModBlockEntityType.IVY_CHEST));
+    public static final Block TRAPPED_IVY_CHEST = register("trapped_ivy_chest", new IvyChestBlock(Properties.of().mapColor(MapColor.WOOD).strength(2.5f).sound(SoundType.WOOD), true, () -> ModBlockEntityType.IVY_CHEST));
+    public static final Block SANDSTONE_CHEST = register("sandstone_chest", new SandstoneChestBlock(Properties.of().mapColor(MapColor.SAND).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.SANDSTONE_CHEST));
+    public static final Block TRAPPED_SANDSTONE_CHEST = register("trapped_sandstone_chest", new SandstoneChestBlock(Properties.of().mapColor(MapColor.SAND).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops(), true, () -> ModBlockEntityType.SANDSTONE_CHEST));
+    public static final Block WATER_CHEST = register("water_chest", new WaterChestBlock(Properties.of().mapColor(MapColor.WATER).strength(3.0f, 6.0f).sound(SoundType.METAL).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.WATER_CHEST));
+    public static final Block SKYWARE_CHEST = register("skyware_chest", new SkywareChestBlock(Properties.of().mapColor(MapColor.LAPIS).strength(3.0f, 6.0f).sound(SoundType.METAL).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.SKYWARE_CHEST));
+    public static final Block SHADOW_CHEST = register("shadow_chest", new ShadowChestBlock(Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(3.0f, 6.0f).sound(SoundType.METAL).requiresCorrectToolForDrops(), false, () -> ModBlockEntityType.SHADOW_CHEST));
     public static final Block PIGGY_BANK = register("piggy_bank", new PiggyBankBlock(Properties.ofFullCopy(Blocks.TERRACOTTA), () -> ModBlockEntityType.PIGGY_BANK));
     public static final Block SAFE = register("safe", new SafeBlock(Properties.ofFullCopy(Blocks.IRON_BLOCK), () -> ModBlockEntityType.SAFE));
 

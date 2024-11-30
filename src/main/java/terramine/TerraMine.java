@@ -100,7 +100,7 @@ public class TerraMine implements ModInitializer, TerraBlenderApi {
 			ModComponents.TEAMS.get(newPlayer).setTeamColour(ModComponents.TEAMS.get(oldPlayer).getTeamColour());
 		});
 		PlayerEvent.CHANGE_DIMENSION.register((player, oldLevel, newLevel) -> syncInventory(player));
-		PlayerEvent.PLAYER_RESPAWN.register((player, bl) -> syncInventory(player));
+		PlayerEvent.PLAYER_RESPAWN.register((player, bl, reason) -> syncInventory(player));
 		PlayerEvent.PLAYER_JOIN.register(this::syncInventory);
 		PlayerEvent.PLAYER_JOIN.register(this::onPlayerJoin);
 
@@ -178,6 +178,6 @@ public class TerraMine implements ModInitializer, TerraBlenderApi {
 	}
 
 	public static ResourceLocation id(String path) {
-		return new ResourceLocation(MOD_ID, path);
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

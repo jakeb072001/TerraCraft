@@ -62,8 +62,8 @@ public class BossEntityAI extends PathfinderMob implements Enemy {
         super.aiStep();
     }
 
-    protected void customServerAiStep() {
-        super.customServerAiStep();
+    protected void customServerAiStep(ServerLevel serverLevel) {
+        super.customServerAiStep(serverLevel);
         this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
     }
 
@@ -136,10 +136,6 @@ public class BossEntityAI extends PathfinderMob implements Enemy {
         return true;
     }
 
-    public int getExperienceReward() {
-        return super.getExperienceReward();
-    }
-
     public boolean canHoldItem(@NotNull ItemStack itemStack) {
         return false;
     }
@@ -159,7 +155,7 @@ public class BossEntityAI extends PathfinderMob implements Enemy {
     }
 
     @Override
-    public boolean checkSpawnRules(@NotNull LevelAccessor world, @NotNull MobSpawnType spawnReason) {
+    public boolean checkSpawnRules(@NotNull LevelAccessor world, @NotNull EntitySpawnReason spawnReason) {
         return true;
     }
 
@@ -179,6 +175,7 @@ public class BossEntityAI extends PathfinderMob implements Enemy {
     }
 
     // Drop Loot Bags per player
+    // todo: rework getting players in bounds, because of course mojang removed that method, why wouldn't they
     // todo: test if this works correctly, the target condition only targets in combat players which may exclude some players that shouldn't be excluded, also maybe need to change the inflate value
     protected void dropAllDeathLoot(@NotNull DamageSource damageSource) {
         for (Player player : this.level().getNearbyPlayers(TargetingConditions.DEFAULT, this, new AABB(this.position(), this.position()).inflate(32)) ) {
@@ -189,7 +186,7 @@ public class BossEntityAI extends PathfinderMob implements Enemy {
                 this.level().addFreshEntity(clientItemEntity);
             }
         }
-        this.dropExperience();
+        this.dropExperience((ServerLevel) this.level(), this.level().getNearestPlayer(this, 10));
     }
 
     protected Item treasureBagItem() {
@@ -208,10 +205,10 @@ public class BossEntityAI extends PathfinderMob implements Enemy {
     }
 
     // Only players on the same team as the player that summoned the boss can attack it
-    public boolean hurt(@NotNull DamageSource damageSource, float f) {
+    public boolean hurtServer(ServerLevel serverLevel, @NotNull DamageSource damageSource, float f) {
         if (damageSource.getEntity() instanceof Player player) {
             if (checkPlayerTeam(player)) {
-                if (!super.hurt(damageSource, f)) {
+                if (!super.hurtServer(serverLevel, damageSource, f)) {
                     return false;
                 } else if (!(this.level() instanceof ServerLevel)) {
                     return false;

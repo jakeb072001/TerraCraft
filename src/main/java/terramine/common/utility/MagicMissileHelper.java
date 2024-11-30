@@ -1,13 +1,18 @@
 package terramine.common.utility;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -25,6 +30,7 @@ public class MagicMissileHelper extends AbstractArrow {
     private final RandomSource rand = RandomSource.create();
     private Item wandItem;
     private float speed, damage;
+    private final float knockbackModifier;
     private int timer;
     private boolean canBeInWater, canBeInLava;
     private boolean canIgnite, limitedTime = false;
@@ -32,7 +38,7 @@ public class MagicMissileHelper extends AbstractArrow {
     public MagicMissileHelper(EntityType<? extends MagicMissileHelper> entityType, Level level) {
         super(entityType, level);
         this.setNoGravity(true);
-        setKnockback(7);
+        knockbackModifier = 7;
         this.pickup = AbstractArrow.Pickup.DISALLOWED;
     }
 
@@ -81,7 +87,7 @@ public class MagicMissileHelper extends AbstractArrow {
     @Override
     protected void onHitBlock(@NotNull BlockHitResult blockHitResult) {
         this.explode();
-        this.inGround = false;
+        this.setInGround(false);
     }
 
     @Override
@@ -93,10 +99,36 @@ public class MagicMissileHelper extends AbstractArrow {
         if(!this.level().isClientSide)
         {
             if (wandItem != null && this.getOwner() != null) {
-                new ExplosionConfigurable(this.level(), this.getOwner() != null ? this.getOwner() : this, ModDamageSource.indirectMagicProjectile(this.getOwner(), wandItem), this.position().x(), this.position().y(), this.position().z(), 1F, (damage * damageMultiplier(this.getOwner())) / 5, Explosion.BlockInteraction.KEEP);
+                new ExplosionConfigurable((ServerLevel) this.level(), this.getOwner() != null ? this.getOwner() : this, ModDamageSource.indirectMagicProjectile(this.getOwner(), wandItem), this.position().x(), this.position().y(), this.position().z(), 1F, (damage * damageMultiplier(this.getOwner())) / 5, Explosion.BlockInteraction.KEEP);
                 level().playSound(null, blockPosition(), ModSoundEvents.BOMB, SoundSource.PLAYERS, 0.4f, 1);
             }
-            this.kill();
+            this.kill((ServerLevel) level());
+        }
+    }
+
+    @Override
+    protected void doKnockback(LivingEntity livingEntity, DamageSource damageSource) {
+        float var10000;
+        label18: {
+            if (this.firedFromWeapon != null) {
+                Level var6 = this.level();
+                if (var6 instanceof ServerLevel) {
+                    ServerLevel serverLevel = (ServerLevel)var6;
+                    var10000 = EnchantmentHelper.modifyKnockback(serverLevel, this.firedFromWeapon, livingEntity, damageSource, 0.0F) + knockbackModifier;
+                    break label18;
+                }
+            }
+
+            var10000 = knockbackModifier;
+        }
+
+        double d = var10000;
+        if (d > 0.0) {
+            double e = Math.max(0.0, 1.0 - livingEntity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+            Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(d * 0.6 * e);
+            if (vec3.lengthSqr() > 0.0) {
+                livingEntity.push(vec3.x, 0.1, vec3.z);
+            }
         }
     }
 
@@ -107,7 +139,7 @@ public class MagicMissileHelper extends AbstractArrow {
         adjustMotion();
         createParticles();
         if (this.isAlive() && this.getOwner() != null) {
-            ((Player) this.getOwner()).getCooldowns().addCooldown(wandItem, 10);
+            ((Player) this.getOwner()).getCooldowns().addCooldown(wandItem.getDefaultInstance(), 10);
             if (!this.getOwner().isAlive()) {
                 this.explode();
             }

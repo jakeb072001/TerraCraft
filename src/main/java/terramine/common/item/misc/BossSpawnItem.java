@@ -8,11 +8,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +39,7 @@ public class BossSpawnItem extends TerrariaItemConfigurable {
 
         if (!level.isClientSide) {
             if (level.isNight()) {
-                Entity bossEntity = defaultType.spawn((ServerLevel) level, itemStack, player, entity.blockPosition().offset(entity.getRandom().nextInt(-10, 10), entity.getRandom().nextInt(10, 20), entity.getRandom().nextInt(-10, 10)), MobSpawnType.MOB_SUMMONED, false, false);
+                Entity bossEntity = defaultType.spawn((ServerLevel) level, itemStack, player, entity.blockPosition().offset(entity.getRandom().nextInt(-10, 10), entity.getRandom().nextInt(10, 20), entity.getRandom().nextInt(-10, 10)), EntitySpawnReason.MOB_SUMMONED, false, false);
                 if (bossEntity instanceof BossEntityAI boss) {
                     boss.setTargetTeam(ModComponents.TEAMS.get(player).getTeamColour());
                     level.gameEvent(player, GameEvent.ENTITY_PLACE, boss.position());
@@ -57,19 +57,18 @@ public class BossSpawnItem extends TerrariaItemConfigurable {
     }
 
     @Override
-    public UseAnim getUseAnimation(@NotNull ItemStack stack) {
-        return UseAnim.BOW;
+    public @NotNull ItemUseAnimation getUseAnimation(@NotNull ItemStack stack) {
+        return ItemUseAnimation.BOW;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(@NotNull Level world, Player user, @NotNull InteractionHand hand) {
-        ItemStack itemstack = user.getItemInHand(hand);
+    public InteractionResult use(@NotNull Level world, Player user, @NotNull InteractionHand hand) {
         user.startUsingItem(hand);
-        return InteractionResultHolder.consume(itemstack);
+        return InteractionResult.CONSUME;
     }
 
     @Override
-    public int getUseDuration(@NotNull ItemStack stack) {
+    public int getUseDuration(ItemStack itemStack, LivingEntity livingEntity) {
         return 15;
     }
 }

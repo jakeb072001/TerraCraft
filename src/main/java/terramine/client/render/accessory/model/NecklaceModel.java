@@ -10,30 +10,22 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.world.entity.LivingEntity;
 
-public class NecklaceModel extends HumanoidModel<LivingEntity> {
+public class NecklaceModel extends HumanoidModel<HumanoidRenderState> {
 
     public NecklaceModel(ModelPart part) {
         super(part, RenderType::entityTranslucent);
     }
 
     @Override
-    protected Iterable<ModelPart> headParts() {
-        return ImmutableList.of();
-    }
-
-    @Override
-    protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(body);
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay, float red, float green, float blue, float alpha) {
-        poseStack.pushPose();
-        poseStack.scale(0.5F, 0.5F, 0.5F);
-        body.render(poseStack, buffer, light, overlay, red, green, blue, alpha);
-        poseStack.popPose();
+    public void setupAnim(HumanoidRenderState renderState) {
+        super.setupAnim(renderState);
+        //poseStack.pushPose();
+        //poseStack.scale(0.5F, 0.5F, 0.5F);
+        //body.render(poseStack, buffer, light, overlay, red, green, blue, alpha);
+        //poseStack.popPose();
     }
 
     public static MeshDefinition createNecklace(CubeListBuilder body) {

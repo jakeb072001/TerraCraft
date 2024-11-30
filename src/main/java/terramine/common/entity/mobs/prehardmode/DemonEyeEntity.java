@@ -5,9 +5,9 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
@@ -18,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import terramine.common.entity.mobs.FlyingEntityAI;
 import terramine.common.init.ModLootTables;
 
+import java.util.Optional;
+
 public class DemonEyeEntity extends FlyingEntityAI {
     public static final EntityDataAccessor<Integer> typed_data = SynchedEntityData.defineId(DemonEyeEntity.class, EntityDataSerializers.INT);
 
@@ -25,6 +27,7 @@ public class DemonEyeEntity extends FlyingEntityAI {
         super(entityType, worldIn);
         dayEscape = true;
         setEyeType(random.nextInt(6));
+        this.lootTable = Optional.of(ModLootTables.DEMON_EYE);
     }
 
     @Override
@@ -93,7 +96,7 @@ public class DemonEyeEntity extends FlyingEntityAI {
     }
 
     @Override
-    public boolean checkSpawnRules(@NotNull LevelAccessor world, @NotNull MobSpawnType spawnReason) {
+    public boolean checkSpawnRules(@NotNull LevelAccessor world, @NotNull EntitySpawnReason spawnReason) {
         if (isDarkEnoughToSpawn((ServerLevelAccessor) world, this.blockPosition(), random) && random.nextFloat() < world.getMoonBrightness()) {
             return this.blockPosition().getY() > 50 && !this.level().isDay();
         }
@@ -109,10 +112,5 @@ public class DemonEyeEntity extends FlyingEntityAI {
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.2)
                 .add(Attributes.MOVEMENT_SPEED, 0.5)
                 .add(Attributes.ATTACK_DAMAGE, 1.5);
-    }
-
-    @Override
-    protected ResourceKey<LootTable> getDefaultLootTable() {
-        return ModLootTables.DEMON_EYE;
     }
 }

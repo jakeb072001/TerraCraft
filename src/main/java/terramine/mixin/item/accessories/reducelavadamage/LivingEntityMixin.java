@@ -1,5 +1,6 @@
 package terramine.mixin.item.accessories.reducelavadamage;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,12 +25,12 @@ public abstract class LivingEntityMixin extends Entity {
         super(entityType, level);
     }
 
-    @Inject(method = "hurt", at = @At("HEAD"))
-    private void accessDamageSource(DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "hurtServer", at = @At("HEAD"))
+    private void accessDamageSource(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
         this.damageSource = damageSource;
     }
 
-    @ModifyVariable(method = "hurt", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    @ModifyVariable(method = "hurtServer", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private float reduceLavaDamage(float f) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (AccessoriesHelper.isEquipped(ModItems.OBSIDIAN_ROSE, entity) || AccessoriesHelper.isEquipped(ModItems.OBSIDIAN_SKULL_ROSE, entity) || AccessoriesHelper.isEquipped(ModItems.MOLTEN_SKULL_ROSE, entity)

@@ -10,11 +10,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -22,10 +22,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
@@ -39,34 +40,35 @@ import java.util.function.Supplier;
 // todo: custom models: https://github.com/Luke100000/ImmersiveArmors/blob/1.19.2/common/src/main/java/immersive_armors/mixin/MixinArmorFeatureRenderer.java ?
 // todo: trail effect, like in terraria when the full set is equipped, both these todos go for all armor
 public class TerrariaArmor extends ArmorItem {
-    private final String armorType;
+    private final String terramineArmorType;
+    private final ArmorType armorType;
     protected final int defense;
     protected final float toughness;
     private final Supplier<ItemAttributeModifiers> defaultModifiers;
     protected Multimap<Holder<Attribute>, AttributeModifier> attributeModifiers;
-    public static final EnumMap<Type, UUID> ARMOR_MODIFIER_UUID_PER_TYPE = Util.make(new EnumMap<>(Type.class), (enumMap) -> {
-        enumMap.put(ArmorItem.Type.BOOTS, UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"));
-        enumMap.put(ArmorItem.Type.LEGGINGS, UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"));
-        enumMap.put(ArmorItem.Type.CHESTPLATE, UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"));
-        enumMap.put(ArmorItem.Type.HELMET, UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150"));
-        enumMap.put(ArmorItem.Type.BODY, UUID.fromString("C1C72771-8B8E-BA4A-ACE0-81A93C8928B2"));
+    public static final EnumMap<ArmorType, UUID> ARMOR_MODIFIER_UUID_PER_TYPE = Util.make(new EnumMap<>(ArmorType.class), (enumMap) -> {
+        enumMap.put(ArmorType.BOOTS, UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"));
+        enumMap.put(ArmorType.LEGGINGS, UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"));
+        enumMap.put(ArmorType.CHESTPLATE, UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"));
+        enumMap.put(ArmorType.HELMET, UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150"));
+        enumMap.put(ArmorType.BODY, UUID.fromString("C1C72771-8B8E-BA4A-ACE0-81A93C8928B2"));
     });
 
-    public TerrariaArmor(String armorType, Holder<ArmorMaterial> holder, Type type, Properties properties) {
-        super(holder, type, properties);
+    public TerrariaArmor(String terramineArmorType, ArmorMaterial armorMaterial, ArmorType armorType, Properties properties) {
+        super(armorMaterial, armorType, properties);
+        this.terramineArmorType = terramineArmorType;
         this.armorType = armorType;
-        this.defense = holder.value().getDefense(type);
-        this.toughness = holder.value().toughness();
+        this.defense = armorMaterial.defense().get(armorType);
+        this.toughness = armorMaterial.toughness();
 
         this.defaultModifiers = Suppliers.memoize(() -> {
             ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-            EquipmentSlotGroup equipmentSlotGroup = EquipmentSlotGroup.bySlot(type.getSlot());
-            UUID uUID = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
-            builder.add(Attributes.ARMOR, new AttributeModifier(uUID, "Armor modifier", defense, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
-            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uUID, "Armor toughness", toughness, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
-            float g = holder.value().knockbackResistance();
+            EquipmentSlotGroup equipmentSlotGroup = EquipmentSlotGroup.bySlot(armorType.getSlot());
+            builder.add(Attributes.ARMOR, new AttributeModifier(TerraMine.id("Armor modifier"), defense, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(TerraMine.id("Armor toughness"), toughness, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
+            float g = armorMaterial.knockbackResistance();
             if (g > 0.0F) {
-                builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uUID, "Armor knockback resistance", g, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
+                builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(TerraMine.id("Armor knockback resistance"), g, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
             }
 
             if (attributeModifiers != null) {
@@ -81,30 +83,29 @@ public class TerrariaArmor extends ArmorItem {
         });
     }
 
-    @Override
     public @NotNull ItemAttributeModifiers getDefaultAttributeModifiers() {
         return this.defaultModifiers.get();
     }
 
     public static void addModifier(AttributeInstance instance, AttributeModifier modifier) {
-        if (!instance.hasModifier(modifier)) {
+        if (!instance.hasModifier(modifier.id())) {
             instance.addTransientModifier(modifier);
         }
     }
 
     public static void removeModifier(AttributeInstance instance, AttributeModifier modifier) {
-        if (instance.hasModifier(modifier)) {
+        if (instance.hasModifier(modifier.id())) {
             instance.removeModifier(modifier);
         }
     }
 
-    public String getArmorType() {
-        return armorType;
+    public String getTerramineArmorType() {
+        return terramineArmorType;
     }
 
 
     @Environment(EnvType.CLIENT)
-    public HumanoidModel<LivingEntity> getCustomArmorModel() {
+    public HumanoidModel<PlayerRenderState> getCustomArmorModel() {
         return null;
     }
 
@@ -119,12 +120,12 @@ public class TerrariaArmor extends ArmorItem {
 
         boolean isEquipped;
         if (entity instanceof LivingEntity livingEntity) {
-            ItemStack equippedStack = livingEntity.getItemBySlot(getEquipmentSlot());
+            ItemStack equippedStack = livingEntity.getItemBySlot(armorType.getSlot());
             if (equippedStack == itemStack) {
-                isEquipped = ArmorSetCheck.isSetEquipped(livingEntity, this.getArmorType());
+                isEquipped = ArmorSetCheck.isSetEquipped(livingEntity, this.getTerramineArmorType());
 
                 if (isEquipped) {
-                    if (itemStack.getItem() instanceof TerrariaArmor armor && armor.getEquipmentSlot() == EquipmentSlot.HEAD) { // do this so the set bonus only happens once and not per armor (4 times the buff)
+                    if (itemStack.getItem() instanceof TerrariaArmor armor && armor.armorType == ArmorType.HELMET) { // do this so the set bonus only happens once and not per armor (4 times the buff)
                         setBonusEffect(livingEntity, level);
                     }
                 } else {
@@ -149,10 +150,10 @@ public class TerrariaArmor extends ArmorItem {
             // Checks if the player is wearing a full set of one type of armor, then display the set bonus
             boolean isEquipped = false;
             if (Minecraft.getInstance().player != null) {
-                isEquipped = ArmorSetCheck.isSetEquipped(Minecraft.getInstance().player, this.getArmorType());
+                isEquipped = ArmorSetCheck.isSetEquipped(Minecraft.getInstance().player, this.getTerramineArmorType());
             }
             if (isEquipped) {
-                appendTooltipDescription(tooltip, "item." + TerraMine.MOD_ID + "." + armorType + ".setbonus");
+                appendTooltipDescription(tooltip, "item." + TerraMine.MOD_ID + "." + terramineArmorType + ".setbonus");
             }
         }
     }
@@ -162,7 +163,7 @@ public class TerrariaArmor extends ArmorItem {
     }
 
     public String[] getREISetBonusTooltip() {
-        return Language.getInstance().getOrDefault("item." + TerraMine.MOD_ID + "." + armorType + ".setbonus").replace("%%", "%").split("\n");
+        return Language.getInstance().getOrDefault("item." + TerraMine.MOD_ID + "." + terramineArmorType + ".setbonus").replace("%%", "%").split("\n");
     }
 
     protected void appendTooltipDescription(List<Component> tooltip, String translKey) {

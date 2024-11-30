@@ -18,6 +18,7 @@ import java.text.DecimalFormat;
 
 @Mixin(Gui.class)
 public abstract class GuiMixin {
+	@Unique
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 	@Shadow protected abstract Player getCameraPlayer();
@@ -49,7 +50,7 @@ public abstract class GuiMixin {
 		StringBuilder sb = new StringBuilder();
 		if (mc.level != null && mc.player != null) {
 			float rainLevel = mc.level.getRainLevel(0);
-			if (mc.level.getBiome(mc.player.getOnPos()).value().coldEnoughToSnow(mc.player.getOnPos())) {
+			if (mc.level.getBiome(mc.player.getOnPos()).value().coldEnoughToSnow(mc.player.getOnPos(), 0)) {
 				sb.append("Snow Level: ");
 			} else {
 				sb.append("Rain Level: ");

@@ -1,12 +1,12 @@
 package terramine.common.item.magic;
 
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import terramine.common.init.ModComponents;
@@ -25,7 +25,7 @@ public class MagicTerrariaItem extends TerrariaItem {
     }
 
     public boolean canUse(Player player) {
-        if (!player.getCooldowns().isOnCooldown(this)) {
+        if (!player.getCooldowns().isOnCooldown(this.getDefaultInstance())) {
             ModComponents.MANA_HANDLER.get(player).isInUse();
             if (!isFree(player)) {
                 ModComponents.MANA_HANDLER.get(player).addCurrentMana(-manaCost);
@@ -45,22 +45,21 @@ public class MagicTerrariaItem extends TerrariaItem {
     }
 
     @Override
-    public UseAnim getUseAnimation(@NotNull ItemStack stack) {
-        return UseAnim.BOW;
+    public @NotNull ItemUseAnimation getUseAnimation(@NotNull ItemStack stack) {
+        return ItemUseAnimation.BOW;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(@NotNull Level world, Player user, @NotNull InteractionHand hand) {
-        ItemStack itemstack = user.getItemInHand(hand);
+    public InteractionResult use(@NotNull Level world, Player user, @NotNull InteractionHand hand) {
         if (!(ModComponents.MANA_HANDLER.get(user).getCurrentMana() < manaCost) || user.isCreative()) {
             user.startUsingItem(hand);
-            return InteractionResultHolder.consume(itemstack);
+            return InteractionResult.CONSUME;
         }
-        return InteractionResultHolder.fail(itemstack);
+        return InteractionResult.FAIL;
     }
 
     @Override
-    public int getUseDuration(@NotNull ItemStack stack) {
+    public int getUseDuration(ItemStack itemStack, LivingEntity livingEntity) {
         return useDuration;
     }
 }

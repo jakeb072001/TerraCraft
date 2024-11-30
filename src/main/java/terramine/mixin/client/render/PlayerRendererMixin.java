@@ -1,13 +1,18 @@
 package terramine.mixin.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,8 +29,8 @@ import terramine.extensions.PlayerStorages;
 import java.util.HashMap;
 
 @Mixin(PlayerRenderer.class)
-public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
-	public PlayerRendererMixin(EntityRendererProvider.Context context, PlayerModel<AbstractClientPlayer> entityModel, float f) {
+public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractClientPlayer, PlayerRenderState, PlayerModel> {
+	public PlayerRendererMixin(EntityRendererProvider.Context context, PlayerModel entityModel, float f) {
 		super(context, entityModel, f);
 	}
 
@@ -35,21 +40,22 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 	}
 
 	@Inject(method = "renderLeftHand", at = @At("TAIL"))
-	private void renderLeftGlove(PoseStack matrixStack, MultiBufferSource buffer, int light, AbstractClientPlayer player, CallbackInfo callbackInfo) {
-		renderArm(matrixStack, buffer, light, player, HumanoidArm.LEFT);
+	private void renderLeftGlove(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, ResourceLocation resourceLocation, boolean bl, CallbackInfo ci) {
+		renderArm(poseStack, multiBufferSource, i, HumanoidArm.LEFT);
 	}
 
 	@Inject(method = "renderRightHand", at = @At("TAIL"))
-	private void renderRightGlove(PoseStack matrixStack, MultiBufferSource buffer, int light, AbstractClientPlayer player, CallbackInfo callbackInfo) {
-		renderArm(matrixStack, buffer, light, player, HumanoidArm.RIGHT);
+	private void renderRightGlove(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, ResourceLocation resourceLocation, boolean bl, CallbackInfo ci) {
+		renderArm(poseStack, multiBufferSource, i, HumanoidArm.RIGHT);
 	}
 
 	@Unique
-	private static void renderArm(PoseStack matrixStack, MultiBufferSource buffer, int light, AbstractClientPlayer player, HumanoidArm handSide) {
+	private static void renderArm(PoseStack matrixStack, MultiBufferSource buffer, int light, HumanoidArm handSide) {
 		if (!TerraMine.CONFIG.client.showFirstPersonGloves) {
 			return;
 		}
 
+		AbstractClientPlayer player = Minecraft.getInstance().player;
 		HashMap<Integer, ItemStack> allEquippedGloves = new HashMap<>();
 		for (int i = 0; i < 7; i++) {
 			allEquippedGloves.put(i + 7, ((PlayerStorages)player).getTerrariaInventory().getItem(i + 7));

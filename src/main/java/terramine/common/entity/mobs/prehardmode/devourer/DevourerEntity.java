@@ -5,6 +5,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -32,6 +33,8 @@ import terramine.common.init.ModEntities;
 import terramine.common.init.ModLootTables;
 import terramine.common.init.ModSoundEvents;
 
+import java.util.Optional;
+
 // todo: movement needs to be like Devourer from Terraria, using flying entity AI for testing
 // probably don't use gravity and just curve downwards through code when having left the ground
 public class DevourerEntity extends Monster implements Enemy {
@@ -49,6 +52,7 @@ public class DevourerEntity extends Monster implements Enemy {
         this.moveControl = new DevourerMovementController(this);
         this.lookControl = new DevourerLookControl(this);
         segmentCount = random.nextInt(10, 15);
+        this.lootTable = Optional.of(ModLootTables.DEVOURER);
     }
 
     protected static class DevourerLookControl extends LookControl {
@@ -269,7 +273,7 @@ public class DevourerEntity extends Monster implements Enemy {
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource source, float f) {
+    public boolean hurtServer(ServerLevel serverLevel, @NotNull DamageSource source, float f) {
         if (source != damageSources().fall() && source != damageSources().inWall() && source != damageSources().cramming()) {
             if (this.segments != null) {
                 for (DevourerBodyEntity seg : this.segments) {
@@ -279,7 +283,7 @@ public class DevourerEntity extends Monster implements Enemy {
                     }
                 }
             }
-            return super.hurt(source, f);
+            return super.hurtServer(serverLevel, source, f);
         } else {
             return false;
         }
@@ -311,10 +315,5 @@ public class DevourerEntity extends Monster implements Enemy {
     @Override
     protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
         return ModSoundEvents.DEMON_EYE_HURT;
-    }
-
-    @Override
-    protected @NotNull ResourceKey<LootTable> getDefaultLootTable() {
-        return ModLootTables.DEVOURER;
     }
 }

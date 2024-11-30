@@ -6,13 +6,12 @@ import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -60,14 +59,14 @@ public class AccessoryTerrariaItem extends TerrariaItem implements Accessories {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(@NotNull Level level, Player user, @NotNull InteractionHand hand) {
+	public InteractionResult use(@NotNull Level level, Player user, @NotNull InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);
 		if (equipItem(user, stack)) {
 			// Play right click equip sound
 			SoundInfo sound = this.getEquipSoundInfo();
 			user.playSound(sound.soundEvent(), sound.volume(), sound.pitch());
 
-			return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+			return InteractionResult.SUCCESS_SERVER;
 		}
 
 		return super.use(level, user, hand);

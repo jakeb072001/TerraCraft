@@ -7,6 +7,9 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,13 +24,13 @@ import terramine.extensions.PlayerStorages;
 public class BaseAccessoryRenderer implements AccessoryRenderer {
 
     private final ResourceLocation texture;
-    private final HumanoidModel<LivingEntity> model;
+    private final HumanoidModel<HumanoidRenderState> model;
 
-    public BaseAccessoryRenderer(String texturePath, HumanoidModel<LivingEntity> model) {
+    public BaseAccessoryRenderer(String texturePath, HumanoidModel<HumanoidRenderState> model) {
         this(TerraMine.id(String.format("textures/entity/accessory/%s.png", texturePath)), model);
     }
 
-    public BaseAccessoryRenderer(ResourceLocation texture, HumanoidModel<LivingEntity> model) {
+    public BaseAccessoryRenderer(ResourceLocation texture, HumanoidModel<HumanoidRenderState> model) {
         this.texture = texture;
         this.model = model;
     }
@@ -36,19 +39,19 @@ public class BaseAccessoryRenderer implements AccessoryRenderer {
         return texture;
     }
 
-    protected HumanoidModel<LivingEntity> getModel() {
+    protected HumanoidModel<HumanoidRenderState> getModel() {
         return model;
     }
 
     @Override
-    public final void render(ItemStack itemStack, int dyeSlot, int realSlot, EntityModel<? extends LivingEntity> contextModel, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, Player player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public final void render(ItemStack itemStack, int dyeSlot, int realSlot, EntityModel<? extends HumanoidRenderState> contextModel, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, Player player, float f, float g) {
         if (!((PlayerStorages) player).getSlotVisibility(realSlot)) {
             return;
         }
-        HumanoidModel<LivingEntity> model = getModel();
+        HumanoidModel<HumanoidRenderState> model = getModel();
 
-        model.setupAnim(player, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        model.prepareMobModel(player, limbSwing, limbSwingAmount, partialTicks);
+        model.setupAnim(new PlayerRenderState());
+        //model.prepareMobModel(player, limbSwing, limbSwingAmount, partialTicks);
         AccessoryRenderer.followBodyRotations(player, model);
         render(poseStack, multiBufferSource, player, dyeSlot, light, itemStack.hasFoil());
     }
@@ -58,9 +61,11 @@ public class BaseAccessoryRenderer implements AccessoryRenderer {
         VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, renderType, false, hasFoil);
         if (((PlayerStorages)player).getTerrariaInventory().getItem(slot + 14).getItem() instanceof BasicDye dye) {
             Vector3f color = dye.getColour();
-            model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, color.x(), color.y(), color.z(), 1);
+            vertexBuilder.setColor(color.x(), color.y(), color.z(), 1);
+            // PoseStack, VertexConsumer, light, overlay, colour
+            model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1);
             return;
         }
-        model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1);
     }
 }

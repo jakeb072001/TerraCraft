@@ -6,7 +6,8 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundContainerClickPacket;
@@ -24,7 +25,7 @@ import java.util.List;
 
 // todo: sometimes when clicking a slot the item isn't picked up or placed down
 @Environment(EnvType.CLIENT)
-public class TreasureBagInventoryScreen extends EffectRenderingInventoryScreen<TreasureBagInventoryContainerMenu> {
+public class TreasureBagInventoryScreen extends AbstractContainerScreen<TreasureBagInventoryContainerMenu> {
     private static final ResourceLocation CONTAINER = TerraMine.id("textures/gui/container/treasure_bag.png");
     private final int imageWidth = 176;
     private final int imageHeight = 132;
@@ -53,7 +54,7 @@ public class TreasureBagInventoryScreen extends EffectRenderingInventoryScreen<T
     protected void renderBg(@NotNull GuiGraphics guiGraphics, float f, int i, int j) {
         int k = (this.width - this.imageWidth) / 2;
         int l = (this.height - this.imageHeight) / 2;
-        guiGraphics.blit(CONTAINER, k, l, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(RenderType::guiTextured, CONTAINER, k, l, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
     }
 
     protected boolean isHovering(int i, int j, int k, int l, double d, double e) {

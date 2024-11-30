@@ -4,6 +4,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.ComposterBlock;
 import terramine.TerraMine;
 import terramine.common.item.CraftingItem;
@@ -21,7 +22,7 @@ import terramine.common.item.armor.vanity.FamiliarVanity;
 import terramine.common.item.dye.BasicDye;
 import terramine.common.item.equipment.CellPhoneItem;
 import terramine.common.item.equipment.MagicMirrorItem;
-import terramine.common.item.equipment.TerrariaToolTiers;
+import terramine.common.item.equipment.TerrariaToolMaterials;
 import terramine.common.item.equipment.UmbrellaItem;
 import terramine.common.item.equipment.swords.CustomSoundSwordItem;
 import terramine.common.item.equipment.swords.VolcanoSwordItem;
@@ -52,9 +53,9 @@ public class ModItems {
 	public static final Item UMBRELLA = register("umbrella", new UmbrellaItem());
 	public static final Item WHOOPEE_CUSHION = register("whoopee_cushion", new WhoopeeCushionItem());
 	public static final Item MAGIC_MIRROR = register("magic_mirror", new MagicMirrorItem());
-	public static final Item COBALT_SHIELD = register("cobalt_shield", new ShieldAccessoryItem(new Item.Properties().durability(2500).fireResistant().rarity(Rarity.RARE), Items.DIAMOND));
-	public static final Item OBSIDIAN_SHIELD = register("obsidian_shield", new ShieldAccessoryItem(new Item.Properties().durability(2500).fireResistant().rarity(Rarity.RARE), Items.OBSIDIAN));
-	public static final Item SHIELD_OF_CTHULHU = register("shield_of_cthulhu", new ShieldOfCthulhuItem(new Item.Properties().durability(2500).fireResistant().rarity(Rarity.RARE), Items.ROTTEN_FLESH));
+	public static final Item COBALT_SHIELD = register("cobalt_shield", new ShieldAccessoryItem(new Item.Properties().repairable(Items.DIAMOND).durability(2500).fireResistant().rarity(Rarity.RARE)));
+	public static final Item OBSIDIAN_SHIELD = register("obsidian_shield", new ShieldAccessoryItem(new Item.Properties().repairable(Items.OBSIDIAN).durability(2500).fireResistant().rarity(Rarity.RARE)));
+	public static final Item SHIELD_OF_CTHULHU = register("shield_of_cthulhu", new ShieldOfCthulhuItem(new Item.Properties().repairable(Items.ROTTEN_FLESH).durability(2500).fireResistant().rarity(Rarity.RARE)));
 	public static final Item CORRUPT_SEEDS = register("corrupt_seeds", new EvilSeeds(new Item.Properties(), ModBlocks.CORRUPTED_GRASS));
 	public static final Item CRIMSON_SEEDS = register("crimson_seeds", new EvilSeeds(new Item.Properties(), ModBlocks.CRIMSON_GRASS));
 
@@ -210,24 +211,24 @@ public class ModItems {
 	public static final Item LEAF_WINGS = register("leaf_wings", new WingsItem(0.5D, 0.05D, 80, 10, ModSoundEvents.WINGS_FLAP));
 
 	// Tools
-	public static final Item DEMONITE_PICKAXE = register("demonite_pickaxe", new PickaxeItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, 1F, -2.8F))));
-	public static final Item DEMONITE_AXE = register("demonite_axe", new AxeItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, 6F, -3.1F))));
-	public static final Item DEMONITE_SHOVEL = register("demonite_shovel", new ShovelItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, 1.5F, -3F))));
-	public static final Item DEMONITE_HOE = register("demonite_hoe", new HoeItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, -2F, -1F))));
-	public static final Item CRIMTANE_PICKAXE = register("crimtane_pickaxe", new PickaxeItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, 1F, -2.8F))));
-	public static final Item CRIMTANE_AXE = register("crimtane_axe", new AxeItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, 6.5F, -3.1F))));
-	public static final Item CRIMTANE_SHOVEL = register("crimtane_shovel", new ShovelItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, 1.5F, -3F))));
-	public static final Item CRIMTANE_HOE = register("crimtane_hoe", new HoeItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, -2, -1F))));
-	public static final Item METEOR_SHAXE = register("meteor_shaxe", new TerrariaShaxeItem(TerrariaToolTiers.METEOR, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.METEOR, 7F, -3.1F))));
-	public static final Item MOLTEN_PICKAXE = register("molten_pickaxe", new MoltenPickaxeItem(TerrariaToolTiers.MOLTEN, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.MOLTEN, 1F, -2.8F))));
-	public static final Item MOLTEN_SHAXE = register("molten_shaxe", new TerrariaShaxeItem(TerrariaToolTiers.MOLTEN,true, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.MOLTEN, 7.5F, -3.1F))));
+	public static final Item DEMONITE_PICKAXE = register("demonite_pickaxe", new PickaxeItem(TerrariaToolMaterials.DEMONITE, 1F, -2.8F, new Item.Properties()));
+	public static final Item DEMONITE_AXE = register("demonite_axe", new AxeItem(TerrariaToolMaterials.DEMONITE, 6F, -3.1F, new Item.Properties()));
+	public static final Item DEMONITE_SHOVEL = register("demonite_shovel", new ShovelItem(TerrariaToolMaterials.DEMONITE, 1.5F, -3F, new Item.Properties()));
+	public static final Item DEMONITE_HOE = register("demonite_hoe", new HoeItem(TerrariaToolMaterials.DEMONITE, -2F, -1F, new Item.Properties()));
+	public static final Item CRIMTANE_PICKAXE = register("crimtane_pickaxe", new PickaxeItem(TerrariaToolMaterials.CRIMTANE, 1F, -2.8F, new Item.Properties()));
+	public static final Item CRIMTANE_AXE = register("crimtane_axe", new AxeItem(TerrariaToolMaterials.CRIMTANE, 6.5F, -3.1F, new Item.Properties()));
+	public static final Item CRIMTANE_SHOVEL = register("crimtane_shovel", new ShovelItem(TerrariaToolMaterials.CRIMTANE, 1.5F, -3F, new Item.Properties()));
+	public static final Item CRIMTANE_HOE = register("crimtane_hoe", new HoeItem(TerrariaToolMaterials.CRIMTANE, -2, -1F, new Item.Properties()));
+	public static final Item METEOR_SHAXE = register("meteor_shaxe", new TerrariaShaxeItem(TerrariaToolMaterials.METEOR, 7F, -3.1F, new Item.Properties()));
+	public static final Item MOLTEN_PICKAXE = register("molten_pickaxe", new MoltenPickaxeItem(TerrariaToolMaterials.MOLTEN, 1F, -2.8F, new Item.Properties()));
+	public static final Item MOLTEN_SHAXE = register("molten_shaxe", new TerrariaShaxeItem(TerrariaToolMaterials.MOLTEN, true, 7.5F, -3.1F, new Item.Properties()));
 
 	// Weapons
-	public static final Item DEMONITE_SWORD = register("demonite_sword", new SwordItem(TerrariaToolTiers.DEMONITE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.DEMONITE, 3F, -2.4F))));
-	public static final Item CRIMTANE_SWORD = register("crimtane_sword", new SwordItem(TerrariaToolTiers.CRIMTANE, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.CRIMTANE, 3F, -2.4F))));
-	public static final Item PHASEBLADE_WHITE = register("phaseblade_white", new CustomSoundSwordItem(TerrariaToolTiers.METEOR, ModSoundEvents.PHASEBLADE_SWING, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.METEOR, 3F, -1F))));
-	public static final Item PHASEBLADE_GREEN = register("phaseblade_green", new CustomSoundSwordItem(TerrariaToolTiers.METEOR, ModSoundEvents.PHASEBLADE_SWING, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.METEOR, 3F, -1F))));
-	public static final Item VOLCANO_SWORD = register("volcano_sword", new VolcanoSwordItem(TerrariaToolTiers.MOLTEN, new Item.Properties().attributes(PickaxeItem.createAttributes(TerrariaToolTiers.MOLTEN, 4F, -2.4F))));
+	public static final Item DEMONITE_SWORD = register("demonite_sword", new SwordItem(TerrariaToolMaterials.DEMONITE, 3F, -2.4F, new Item.Properties()));
+	public static final Item CRIMTANE_SWORD = register("crimtane_sword", new SwordItem(TerrariaToolMaterials.CRIMTANE, 3F, -2.4F, new Item.Properties()));
+	public static final Item PHASEBLADE_WHITE = register("phaseblade_white", new CustomSoundSwordItem(TerrariaToolMaterials.METEOR, 3F, -1F, ModSoundEvents.PHASEBLADE_SWING, new Item.Properties()));
+	public static final Item PHASEBLADE_GREEN = register("phaseblade_green", new CustomSoundSwordItem(TerrariaToolMaterials.METEOR, 3F, -1F, ModSoundEvents.PHASEBLADE_SWING, new Item.Properties()));
+	public static final Item VOLCANO_SWORD = register("volcano_sword", new VolcanoSwordItem(TerrariaToolMaterials.MOLTEN, 4F, -2.4F, new Item.Properties()));
 
 	// Ranged
 	public static final Item SPACE_GUN = register("space_gun", new SpaceGunItem());
@@ -248,33 +249,33 @@ public class ModItems {
 
 	// Armours
 	// todo: make another register method that registers a full set of armor instead of registering per piece, don't know the best way to do this since the item is different (ShadowArmor, CrimsonArmor)
-	public static final Item SHADOW_HELMET = register("shadow_helmet", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(20))));
-	public static final Item SHADOW_CHESTPLATE = register("shadow_chestplate", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(20))));
-	public static final Item SHADOW_LEGGINGS = register("shadow_leggings", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(20))));
-	public static final Item SHADOW_BOOTS = register("shadow_boots", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(20))));
-	public static final Item ANCIENT_SHADOW_HELMET = register("ancient_shadow_helmet", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(20))));
-	public static final Item ANCIENT_SHADOW_CHESTPLATE = register("ancient_shadow_chestplate", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(20))));
-	public static final Item ANCIENT_SHADOW_LEGGINGS = register("ancient_shadow_leggings", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(20))));
-	public static final Item ANCIENT_SHADOW_BOOTS = register("ancient_shadow_boots", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(20))));
-	public static final Item CRIMSON_HELMET = register("crimson_helmet", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(20))));
-	public static final Item CRIMSON_CHESTPLATE = register("crimson_chestplate", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(20))));
-	public static final Item CRIMSON_LEGGINGS = register("crimson_leggings", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(20))));
-	public static final Item CRIMSON_BOOTS = register("crimson_boots", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(20))));
-	public static final Item METEOR_HELMET = register("meteor_helmet", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(35))));
-	public static final Item METEOR_CHESTPLATE = register("meteor_chestplate", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(35))));
-	public static final Item METEOR_LEGGINGS = register("meteor_leggings", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(35))));
-	public static final Item METEOR_BOOTS = register("meteor_boots", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(35))));
-	public static final Item MOLTEN_HELMET = register("molten_helmet", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(40))));
-	public static final Item MOLTEN_CHESTPLATE = register("molten_chestplate", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(40))));
-	public static final Item MOLTEN_LEGGINGS = register("molten_leggings", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(40))));
-	public static final Item MOLTEN_BOOTS = register("molten_boots", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(40))));
+	public static final Item SHADOW_HELMET = register("shadow_helmet", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorType.HELMET, new Item.Properties().durability(ArmorType.HELMET.getDurability(20))));
+	public static final Item SHADOW_CHESTPLATE = register("shadow_chestplate", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorType.CHESTPLATE, new Item.Properties().durability(ArmorType.CHESTPLATE.getDurability(20))));
+	public static final Item SHADOW_LEGGINGS = register("shadow_leggings", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorType.LEGGINGS, new Item.Properties().durability(ArmorType.LEGGINGS.getDurability(20))));
+	public static final Item SHADOW_BOOTS = register("shadow_boots", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.SHADOW, ArmorType.BOOTS, new Item.Properties().durability(ArmorType.BOOTS.getDurability(20))));
+	public static final Item ANCIENT_SHADOW_HELMET = register("ancient_shadow_helmet", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorType.HELMET, new Item.Properties().durability(ArmorType.HELMET.getDurability(20))));
+	public static final Item ANCIENT_SHADOW_CHESTPLATE = register("ancient_shadow_chestplate", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorType.CHESTPLATE, new Item.Properties().durability(ArmorType.CHESTPLATE.getDurability(20))));
+	public static final Item ANCIENT_SHADOW_LEGGINGS = register("ancient_shadow_leggings", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorType.LEGGINGS, new Item.Properties().durability(ArmorType.LEGGINGS.getDurability(20))));
+	public static final Item ANCIENT_SHADOW_BOOTS = register("ancient_shadow_boots", new ShadowArmor("shadow_armor", TerrariaArmorMaterials.ANCIENT_SHADOW, ArmorType.BOOTS, new Item.Properties().durability(ArmorType.BOOTS.getDurability(20))));
+	public static final Item CRIMSON_HELMET = register("crimson_helmet", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorType.HELMET, new Item.Properties().durability(ArmorType.HELMET.getDurability(20))));
+	public static final Item CRIMSON_CHESTPLATE = register("crimson_chestplate", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorType.CHESTPLATE, new Item.Properties().durability(ArmorType.CHESTPLATE.getDurability(20))));
+	public static final Item CRIMSON_LEGGINGS = register("crimson_leggings", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorType.LEGGINGS, new Item.Properties().durability(ArmorType.LEGGINGS.getDurability(20))));
+	public static final Item CRIMSON_BOOTS = register("crimson_boots", new CrimsonArmor("crimson_armor", TerrariaArmorMaterials.CRIMSON, ArmorType.BOOTS, new Item.Properties().durability(ArmorType.BOOTS.getDurability(20))));
+	public static final Item METEOR_HELMET = register("meteor_helmet", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorType.HELMET, new Item.Properties().durability(ArmorType.HELMET.getDurability(35))));
+	public static final Item METEOR_CHESTPLATE = register("meteor_chestplate", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorType.CHESTPLATE, new Item.Properties().durability(ArmorType.CHESTPLATE.getDurability(35))));
+	public static final Item METEOR_LEGGINGS = register("meteor_leggings", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorType.LEGGINGS, new Item.Properties().durability(ArmorType.LEGGINGS.getDurability(35))));
+	public static final Item METEOR_BOOTS = register("meteor_boots", new MeteorArmor("meteor_armor", TerrariaArmorMaterials.METEOR, ArmorType.BOOTS, new Item.Properties().durability(ArmorType.BOOTS.getDurability(35))));
+	public static final Item MOLTEN_HELMET = register("molten_helmet", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorType.HELMET, new Item.Properties().durability(ArmorType.HELMET.getDurability(40))));
+	public static final Item MOLTEN_CHESTPLATE = register("molten_chestplate", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorType.CHESTPLATE, new Item.Properties().durability(ArmorType.CHESTPLATE.getDurability(40))));
+	public static final Item MOLTEN_LEGGINGS = register("molten_leggings", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorType.LEGGINGS, new Item.Properties().durability(ArmorType.LEGGINGS.getDurability(40))));
+	public static final Item MOLTEN_BOOTS = register("molten_boots", new MoltenArmor("molten_armor", TerrariaArmorMaterials.MOLTEN, ArmorType.BOOTS, new Item.Properties().durability(ArmorType.BOOTS.getDurability(40))));
 
 	// Vanity Armours
-	public static final Item FAMILIAR_WIG = register("familiar_wig", new FamiliarVanity("familiar_wig", TerrariaArmorMaterials.VANITY, ArmorItem.Type.HELMET, new Item.Properties()));
-	public static final Item FAMILIAR_SHIRT = register("familiar_shirt", new FamiliarVanity("familiar_shirt", TerrariaArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-	public static final Item FAMILIAR_PANTS = register("familiar_pants", new FamiliarVanity("familiar_pants", TerrariaArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-	public static final Item FAMILIAR_SHOES = register("familiar_shoes", new FamiliarVanity("familiar_shoes", TerrariaArmorMaterials.VANITY, ArmorItem.Type.BOOTS, new Item.Properties()));
-	//public static final Item TOP_HAT = register("top_hat", new TopHatVanity("top_hat", TerrariaArmorMaterials.VANITY, ArmorItem.Type.HELMET, new FabricItemSettings()));
+	public static final Item FAMILIAR_WIG = register("familiar_wig", new FamiliarVanity("familiar_wig", TerrariaArmorMaterials.VANITY, ArmorType.HELMET, new Item.Properties()));
+	public static final Item FAMILIAR_SHIRT = register("familiar_shirt", new FamiliarVanity("familiar_shirt", TerrariaArmorMaterials.VANITY, ArmorType.CHESTPLATE, new Item.Properties()));
+	public static final Item FAMILIAR_PANTS = register("familiar_pants", new FamiliarVanity("familiar_pants", TerrariaArmorMaterials.VANITY, ArmorType.LEGGINGS, new Item.Properties()));
+	public static final Item FAMILIAR_SHOES = register("familiar_shoes", new FamiliarVanity("familiar_shoes", TerrariaArmorMaterials.VANITY, ArmorType.BOOTS, new Item.Properties()));
+	//public static final Item TOP_HAT = register("top_hat", new TopHatVanity("top_hat", TerrariaArmorMaterials.VANITY, ArmorType.HELMET, new FabricItemSettings()));
 	// todo: make Eye of Cthulhu mask and add it to Treasure Bag loot table (replace familiar wig)
 
 

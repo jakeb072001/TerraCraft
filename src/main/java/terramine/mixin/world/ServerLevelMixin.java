@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ChestBlock;
@@ -60,7 +61,7 @@ public abstract class ServerLevelMixin {
                         if (this.ticks >= this.tickGoal) {
                             if (rand.nextInt(100) <= TerraMine.CONFIG.general.fallingStarRarity) {
                                 Player player = this.getRandomPlayer();
-                                FallingStarEntity star = ModEntities.FALLING_STAR.create(level);
+                                FallingStarEntity star = ModEntities.FALLING_STAR.create(level, EntitySpawnReason.NATURAL);
                                 if (star != null && player != null && player.blockPosition().getY() >= 50) {
                                     star.setPos(player.blockPosition().getX() + rand.nextInt(12), player.blockPosition().getY() + 30, player.blockPosition().getZ() + rand.nextInt(12));
                                     level.addFreshEntity(star);
@@ -80,11 +81,11 @@ public abstract class ServerLevelMixin {
                     int z = level.random.nextInt(100 / 4);
                     if (level.random.nextBoolean()) x = -x;
                     if (level.random.nextBoolean()) z = -z;
-                    Player player = this.getRandomPlayer();
+                    ServerPlayer player = this.getRandomPlayer();
                     if (player != null) {
                         x = (int) (x + player.getX());
                         z = (int) (z + player.getZ());
-                        FallingMeteoriteEntity meteorite = ModEntities.METEORITE.create(level);
+                        FallingMeteoriteEntity meteorite = ModEntities.METEORITE.create(level, EntitySpawnReason.NATURAL);
                         if (meteorite != null) {
                             meteorite.setPos(x, 150, z);
 

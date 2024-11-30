@@ -1,5 +1,6 @@
 package terramine.common.entity.block;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
@@ -33,6 +34,6 @@ public class InstantPrimedTNTEntity extends PrimedTnt {
     }
 
     private void explode() {
-        new ExplosionConfigurable(level(), this, this.position().x(), this.position().y(), this.position().z(), 20F, 100f, Explosion.BlockInteraction.DESTROY);
+        new ExplosionConfigurable((ServerLevel) level(), this, this.position().x(), this.position().y(), this.position().z(), 20F, 100f, Explosion.BlockInteraction.DESTROY);
     }
 }

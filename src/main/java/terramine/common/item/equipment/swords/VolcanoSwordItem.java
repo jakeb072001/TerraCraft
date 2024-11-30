@@ -3,12 +3,12 @@ package terramine.common.item.equipment.swords;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ToolMaterial;
 import org.jetbrains.annotations.NotNull;
 
 public class VolcanoSwordItem extends SwordItem {
-    public VolcanoSwordItem(Tier tier, Properties properties) {
-        super(tier, properties);
+    public VolcanoSwordItem(ToolMaterial tier, float f, float g, Properties properties) {
+        super(tier, f, g, properties);
     }
 
     @Override

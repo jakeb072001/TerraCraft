@@ -31,13 +31,13 @@ import static net.minecraft.world.item.ShovelItem.FLATTENABLES;
 public class TerrariaShaxeItem extends DiggerItem implements ItemExtensions {
     private final boolean fireAspect;
 
-    public TerrariaShaxeItem(Tier tier, Item.Properties properties) {
-        super(tier, ModTags.MINEABLE_WITH_SHAXE, properties);
+    public TerrariaShaxeItem(ToolMaterial tier, float f, float g, Item.Properties properties) {
+        super(tier, ModTags.MINEABLE_WITH_SHAXE, f, g, properties);
         fireAspect = false;
     }
 
-    public TerrariaShaxeItem(Tier tier, boolean fireAspect, Item.Properties properties) {
-        super(tier, ModTags.MINEABLE_WITH_SHAXE, properties);
+    public TerrariaShaxeItem(ToolMaterial tier, boolean fireAspect, float f, float g, Item.Properties properties) {
+        super(tier, ModTags.MINEABLE_WITH_SHAXE, f, g, properties);
         this.fireAspect = fireAspect;
     }
 
@@ -71,7 +71,7 @@ public class TerrariaShaxeItem extends DiggerItem implements ItemExtensions {
                 }
             }
 
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
 
         // Axe
@@ -90,7 +90,7 @@ public class TerrariaShaxeItem extends DiggerItem implements ItemExtensions {
                 itemStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(useOnContext.getHand()));
             }
 
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
     }
 

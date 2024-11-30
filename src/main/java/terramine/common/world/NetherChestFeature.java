@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.RandomizableContainer;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -57,7 +58,7 @@ public class NetherChestFeature extends Feature<NoneFeatureConfiguration> {
 
 	public void generateContainer(WorldGenLevel level, BlockPos pos, RandomSource random) {
 		if (ModComponents.HARDMODE.get(level.getLevelData()).get() && random.nextFloat() * 100 < TerraMine.CONFIG.worldgen.caveChest.mimicChance) {
-			MimicEntity mimic = ModEntities.MIMIC.create(level.getLevel());
+			MimicEntity mimic = ModEntities.MIMIC.create(level.getLevel(), EntitySpawnReason.STRUCTURE);
 			if (mimic != null) {
 				mimic.setDormant(true);
 				mimic.setFacing(Direction.Plane.HORIZONTAL.getRandomDirection(random));

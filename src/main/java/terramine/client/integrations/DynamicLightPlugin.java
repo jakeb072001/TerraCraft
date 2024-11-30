@@ -1,15 +1,14 @@
 package terramine.client.integrations;
 
-// todo: uncomment after updating to 1.21 (after 1.20.6 update is finished), also uncomment in build.gradle
-/**
 import dev.lambdaurora.lambdynlights.api.DynamicLightHandlers;
 import dev.lambdaurora.lambdynlights.api.DynamicLightsInitializer;
+import dev.lambdaurora.lambdynlights.api.item.ItemLightSourceManager;
 import terramine.common.init.ModEntities;
 
 public class DynamicLightPlugin implements DynamicLightsInitializer {
 
     @Override
-    public void onInitializeDynamicLights() {
+    public void onInitializeDynamicLights(ItemLightSourceManager itemLightSourceManager) {
         //DynamicLightHandlers.registerDynamicLightHandler(ModEntities.ENTITY, DynamicLightHandler.makeHandler(entity -> 10, entity -> false));
         DynamicLightHandlers.registerDynamicLightHandler(ModEntities.FALLING_STAR, star -> 10);
         DynamicLightHandlers.registerDynamicLightHandler(ModEntities.METEORITE, meteorite -> 10);
@@ -21,4 +20,3 @@ public class DynamicLightPlugin implements DynamicLightsInitializer {
         DynamicLightHandlers.registerDynamicLightHandler(ModEntities.JESTER_ARROW, arrow -> 6);
     }
 }
-**/

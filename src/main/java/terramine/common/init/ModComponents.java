@@ -43,6 +43,7 @@ public class ModComponents implements EntityComponentInitializer, LevelComponent
 	public static final ComponentKey<SyncedBooleanComponent> ACCESSORY_DEMON_HEART_CHECK =
 			ComponentRegistryV3.INSTANCE.getOrCreate(TerraMine.id("accessory_demon_heart_check"), SyncedBooleanComponent.class);
 
+	// todo: replace with scoreboard components, will need slight rewrite but will be needed
 	// Level Data
 	public static final ComponentKey<SyncedBooleanComponent> HARDMODE =
 			ComponentRegistryV3.INSTANCE.getOrCreate(TerraMine.id("hardmode"), SyncedBooleanComponent.class);

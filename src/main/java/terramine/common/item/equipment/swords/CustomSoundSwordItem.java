@@ -5,14 +5,14 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ToolMaterial;
 import terramine.extensions.ItemExtensions;
 
 public class CustomSoundSwordItem extends SwordItem implements ItemExtensions {
     SoundEvent swingSound;
 
-    public CustomSoundSwordItem(Tier tier, SoundEvent sound, Properties properties) {
-        super(tier, properties);
+    public CustomSoundSwordItem(ToolMaterial tier, float f, float g, SoundEvent sound, Properties properties) {
+        super(tier, f, g, properties);
         swingSound = sound;
     }
 

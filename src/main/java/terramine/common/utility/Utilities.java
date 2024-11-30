@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -108,10 +108,10 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
 
     public static int intFromColor(BasicDye basicDye) {
         int m = basicDye.getColourInt();
-        int i = FastColor.ARGB32.red(m);
-        int j = FastColor.ARGB32.green(m);
-        int k = FastColor.ARGB32.blue(m);
-        return FastColor.ARGB32.color(i, j, k);
+        int i = ARGB.red(m);
+        int j = ARGB.green(m);
+        int k = ARGB.blue(m);
+        return ARGB.color(i, j, k);
     }
 
     public static int getDyeColour(ItemStack itemStack) {
@@ -175,7 +175,7 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
         }
         //up
         if (InputHandler.isHoldingForwards(player)) {
-            if (InputHandler.isHoldingForwards(player) && upPressed && upKeyUnpressed && !player.getCooldowns().isOnCooldown(item) && !player.isInWaterOrBubble()) {
+            if (InputHandler.isHoldingForwards(player) && upPressed && upKeyUnpressed && !player.getCooldowns().isOnCooldown(item.getDefaultInstance()) && !player.isInWaterOrBubble()) {
                 sendDash(item);
                 player.moveRelative(1, new Vec3(0, 0, 10));
                 upPressed = false;
@@ -188,7 +188,7 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
         }
         //down
         if (InputHandler.isHoldingBackwards(player)) {
-            if (InputHandler.isHoldingBackwards(player) && downPressed && downKeyUnpressed && !player.getCooldowns().isOnCooldown(item) && !player.isInWaterOrBubble()) {
+            if (InputHandler.isHoldingBackwards(player) && downPressed && downKeyUnpressed && !player.getCooldowns().isOnCooldown(item.getDefaultInstance()) && !player.isInWaterOrBubble()) {
                 sendDash(item);
                 player.moveRelative(1, new Vec3(0, 0, -10));
                 downPressed = false;
@@ -201,7 +201,7 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
         }
         //left
         if (InputHandler.isHoldingLeft(player)) {
-            if (InputHandler.isHoldingLeft(player) && leftPressed && leftKeyUnpressed && !player.getCooldowns().isOnCooldown(item) && !player.isInWaterOrBubble()) {
+            if (InputHandler.isHoldingLeft(player) && leftPressed && leftKeyUnpressed && !player.getCooldowns().isOnCooldown(item.getDefaultInstance()) && !player.isInWaterOrBubble()) {
                 sendDash(item);
                 player.moveRelative(1, new Vec3(10, 0, 0));
                 leftPressed = false;
@@ -214,7 +214,7 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
         }
         //right
         if (InputHandler.isHoldingRight(player)) {
-            if (InputHandler.isHoldingRight(player) && rightPressed && rightKeyUnpressed && !player.getCooldowns().isOnCooldown(item) && !player.isInWaterOrBubble()) {
+            if (InputHandler.isHoldingRight(player) && rightPressed && rightKeyUnpressed && !player.getCooldowns().isOnCooldown(item.getDefaultInstance()) && !player.isInWaterOrBubble()) {
                 sendDash(item);
                 player.moveRelative(1, new Vec3(-10, 0, 0));
                 rightPressed = false;

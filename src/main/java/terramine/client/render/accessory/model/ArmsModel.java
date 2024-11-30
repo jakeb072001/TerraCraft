@@ -10,6 +10,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +19,7 @@ import terramine.common.init.ModModelLayers;
 
 import java.util.function.Function;
 
-public class ArmsModel extends HumanoidModel<LivingEntity> {
+public class ArmsModel extends HumanoidModel<HumanoidRenderState> {
 
     public ArmsModel(ModelPart part, Function<ResourceLocation, RenderType> renderType) {
         super(part, renderType);
@@ -41,7 +42,8 @@ public class ArmsModel extends HumanoidModel<LivingEntity> {
     public void renderArm(HumanoidArm handSide, PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         getArm(handSide).visible = true;
         getArm(handSide.getOpposite()).visible = false;
-        renderToBuffer(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        buffer.setColor(red, green, blue, alpha);
+        renderToBuffer(matrixStack, buffer, packedLight, packedOverlay, 1);
     }
 
     public static ArmsModel createClawsModel(boolean smallArms) {

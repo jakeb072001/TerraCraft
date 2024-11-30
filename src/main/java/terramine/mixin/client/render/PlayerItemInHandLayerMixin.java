@@ -21,7 +21,7 @@ import terramine.extensions.PlayerStorages;
 public class PlayerItemInHandLayerMixin {
 
     // todo: block pose could use some work to look a bit better
-    @ModifyVariable(method = "renderArmWithItem", at = @At("HEAD"), argsOnly = true)
+    @ModifyVariable(method = "renderArmWithItem*", at = @At("HEAD"), argsOnly = true)
     private ItemStack vanityArmor(ItemStack itemStack, LivingEntity livingEntity, ItemStack itemStack2, ItemDisplayContext itemDisplayContext, HumanoidArm humanoidArm, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
         if (livingEntity instanceof Player player && humanoidArm.equals(HumanoidArm.LEFT) && (itemStack.getItem() instanceof ShieldItem || itemStack.getItem() instanceof ShieldAccessoryItem)) {
             if (((PlayerStorages)player).getTerrariaInventory().getItem(21) != ItemStack.EMPTY) {

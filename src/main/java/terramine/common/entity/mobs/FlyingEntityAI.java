@@ -2,6 +2,7 @@ package terramine.common.entity.mobs;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -253,11 +254,11 @@ public class FlyingEntityAI extends Monster implements Enemy {
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel serverLevel, @NotNull DamageSource source, float amount) {
         if (source.getEntity() instanceof Player) {
             bounce = true;
         }
-        return super.hurt(source, amount);
+        return super.hurtServer(serverLevel, source, amount);
     }
 
     @Override

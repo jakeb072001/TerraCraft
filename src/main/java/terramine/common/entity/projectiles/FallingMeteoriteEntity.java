@@ -2,6 +2,7 @@ package terramine.common.entity.projectiles;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
@@ -34,7 +35,7 @@ public class FallingMeteoriteEntity extends FallingProjectileEntity {
         spawnEffects();
         if (level().getBlockState(blockPosition().below()).isFaceSturdy(level(), blockPosition().below(), Direction.getRandom(random)) && !level().getBlockState(blockPosition().below()).is(BlockTags.LOGS)) {
             if (!level().isClientSide) { // checks if the world is not client
-                new ExplosionConfigurable(level(), this, true);
+                new ExplosionConfigurable((ServerLevel) level(), this, true);
                 level().playSound(null, this.blockPosition(), ModSoundEvents.FALLING_STAR_CRASH, SoundSource.AMBIENT, 2f, 1f);
                 this.discard();
             }

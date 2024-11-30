@@ -5,8 +5,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -45,16 +46,16 @@ public class CrimsonRedstoneOreBlock extends CrimsonHelper {
     }
 
     @Override
-    public ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+    public InteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         if (level.isClientSide) {
             spawnParticles(level, blockPos);
         } else {
             interact(blockState, level, blockPos);
         }
         if (itemStack.getItem() instanceof BlockItem && new BlockPlaceContext(player, interactionHand, itemStack, blockHitResult).canPlace()) {
-            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     private static void interact(BlockState blockState, Level level, BlockPos blockPos) {
@@ -79,9 +80,8 @@ public class CrimsonRedstoneOreBlock extends CrimsonHelper {
     @Override
     public void spawnAfterBreak(@NotNull BlockState blockState, @NotNull ServerLevel serverLevel, @NotNull BlockPos blockPos, @NotNull ItemStack itemStack, boolean bl) {
         super.spawnAfterBreak(blockState, serverLevel, blockPos, itemStack, bl);
-        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, itemStack) == 0) {
-            int i = 1 + serverLevel.random.nextInt(5);
-            this.popExperience(serverLevel, blockPos, i);
+        if (bl) {
+            this.tryDropExperience(serverLevel, blockPos, itemStack, UniformInt.of(1, 5));
         }
     }
 
@@ -96,7 +96,7 @@ public class CrimsonRedstoneOreBlock extends CrimsonHelper {
         RandomSource random = level.random;
         for (Direction direction : Direction.values()) {
             BlockPos blockPos2 = blockPos.relative(direction);
-            if (level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) continue;
+            if (level.getBlockState(blockPos2).isSolidRender()) continue;
             Direction.Axis axis = direction.getAxis();
             double e = axis == Direction.Axis.X ? 0.5 + 0.5625 * (double)direction.getStepX() : (double)random.nextFloat();
             double f = axis == Direction.Axis.Y ? 0.5 + 0.5625 * (double)direction.getStepY() : (double)random.nextFloat();

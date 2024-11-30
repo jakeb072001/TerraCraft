@@ -12,9 +12,10 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageWidget;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -44,7 +45,7 @@ import java.util.UUID;
 
 // todo: sometimes when clicking a slot the item isn't picked up or placed down
 @Environment(EnvType.CLIENT)
-public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<TerrariaInventoryContainerMenu> {
+public class TerrariaInventoryScreen extends AbstractContainerScreen<TerrariaInventoryContainerMenu> {
     private static final ResourceLocation BUTTON_TEX = TerraMine.id("textures/gui/terraria_slots_button.png");
     private static final ResourceLocation ROTATE_LEFT_TEX = TerraMine.id("textures/gui/terraria_rotate_left_button.png");
     private static final ResourceLocation ROTATE_RIGHT_TEX = TerraMine.id("textures/gui/terraria_rotate_right_button.png");
@@ -130,11 +131,11 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
         int k = (this.width - this.imageWidth) / 2;
         int l = (this.height - this.imageHeight) / 2;
         if (ModComponents.ACCESSORY_SLOTS_ADDER.get(this.minecraft.player).get() == 1) {
-            guiGraphics.blit(TERRARIA_CONTAINER_6, k, l, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+            guiGraphics.blit(RenderType::guiTextured, TERRARIA_CONTAINER_6, k, l, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
         } else if (ModComponents.ACCESSORY_SLOTS_ADDER.get(this.minecraft.player).get() == 2) {
-            guiGraphics.blit(TERRARIA_CONTAINER_7, k, l, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+            guiGraphics.blit(RenderType::guiTextured, TERRARIA_CONTAINER_7, k, l, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
         } else {
-            guiGraphics.blit(TERRARIA_CONTAINER_5, k, l, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+            guiGraphics.blit(RenderType::guiTextured, TERRARIA_CONTAINER_5, k, l, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
         }
         renderEntityInInventoryFollowsMouse(guiGraphics, k + 88, l + 71, 30, (k + 51f) - this.xMouse, l + 75f - 50f - this.yMouse, this.minecraft.player);
     }
@@ -178,8 +179,8 @@ public class TerrariaInventoryScreen extends EffectRenderingInventoryScreen<Terr
         }
 
         entityRenderDispatcher.setRenderShadow(false);
-        RenderSystem.runAsFancy(() -> {
-            entityRenderDispatcher.render(livingEntity, 0.0, 0.0, 0.0, 0.0F, 1.0F, guiGraphics.pose(), guiGraphics.bufferSource(), 15728880);
+        guiGraphics.drawSpecial((multiBufferSource) -> {
+            entityRenderDispatcher.render(livingEntity, 0.0, 0.0, 0.0, 1.0F, guiGraphics.pose(), multiBufferSource, 15728880);
         });
         guiGraphics.flush();
         entityRenderDispatcher.setRenderShadow(true);

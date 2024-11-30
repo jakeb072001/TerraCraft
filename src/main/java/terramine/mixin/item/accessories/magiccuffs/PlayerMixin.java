@@ -1,5 +1,6 @@
 package terramine.mixin.item.accessories.magiccuffs;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -20,8 +21,8 @@ public abstract class PlayerMixin extends Entity {
 		super(entityType, level);
 	}
 
-	@Inject(method = "hurt", at = @At("TAIL"))
-	private void onHurt(DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
+	@Inject(method = "hurtServer", at = @At("TAIL"))
+	private void onHurt(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
 		Player player = (Player) (Object) this;
 		if (!AccessoriesHelper.isEquipped(ModItems.MAGIC_CUFFS, player)) {
 			return;
