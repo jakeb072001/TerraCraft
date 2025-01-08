@@ -12,15 +12,18 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 import terramine.client.render.entity.model.projectiles.throwables.DynamiteModel;
+import terramine.client.render.entity.states.TerrariaEntityRenderState;
 import terramine.common.entity.throwables.DynamiteEntity;
+import terramine.common.entity.throwables.GrenadeEntity;
 import terramine.common.init.ModModelLayers;
 
-public class DynamiteRenderer extends EntityRenderer<DynamiteEntity> {
+public class DynamiteRenderer extends EntityRenderer<DynamiteEntity, TerrariaEntityRenderState> {
 
+    private DynamiteEntity dynamiteEntity;
     private static final ResourceLocation TEXTURE = TerraMine.id("textures/item/weapons/throwables/dynamite/dynamite_lit.png");
     private static final ResourceLocation STICKY_TEXTURE = TerraMine.id("textures/item/weapons/throwables/dynamite/sticky_dynamite_lit.png");
     private static final ResourceLocation BOUNCY_TEXTURE = TerraMine.id("textures/item/weapons/throwables/dynamite/bouncy_dynamite_lit.png");
-    protected final EntityModel<DynamiteEntity> model;
+    protected final EntityModel<TerrariaEntityRenderState> model;
 
     public DynamiteRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -28,23 +31,33 @@ public class DynamiteRenderer extends EntityRenderer<DynamiteEntity> {
     }
 
     @Override
-    public void render(@NotNull DynamiteEntity entity, float entityYaw, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+    public void render(@NotNull TerrariaEntityRenderState renderState, @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
+        super.render(renderState, poseStack, buffer, packedLight);
         poseStack.pushPose();
-        this.model.setupAnim(entity, 0.0f, 0.0f, 0.0f, entity.getYRot(), entity.getXRot());
-        poseStack.mulPose(Axis.YP.rotationDegrees(entity.getYRot()));
-        poseStack.mulPose(Axis.XN.rotationDegrees(entity.getXRot() - 180));
-        VertexConsumer vertexConsumer = buffer.getBuffer(this.model.renderType(this.getTextureLocation(entity)));
-        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+        this.model.setupAnim(renderState);
+        poseStack.mulPose(Axis.YP.rotationDegrees(dynamiteEntity.getYRot()));
+        poseStack.mulPose(Axis.XN.rotationDegrees(dynamiteEntity.getXRot() - 180));
+        VertexConsumer vertexConsumer = buffer.getBuffer(this.model.renderType(this.getTextureLocation(renderState)));
+        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(@NotNull DynamiteEntity entity) {
-        if (entity.isSticky()) {
+    public @NotNull TerrariaEntityRenderState createRenderState() {
+        return new TerrariaEntityRenderState();
+    }
+
+    @Override
+    public void extractRenderState(DynamiteEntity dynamiteEntity, TerrariaEntityRenderState terrariaEntityRenderState, float f) {
+        super.extractRenderState(dynamiteEntity, terrariaEntityRenderState, f);
+        this.dynamiteEntity = dynamiteEntity;
+    }
+
+    public ResourceLocation getTextureLocation(@NotNull TerrariaEntityRenderState renderState) {
+        if (dynamiteEntity.isSticky()) {
             return STICKY_TEXTURE;
         }
-        if (entity.isBouncy()) {
+        if (dynamiteEntity.isBouncy()) {
             return BOUNCY_TEXTURE;
         }
         return TEXTURE;

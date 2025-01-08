@@ -20,7 +20,8 @@ public abstract class EntityMixin {
 
     @Shadow public abstract DamageSources damageSources();
 
-    @Inject(at = @At("HEAD"), method = "isInvulnerableTo", cancellable = true)
+    // todo: may need testing
+    @Inject(at = @At("HEAD"), method = "isInvulnerableToBase", cancellable = true)
     private void lavaImmunity(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if ((Entity) (Object) this instanceof LivingEntity entity) {
             if (isLavaCharmEquipped(entity)) {
@@ -33,8 +34,8 @@ public abstract class EntityMixin {
         }
     }
 
-    @WrapWithCondition(method = "lavaHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;igniteForSeconds(I)V"))
-    private boolean disableFire(Entity entity, int fireTime) {
+    @WrapWithCondition(method = "lavaHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;igniteForSeconds(F)V"))
+    private boolean disableFire(Entity entity, float f) {
         if (entity instanceof Player player) {
             if (isLavaCharmEquipped(player)) {
                 return !(ModComponents.LAVA_IMMUNITY.get(player).getLavaImmunityTimer() > 0);

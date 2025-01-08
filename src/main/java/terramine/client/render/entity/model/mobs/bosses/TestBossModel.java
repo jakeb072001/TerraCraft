@@ -5,20 +5,22 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.entity.state.ZombieRenderState;
 import terramine.common.entity.mobs.BossEntityAI;
 
 /**
  * Testing, remove later
  */
-public class TestBossModel<T extends BossEntityAI> extends HumanoidModel<T> {
+public class TestBossModel<T extends ZombieRenderState> extends HumanoidModel<T> {
 
     public TestBossModel(ModelPart modelPart) {
         super(modelPart);
     }
 
-    public void setupAnim(T monster, float f, float g, float h, float i, float j) {
-        super.setupAnim(monster, f, g, h, i, j);
-        AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, this.isAggressive(), this.attackTime, h);
+    @Override
+    public void setupAnim(T monster) {
+        super.setupAnim(monster);
+        AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, this.isAggressive(), monster.attackTime, monster.ageInTicks);
     }
 
     public static LayerDefinition createLayer() {

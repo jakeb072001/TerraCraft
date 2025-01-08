@@ -13,10 +13,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -40,7 +37,7 @@ public class BaseChest extends ChestBlock {
     public static final BooleanProperty TRAPPED = BooleanProperty.create("trapped");
 
     public BaseChest(Properties properties, boolean trapped, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
-        super(properties, supplier);
+        super(supplier, properties);
         registerDefaultState(defaultBlockState().setValue(TRAPPED, trapped));
     }
 
@@ -50,14 +47,13 @@ public class BaseChest extends ChestBlock {
 
     @Override
     public @NotNull InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
+        if (level instanceof ServerLevel serverLevel) {
+            MenuProvider menuProvider = blockState.getMenuProvider(level, blockPos);
+            player.openMenu(menuProvider);
+            player.awardStat(this.getOpenChestStat());
+            PiglinAi.angerNearbyPiglins(serverLevel, player, true);
         }
-        MenuProvider menuProvider = blockState.getMenuProvider(level, blockPos);
-        player.openMenu(menuProvider);
-        player.awardStat(this.getOpenChestStat());
-        PiglinAi.angerNearbyPiglins(player, true);
-        return InteractionResult.CONSUME;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -69,11 +65,11 @@ public class BaseChest extends ChestBlock {
     }
 
     @Override
-    public BlockState updateShape(@NotNull BlockState blockState, @NotNull Direction direction, @NotNull BlockState blockState2, @NotNull LevelAccessor levelAccessor, @NotNull BlockPos blockPos, @NotNull BlockPos blockPos2) {
-        if (direction == Direction.DOWN && !this.canSurvive(blockState, levelAccessor, blockPos)) {
+    public @NotNull BlockState updateShape(BlockState blockState, LevelReader levelReader, ScheduledTickAccess scheduledTickAccess, BlockPos blockPos, Direction direction, BlockPos blockPos2, BlockState blockState2, RandomSource randomSource) {
+        if (direction == Direction.DOWN && !this.canSurvive(blockState, levelReader, blockPos)) {
             return Blocks.AIR.defaultBlockState();
         }
-        return super.updateShape(blockState, direction, blockState2, levelAccessor, blockPos, blockPos2);
+        return super.updateShape(blockState, levelReader, scheduledTickAccess, blockPos, direction, blockPos2, blockState2, randomSource);
     }
 
     @Override
@@ -82,7 +78,7 @@ public class BaseChest extends ChestBlock {
     }
 
     @Override
-    public RenderShape getRenderShape(@NotNull BlockState blockState) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState blockState) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
@@ -94,7 +90,7 @@ public class BaseChest extends ChestBlock {
     }
 
     @Override
-    public DoubleBlockCombiner.NeighborCombineResult<? extends ChestEntity> combine(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos2, boolean bl) {
+    public DoubleBlockCombiner.@NotNull NeighborCombineResult<? extends ChestEntity> combine(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos2, boolean bl) {
         BiPredicate<LevelAccessor, BlockPos> biPredicate = bl ? (levelAccessor, blockPos) -> false : BaseChest::isChestBlockedAt;
         return DoubleBlockCombiner.combineWithNeigbour((BlockEntityType)this.blockEntityType.get(), BaseChest::getBlockType, BaseChest::getConnectedDirection, FACING, blockState, level, blockPos2, biPredicate);
     }
@@ -105,7 +101,7 @@ public class BaseChest extends ChestBlock {
     }
 
     @Override
-    protected Stat<ResourceLocation> getOpenChestStat() {
+    protected @NotNull Stat<ResourceLocation> getOpenChestStat() {
         if (this.defaultBlockState().getValue(TRAPPED)) {
             return Stats.CUSTOM.get(Stats.TRIGGER_TRAPPED_CHEST);
         } else {
@@ -135,7 +131,7 @@ public class BaseChest extends ChestBlock {
         return 0;
     }
 
-    public BlockEntityType<? extends ChestEntity> blockEntityType() {
+    public @NotNull BlockEntityType<? extends ChestEntity> blockEntityType() {
         return (BlockEntityType)this.blockEntityType.get();
     }
 

@@ -74,7 +74,7 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerStorages
 	public void blockUsingShield(LivingEntity attacker, CallbackInfo info) {
 		super.blockUsingShield(attacker);
 		if (((ItemExtensions) attacker.getMainHandItem().getItem()).canDisableShield(attacker.getMainHandItem(), this.getUseItem(), this, attacker)) {
-			(((Player) (Object)this)).disableShield();
+			(((Player) (Object)this)).disableShield(this.getUseItem());
 		}
 	}
 

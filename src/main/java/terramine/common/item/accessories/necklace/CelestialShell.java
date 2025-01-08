@@ -1,5 +1,6 @@
 package terramine.common.item.accessories.necklace;
 
+import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,7 +15,7 @@ import terramine.common.misc.AccessoriesHelper;
 
 public class CelestialShell extends AccessoryTerrariaItem {
 
-    private boolean inWater, isNight;
+    private boolean isNight;
     private final boolean shell, wolf, sun, moon;
     private int timer;
 
@@ -30,7 +31,7 @@ public class CelestialShell extends AccessoryTerrariaItem {
 
     @Override
     protected void curioTick(Player player, ItemStack stack) {
-        inWater = player.isInWater();
+        boolean inWater = player.isInWater();
 
         if (!player.level().isClientSide()) {
             isNight = player.level().isNight();
@@ -58,15 +59,15 @@ public class CelestialShell extends AccessoryTerrariaItem {
         }
     }
 
-    private static TriState onPlayerSwim(Player player) {
+    private static EventResult onPlayerSwim(Player player) {
         if (AccessoriesHelper.isEquipped(ModItems.NEPTUNE_SHELL, player) || AccessoriesHelper.isEquipped(ModItems.MOON_SHELL, player)
                 || AccessoriesHelper.isEquipped(ModItems.CELESTIAL_SHELL, player)) {
             return ModComponents.SWIM_ABILITIES.maybeGet(player)
                     .filter(swimAbilityComponent -> swimAbilityComponent.isSinking() && !swimAbilityComponent.isSwimming())
-                    .map(swimAbilities -> TriState.FALSE)
-                    .orElse(TriState.DEFAULT);
+                    .map(swimAbilities -> EventResult.FAIL)
+                    .orElse(EventResult.PASS);
         }
-        return TriState.DEFAULT;
+        return EventResult.PASS;
     }
 
     @Override

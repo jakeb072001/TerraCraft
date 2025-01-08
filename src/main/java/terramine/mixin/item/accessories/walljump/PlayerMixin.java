@@ -271,7 +271,7 @@ public abstract class PlayerMixin extends AbstractClientPlayer {
         BlockState blockState = this.level().getBlockState(blockPos);
         if(blockState.getRenderShape() != RenderShape.INVISIBLE) {
             Vec3 pos = this.position();
-            Vec3i motion = this.getClingDirection().getNormal();
+            Vec3i motion = this.getClingDirection().getUnitVec3i();
             this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockState), pos.x(), pos.y(), pos.z(), motion.getX() * -1.0D, -1.0D, motion.getZ() * -1.0D);
         }
     }

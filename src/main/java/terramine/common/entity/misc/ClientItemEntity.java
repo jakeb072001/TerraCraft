@@ -21,7 +21,6 @@ public class ClientItemEntity extends ItemEntity {
 
     public ClientItemEntity(EntityType<? extends ClientItemEntity> entityType, Level level) {
         super(entityType, level);
-        this.noCulling = true;
     }
 
     public void setValues(ItemStack itemStack, double d, double e, double f) {

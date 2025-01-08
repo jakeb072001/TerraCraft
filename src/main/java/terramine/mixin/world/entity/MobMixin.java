@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import terramine.common.item.accessories.ShieldAccessoryItem;
+import terramine.common.item.accessories.ShieldAccessoryLikeItem;
 import terramine.extensions.ItemExtensions;
 
 @Mixin(Player.class)
@@ -25,12 +25,10 @@ public abstract class MobMixin extends LivingEntity {
         Player player = (Player) (Object) this;
         ItemStack itemStack = player.getOffhandItem();
         ItemStack itemStack2 = player.getMainHandItem();
-        if (!itemStack.isEmpty() && !itemStack2.isEmpty() && ((ItemExtensions) itemStack.getItem()).canDisableShield(itemStack, itemStack2, player, this) && (itemStack2.getItem() instanceof ShieldItem || itemStack2.getItem() instanceof ShieldAccessoryItem)) {
-            float f = 0.25F + (float) EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
-            if (this.random.nextFloat() < f) {
-                player.getCooldowns().addCooldown(itemStack2.getItem(), 100);
-                this.level().broadcastEntityEvent(player, (byte) 30);
-            }
+        if (!itemStack.isEmpty() && !itemStack2.isEmpty() && ((ItemExtensions) itemStack.getItem()).canDisableShield(itemStack, itemStack2, player, this) && (itemStack2.getItem() instanceof ShieldItem || itemStack2.getItem() instanceof ShieldAccessoryLikeItem)) {
+            player.getCooldowns().addCooldown(itemStack2, 100);
+            this.stopUsingItem();
+            this.level().broadcastEntityEvent(player, (byte) 30);
         }
     }
 }

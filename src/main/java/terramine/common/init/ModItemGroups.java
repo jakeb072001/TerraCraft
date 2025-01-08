@@ -357,6 +357,14 @@ public class ModItemGroups {
             entries.accept(ModItems.GRAY_DYE);
             entries.accept(ModItems.BLACK_DYE);
         });
+
+        // todo: unsure if this works, test
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.addPhaseOrdering(id("first_phase"), id("second_phase"));
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.addPhaseOrdering(id("second_phase"), id("third_phase"));
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.addPhaseOrdering(id("third_phase"), id("fourth_phase"));
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.addPhaseOrdering(id("fourth_phase"), id("fifth_phase"));
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.addPhaseOrdering(id("fifth_phase"), id("sixth_phase"));
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.addPhaseOrdering(id("sixth_phase"), id("seventh_phase"));
     }
 
     private static CreativeModeTab registerCreativeTab(String string, CreativeModeTab tab) {

@@ -14,7 +14,7 @@ public class OriginsCompat implements CompatHandler {
 	public void run() {
 		RegistryEntryAddedCallback.event(ApoliRegistries.ENTITY_CONDITION).register((rawId, id, conditionFactory) -> {
 			// Held-up umbrella blocks origins:exposed_to_sun condition
-			if (conditionFactory.getSerializerId().equals(new ResourceLocation(Origins.MODID, "exposed_to_sun"))) {
+			if (conditionFactory.getSerializerId().equals(ResourceLocation.fromNamespaceAndPath(Origins.MODID, "exposed_to_sun"))) {
 				//noinspection unchecked
 				ConditionFactoryAccessor<LivingEntity> conditionAccess = (ConditionFactoryAccessor<LivingEntity>) conditionFactory;
 

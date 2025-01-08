@@ -2,17 +2,19 @@ package terramine.client.render.entity.model.projectiles.throwables;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import org.jetbrains.annotations.NotNull;
+import terramine.client.render.entity.states.TerrariaEntityRenderState;
 import terramine.common.entity.throwables.GrenadeEntity;
 
-public class GrenadeModel extends HierarchicalModel<GrenadeEntity> {
+public class GrenadeModel extends EntityModel<TerrariaEntityRenderState> {
     protected final ModelPart grenade;
 
     public GrenadeModel(ModelPart root) {
+        super(root);
         this.grenade = root.getChild("grenade");
     }
 
@@ -26,19 +28,5 @@ public class GrenadeModel extends HierarchicalModel<GrenadeEntity> {
                 PartPose.offset(0.0F, -2.0F, 0.0F));
 
         return LayerDefinition.create(meshDefinition, 16, 16);
-    }
-
-    @Override
-    public void setupAnim(@NotNull GrenadeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float zRot, float xRot) {
-    }
-
-    @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha) {
-        grenade.render(poseStack, vertexConsumer, light, overlay, red, green, blue, alpha);
-    }
-
-    @Override
-    public ModelPart root() {
-        return this.grenade;
     }
 }

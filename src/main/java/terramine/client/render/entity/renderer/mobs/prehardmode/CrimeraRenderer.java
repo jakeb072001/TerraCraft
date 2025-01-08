@@ -11,11 +11,12 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 import terramine.client.render.entity.model.mobs.prehardmode.CrimeraModel;
+import terramine.client.render.entity.states.TerrariaLivingEntityRenderState;
 import terramine.common.entity.mobs.prehardmode.CrimeraEntity;
 import terramine.common.init.ModModelLayers;
 
 @Environment(value=EnvType.CLIENT)
-public class CrimeraRenderer extends MobRenderer<CrimeraEntity, CrimeraModel<CrimeraEntity>> {
+public class CrimeraRenderer extends MobRenderer<CrimeraEntity, TerrariaLivingEntityRenderState, CrimeraModel<TerrariaLivingEntityRenderState>> {
 
     private static final ResourceLocation TEXTURE = TerraMine.id("textures/entity/monsters/pre-hardmode/crimera/default.png");
 
@@ -24,18 +25,23 @@ public class CrimeraRenderer extends MobRenderer<CrimeraEntity, CrimeraModel<Cri
     }
 
     @Override
-    public void render(@NotNull CrimeraEntity entity, float entityYaw, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight) {
-        super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
+    public void render(@NotNull TerrariaLivingEntityRenderState entity, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight) {
+        super.render(entity, matrixStack, buffer, packedLight);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(@NotNull CrimeraEntity entity) {
+    public @NotNull TerrariaLivingEntityRenderState createRenderState() {
+        return new TerrariaLivingEntityRenderState();
+    }
+
+    @Override
+    public @NotNull ResourceLocation getTextureLocation(@NotNull TerrariaLivingEntityRenderState entity) {
         return TEXTURE;
     }
 
     @Override
-    protected void setupRotations(@NotNull CrimeraEntity entity, @NotNull PoseStack poseStack, float f, float g, float h, float i) {
-        super.setupRotations(entity, poseStack, f, g, h, i);
-        poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
+    protected void setupRotations(@NotNull TerrariaLivingEntityRenderState renderState, @NotNull PoseStack poseStack, float f, float g) {
+        super.setupRotations(renderState, poseStack, f, g);
+        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.xRot));
     }
 }

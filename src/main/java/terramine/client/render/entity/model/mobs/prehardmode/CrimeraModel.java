@@ -2,16 +2,17 @@ package terramine.client.render.entity.model.mobs.prehardmode;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
+import terramine.client.render.entity.states.TerrariaLivingEntityRenderState;
 import terramine.common.entity.mobs.prehardmode.CrimeraEntity;
 
-public class CrimeraModel<T extends CrimeraEntity> extends HierarchicalModel<T> {
+public class CrimeraModel<T extends TerrariaLivingEntityRenderState> extends EntityModel<T> {
 
     protected final ModelPart Crimera;
     protected final ModelPart front_body;
@@ -48,7 +49,7 @@ public class CrimeraModel<T extends CrimeraEntity> extends HierarchicalModel<T> 
     protected final ModelPart cube_r14;
 
     public CrimeraModel(ModelPart part) {
-        super(RenderType::entityCutout);
+        super(part);
         Crimera = part.getChild("Crimera");
         front_body = Crimera.getChild("front_body");
         front_tendrils = front_body.getChild("front_tendrils");
@@ -85,8 +86,8 @@ public class CrimeraModel<T extends CrimeraEntity> extends HierarchicalModel<T> 
     }
 
     @Override
-    public void setupAnim(@NotNull CrimeraEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        float k = ((entity.getId() * 3) + ageInTicks) * 4f * ((float)Math.PI / 180);
+    public void setupAnim(@NotNull TerrariaLivingEntityRenderState renderState) {
+        float k = ((renderState.hashCode() * 3) + renderState.ageInTicks) * 4f * ((float)Math.PI / 180);
         float f = k * 2;
         float xMod = 8.0f;
         float yMod = 4.0f;
@@ -107,16 +108,6 @@ public class CrimeraModel<T extends CrimeraEntity> extends HierarchicalModel<T> 
         cube_r13.yRot = 0.15f + Mth.cos(f) * yMod * ((float)Math.PI / 270);
         cube_r14.yRot = -cube_r13.yRot;
         center_back.yRot = Mth.cos(f) * yMod * ((float)Math.PI / 270);
-    }
-
-    @Override
-    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        Crimera.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-    }
-
-    @Override
-    public ModelPart root() {
-        return Crimera;
     }
 
     public static LayerDefinition createLayer() {

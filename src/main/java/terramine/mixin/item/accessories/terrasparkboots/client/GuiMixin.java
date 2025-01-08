@@ -1,7 +1,9 @@
 package terramine.mixin.item.accessories.terrasparkboots.client;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,12 +41,13 @@ public abstract class GuiMixin {
 				count = 7;
 			}
 			for (int i = 0; i < count + 1; i++) {
+				VertexConsumer vertexConsumer = guiGraphics.bufferSource.getBuffer(RenderType.guiTextured(LAVACHARM_ICONS_TEXTURE));
 				if (i == count) {
 					float countFloat = charge / 20F + 10;
-					guiGraphics.setColor(1, 1, 1, (countFloat) % ((int) (countFloat)));
+					vertexConsumer.setColor(1, 1, 1, (countFloat) % ((int) (countFloat)));
 				}
-				guiGraphics.blit(LAVACHARM_ICONS_TEXTURE, left + i * 9, top, -90, 0, 0, 9, 9, 9, 9);
-				guiGraphics.setColor(1, 1, 1, 1);
+				guiGraphics.blit(RenderType::guiTextured, LAVACHARM_ICONS_TEXTURE, left + i * 9, top, -90, 0, 0, 9, 9, 9, 9);
+				vertexConsumer.setColor(1, 1, 1, 1);
 			}
 		}
 	}

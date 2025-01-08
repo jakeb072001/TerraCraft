@@ -42,11 +42,8 @@ repositories {
 }
 
 allprojects { repositories { maven { url 'https://jitpack.io' } } }
+base { archivesName = project.archives_base_name }
 
-sourceCompatibility = JavaVersion.VERSION_21
-targetCompatibility = JavaVersion.VERSION_21
-
-archivesBaseName = project.archives_base_name
 version = project.mod_version + '+' + project.minecraft_version
 group = project.maven_group
 
@@ -136,6 +133,8 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
     withSourcesJar()
 }
 

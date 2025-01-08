@@ -14,7 +14,7 @@ import net.minecraft.world.item.ShieldItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import terramine.common.item.accessories.ShieldAccessoryItem;
+import terramine.common.item.accessories.ShieldAccessoryLikeItem;
 import terramine.extensions.PlayerStorages;
 
 @Mixin(PlayerItemInHandLayer.class)
@@ -23,7 +23,7 @@ public class PlayerItemInHandLayerMixin {
     // todo: block pose could use some work to look a bit better
     @ModifyVariable(method = "renderArmWithItem*", at = @At("HEAD"), argsOnly = true)
     private ItemStack vanityArmor(ItemStack itemStack, LivingEntity livingEntity, ItemStack itemStack2, ItemDisplayContext itemDisplayContext, HumanoidArm humanoidArm, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
-        if (livingEntity instanceof Player player && humanoidArm.equals(HumanoidArm.LEFT) && (itemStack.getItem() instanceof ShieldItem || itemStack.getItem() instanceof ShieldAccessoryItem)) {
+        if (livingEntity instanceof Player player && humanoidArm.equals(HumanoidArm.LEFT) && (itemStack.getItem() instanceof ShieldItem || itemStack.getItem() instanceof ShieldAccessoryLikeItem)) {
             if (((PlayerStorages)player).getTerrariaInventory().getItem(21) != ItemStack.EMPTY) {
                 if (player.isUsingItem() && player.getUsedItemHand() == InteractionHand.OFF_HAND) { // manually set the animation to look like blocking, don't know why I have to, but I do
                     poseStack.mulPose(Axis.YP.rotationDegrees(40F));

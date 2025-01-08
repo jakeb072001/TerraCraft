@@ -16,8 +16,7 @@ public class ExtendoGripItem extends AccessoryTerrariaItem {
 	@Override
 	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
-		AttributeModifier modifier = new AttributeModifier(uuid,
-				TerraMine.id("extendo_grip_range").toString(),
+		AttributeModifier modifier = new AttributeModifier(TerraMine.id("extendo_grip_range"),
 				3, AttributeModifier.Operation.ADD_VALUE);
 		result.put(Attributes.BLOCK_INTERACTION_RANGE, modifier);
 		return result;

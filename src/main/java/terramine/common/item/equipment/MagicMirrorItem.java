@@ -76,7 +76,7 @@ public class MagicMirrorItem extends TerrariaItem {
 	public void worldSpawn(ServerPlayer serverPlayer, ServerLevel serverWorld) {
 		BlockPos spawnpoint = serverWorld.getSharedSpawnPos();
 		serverWorld.playSound(null, serverPlayer.blockPosition(), ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
-		serverPlayer.teleportTo(serverWorld, spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ(), serverPlayer.getRespawnAngle(), 0.5F);
+		serverPlayer.teleportTo(serverWorld, spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ(), Relative.ALL, serverPlayer.getRespawnAngle(), 0.5F, true);
 		while (!serverWorld.isEmptyBlock(serverPlayer.blockPosition())) {
 			serverPlayer.teleportTo(serverPlayer.getX(), serverPlayer.getY() + 1.0D, serverPlayer.getZ());
 		}

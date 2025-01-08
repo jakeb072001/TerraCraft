@@ -17,11 +17,9 @@ public class TitanGloveItem extends AccessoryTerrariaItem {
     @Override
 	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
-		AttributeModifier modifier = new AttributeModifier(uuid,
-				TerraMine.id("titan_glove_attack_range").toString(),
+		AttributeModifier modifier = new AttributeModifier(TerraMine.id("titan_glove_attack_range"),
 				3, AttributeModifier.Operation.ADD_VALUE);
-		AttributeModifier modifier2 = new AttributeModifier(uuid,
-				TerraMine.id("titan_glove_range").toString(),
+		AttributeModifier modifier2 = new AttributeModifier(TerraMine.id("titan_glove_range"),
 				0.5, AttributeModifier.Operation.ADD_VALUE);
 		result.put(Attributes.ENTITY_INTERACTION_RANGE, modifier);
 		result.put(Attributes.BLOCK_INTERACTION_RANGE, modifier2);

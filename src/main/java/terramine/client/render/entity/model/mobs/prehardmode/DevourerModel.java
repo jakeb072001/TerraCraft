@@ -2,17 +2,18 @@ package terramine.client.render.entity.model.mobs.prehardmode;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.monster.Monster;
 import org.jetbrains.annotations.NotNull;
+import terramine.client.render.entity.states.TerrariaLivingEntityRenderState;
 import terramine.common.entity.mobs.prehardmode.devourer.DevourerEntity;
 import terramine.common.entity.mobs.prehardmode.devourer.DevourerTailEntity;
 
-public class DevourerModel<T extends Monster> extends HierarchicalModel<T> {
+public class DevourerModel<T extends TerrariaLivingEntityRenderState> extends EntityModel<T> {
     protected final ModelPart root;
     protected final ModelPart devourer_head;
     protected final ModelPart head_front;
@@ -35,11 +36,9 @@ public class DevourerModel<T extends Monster> extends HierarchicalModel<T> {
     protected final ModelPart tail_front;
     protected final ModelPart tail_back;
 
-    private T entity;
-
 
     public DevourerModel(ModelPart part) {
-        super(RenderType::entityCutout);
+        super(part);
         root = part;
         devourer_head = part.getChild("devourer_head");
         head_front = devourer_head.getChild("head_front");
@@ -63,28 +62,7 @@ public class DevourerModel<T extends Monster> extends HierarchicalModel<T> {
         tail_back = devourer_tail.getChild("tail_back");
     }
 
-    @Override
-    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.entity = entity;
-    }
-
-    @Override
-    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        if (entity instanceof DevourerEntity) {
-            devourer_head.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        } else if (entity instanceof DevourerTailEntity) {
-            devourer_tail.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        } else {
-            devourer_body.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        }
-    }
-
-    @Override
-    public ModelPart root() {
-        return this.root;
-    }
-
-    public static LayerDefinition createLayer() {
+    public static LayerDefinition createHeadLayer() {
         MeshDefinition meshDefinition = new MeshDefinition();
         PartDefinition partDefinition = meshDefinition.getRoot();
 
@@ -132,6 +110,13 @@ public class DevourerModel<T extends Monster> extends HierarchicalModel<T> {
                 .texOffs(28, 0).addBox(3.0F, -4.0F, 6.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
                 .texOffs(24, 16).addBox(-4.0F, -4.0F, 6.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 3.0F, 6.0F));
 
+        return LayerDefinition.create(meshDefinition, 64, 64);
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+
         PartDefinition devourer_body = partDefinition.addOrReplaceChild("devourer_body", CubeListBuilder.create(), PartPose.offset(0.0F, 21.0F, -4.0F));
 
         devourer_body.addOrReplaceChild("body_front", CubeListBuilder.create().texOffs(24, 22).addBox(-4.0F, -6.0F, -5.0F, 8.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
@@ -141,6 +126,13 @@ public class DevourerModel<T extends Monster> extends HierarchicalModel<T> {
         devourer_body.addOrReplaceChild("body_back", CubeListBuilder.create().texOffs(30, 36).addBox(-3.0F, -5.0F, 3.0F, 6.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
                 .texOffs(15, 33).addBox(3.0F, -4.0F, 6.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
                 .texOffs(20, 32).addBox(-4.0F, -4.0F, 6.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 3.0F, 4.0F));
+
+        return LayerDefinition.create(meshDefinition, 64, 64);
+    }
+
+    public static LayerDefinition createTailLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
 
         PartDefinition devourer_tail = partDefinition.addOrReplaceChild("devourer_tail", CubeListBuilder.create(), PartPose.offset(0.0F, 21.0F, 0));
 

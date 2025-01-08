@@ -2,17 +2,19 @@ package terramine.client.render.entity.model.projectiles.throwables;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import org.jetbrains.annotations.NotNull;
+import terramine.client.render.entity.states.TerrariaEntityRenderState;
 import terramine.common.entity.throwables.BombEntity;
 
-public class BombModel extends HierarchicalModel<BombEntity> {
+public class BombModel extends EntityModel<TerrariaEntityRenderState> {
     protected final ModelPart bomb;
 
     public BombModel(ModelPart root) {
+        super(root);
         this.bomb = root.getChild("bomb");
     }
 
@@ -33,19 +35,5 @@ public class BombModel extends HierarchicalModel<BombEntity> {
                 PartPose.offset(0.0F, -5.0F, 0.0F));
 
         return LayerDefinition.create(meshDefinition, 32, 32);
-    }
-
-    @Override
-    public void setupAnim(@NotNull BombEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float zRot, float xRot) {
-    }
-
-    @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha) {
-        bomb.render(poseStack, vertexConsumer, light, overlay, red, green, blue, alpha);
-    }
-
-    @Override
-    public ModelPart root() {
-        return this.bomb;
     }
 }

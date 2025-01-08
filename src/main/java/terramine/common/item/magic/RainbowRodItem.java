@@ -1,6 +1,7 @@
 package terramine.common.item.magic;
 
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +21,7 @@ public class RainbowRodItem extends MagicTerrariaItem {
     public ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
         Player player = (Player)entity;
         if (canUse(player)) {
-            MagicMissileHelper rainbowMissile = ModEntities.RAINBOW_MISSILE.create(world);
+            MagicMissileHelper rainbowMissile = ModEntities.RAINBOW_MISSILE.create(world, EntitySpawnReason.DISPENSER);
             if (rainbowMissile != null) {
                 rainbowMissile.setPos(player.position().x(), player.position().y() + 2, player.position().z());
                 rainbowMissile.setOwner(player);

@@ -24,11 +24,6 @@ public abstract class FallingProjectileEntity extends ThrowableProjectile {
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
-    }
-
-    @Override
     public void tick() { // todo: rotate so that its sideways toward the direction its moving and tilts down at the angle its falling at
         super.tick();
 

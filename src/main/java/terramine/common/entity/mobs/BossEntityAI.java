@@ -175,10 +175,9 @@ public class BossEntityAI extends PathfinderMob implements Enemy {
     }
 
     // Drop Loot Bags per player
-    // todo: rework getting players in bounds, because of course mojang removed that method, why wouldn't they
     // todo: test if this works correctly, the target condition only targets in combat players which may exclude some players that shouldn't be excluded, also maybe need to change the inflate value
-    protected void dropAllDeathLoot(@NotNull DamageSource damageSource) {
-        for (Player player : this.level().getNearbyPlayers(TargetingConditions.DEFAULT, this, new AABB(this.position(), this.position()).inflate(32)) ) {
+    protected void dropAllDeathLoot(ServerLevel serverLevel, @NotNull DamageSource damageSource) {
+        for (Player player : serverLevel.getNearbyPlayers(TargetingConditions.DEFAULT, this, new AABB(this.position(), this.position()).inflate(32)) ) {
             if (checkPlayerTeam(player)) {
                 ClientItemEntity clientItemEntity = new ClientItemEntity(ModEntities.CLIENT_ITEM, this.level());
                 clientItemEntity.setValues(treasureBagItem().getDefaultInstance(), this.getX(), this.getY(), this.getZ());

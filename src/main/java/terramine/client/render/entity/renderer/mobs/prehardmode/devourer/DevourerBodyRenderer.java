@@ -11,31 +11,37 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 import terramine.client.render.entity.model.mobs.prehardmode.DevourerModel;
+import terramine.client.render.entity.states.TerrariaLivingEntityRenderState;
 import terramine.common.entity.mobs.prehardmode.devourer.DevourerBodyEntity;
 import terramine.common.init.ModModelLayers;
 
 @Environment(value=EnvType.CLIENT)
-public class DevourerBodyRenderer extends MobRenderer<DevourerBodyEntity, DevourerModel<DevourerBodyEntity>> {
+public class DevourerBodyRenderer extends MobRenderer<DevourerBodyEntity, TerrariaLivingEntityRenderState, DevourerModel<TerrariaLivingEntityRenderState>> {
 
     private static final ResourceLocation TEXTURE = TerraMine.id("textures/entity/monsters/pre-hardmode/devourer/default.png");
 
     public DevourerBodyRenderer(EntityRendererProvider.Context context) {
-        super(context, new DevourerModel<>(context.bakeLayer(ModModelLayers.DEVOURER)), 0.40F);
+        super(context, new DevourerModel<>(context.bakeLayer(ModModelLayers.DEVOURER_BODY)), 0.40F);
     }
 
     @Override
-    public void render(@NotNull DevourerBodyEntity entity, float entityYaw, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight) {
-        super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
+    public void render(@NotNull TerrariaLivingEntityRenderState entity, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight) {
+        super.render(entity, matrixStack, buffer, packedLight);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(@NotNull DevourerBodyEntity entity) {
+    public TerrariaLivingEntityRenderState createRenderState() {
+        return new TerrariaLivingEntityRenderState();
+    }
+
+    @Override
+    public @NotNull ResourceLocation getTextureLocation(@NotNull TerrariaLivingEntityRenderState entity) {
         return TEXTURE;
     }
 
     @Override
-    protected void setupRotations(@NotNull DevourerBodyEntity entity, @NotNull PoseStack poseStack, float f, float g, float h, float i) {
-        super.setupRotations(entity, poseStack, f, g, h, i);
-        poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
+    protected void setupRotations(@NotNull TerrariaLivingEntityRenderState renderState, @NotNull PoseStack poseStack, float f, float g) {
+        super.setupRotations(renderState, poseStack, f, g);
+        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.xRot));
     }
 }

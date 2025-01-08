@@ -34,13 +34,13 @@ public class TerraMineClient implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(KeyBindingsHandler::onClientTick);
 
 		// ModelPredicateProvider for rendering of umbrella and shield blocking
-		ItemProperties.register(ModItems.UMBRELLA, new ResourceLocation("blocking"), (stack, level, entity, i)
+		ItemProperties.register(ModItems.UMBRELLA, ResourceLocation.withDefaultNamespace("blocking"), (stack, level, entity, i)
 				-> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0);
-		ItemProperties.register(ModItems.COBALT_SHIELD, new ResourceLocation("blocking"), (stack, level, entity, i)
+		ItemProperties.register(ModItems.COBALT_SHIELD, ResourceLocation.withDefaultNamespace("blocking"), (stack, level, entity, i)
 				-> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0);
-		ItemProperties.register(ModItems.OBSIDIAN_SHIELD, new ResourceLocation("blocking"), (stack, level, entity, i)
+		ItemProperties.register(ModItems.OBSIDIAN_SHIELD, ResourceLocation.withDefaultNamespace("blocking"), (stack, level, entity, i)
 				-> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0);
-		ItemProperties.register(ModItems.SHIELD_OF_CTHULHU, new ResourceLocation("blocking"), (stack, level, entity, i)
+		ItemProperties.register(ModItems.SHIELD_OF_CTHULHU, ResourceLocation.withDefaultNamespace("blocking"), (stack, level, entity, i)
 				-> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0);
 
 		// All Entity renderers register

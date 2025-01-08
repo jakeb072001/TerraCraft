@@ -3,6 +3,7 @@ package terramine.common.item.accessories;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +48,8 @@ public class AccessoryTerrariaItem extends TerrariaItem implements Accessories {
 				if (inventory.getItem(i).isEmpty()) {
 					ItemStack newStack = stack.copy();
 					inventory.setItem(i, newStack);
-					SoundEvent soundEvent = stack.getItem() instanceof Equipable item ? item.getEquipSound().value() : null;
+					Equippable equippable = stack.get(DataComponents.EQUIPPABLE);
+					SoundEvent soundEvent = equippable != null && equippable.swappable() ? equippable.equipSound().value() : null;
 					if (!stack.isEmpty() && soundEvent != null) {
 						player.gameEvent(GameEvent.EQUIP);
 						player.playSound(soundEvent, 1.0F, 1.0F);
@@ -123,13 +126,13 @@ public class AccessoryTerrariaItem extends TerrariaItem implements Accessories {
 	}
 
 	public static void addModifier(AttributeInstance instance, AttributeModifier modifier) {
-		if (!instance.hasModifier(modifier)) {
+		if (!instance.hasModifier(modifier.id())) {
 			instance.addTransientModifier(modifier);
 		}
 	}
 
 	public static void removeModifier(AttributeInstance instance, AttributeModifier modifier) {
-		if (instance.hasModifier(modifier)) {
+		if (instance.hasModifier(modifier.id())) {
 			instance.removeModifier(modifier);
 		}
 	}

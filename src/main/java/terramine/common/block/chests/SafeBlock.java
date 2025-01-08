@@ -35,7 +35,7 @@ public class SafeBlock extends BaseChest {
     }
 
     @Override
-    public DoubleBlockCombiner.NeighborCombineResult<? extends ChestEntity> combine(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos2, boolean bl) {
+    public DoubleBlockCombiner.@NotNull NeighborCombineResult<? extends ChestEntity> combine(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos2, boolean bl) {
         BiPredicate<LevelAccessor, BlockPos> biPredicate = (levelAccessor, blockPos) -> false;
         return DoubleBlockCombiner.combineWithNeigbour((BlockEntityType)this.blockEntityType.get(), BaseChest::getBlockType, BaseChest::getConnectedDirection, FACING, blockState, level, blockPos2, biPredicate);
     }
@@ -46,7 +46,7 @@ public class SafeBlock extends BaseChest {
     }
 
     @Override
-    public RenderShape getRenderShape(@NotNull BlockState blockState) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState blockState) {
         return RenderShape.MODEL;
     }
 

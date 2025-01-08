@@ -18,8 +18,7 @@ public class ObsidianSkullItem extends AccessoryTerrariaItem {
 	@Override
 	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
-		AttributeModifier modifier = new AttributeModifier(uuid,
-				TerraMine.id("obsidian_skull_defence").toString(),
+		AttributeModifier modifier = new AttributeModifier(TerraMine.id("obsidian_skull_defence"),
 				1, AttributeModifier.Operation.ADD_VALUE);
 		result.put(Attributes.ARMOR, modifier);
 		return result;

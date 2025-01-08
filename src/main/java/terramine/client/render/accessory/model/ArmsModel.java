@@ -29,16 +29,6 @@ public class ArmsModel extends HumanoidModel<HumanoidRenderState> {
         this(part, RenderType::entityCutoutNoCull);
     }
 
-    @Override
-    protected Iterable<ModelPart> headParts() {
-        return ImmutableList.of();
-    }
-
-    @Override
-    protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(leftArm, rightArm);
-    }
-
     public void renderArm(HumanoidArm handSide, PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         getArm(handSide).visible = true;
         getArm(handSide.getOpposite()).visible = false;

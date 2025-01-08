@@ -29,14 +29,11 @@ import java.util.UUID;
 public abstract class LivingEntityMixin extends Entity {
 
 	@Unique
-	private static final AttributeModifier SPEED_BOOST_MODIFIER = new AttributeModifier(UUID.fromString("ac7ab816-2b08-46b6-879d-e5dea34ff305"),
-			"speed_boost", 0.28, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+	private static final AttributeModifier SPEED_BOOST_MODIFIER = new AttributeModifier(TerraMine.id("speed_boost"), 0.28, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 	@Unique
-	private static final AttributeModifier STEP_HEIGHT_MODIFIER = new AttributeModifier(UUID.fromString("7e97cede-a343-411f-b465-14cdf6df3666"),
-			"step_height", 0.5, AttributeModifier.Operation.ADD_VALUE);
+	private static final AttributeModifier STEP_HEIGHT_MODIFIER = new AttributeModifier(TerraMine.id("step_height"), 0.5, AttributeModifier.Operation.ADD_VALUE);
 	@Unique
-	private static final AttributeModifier ICE_SPEED_BOOST_MODIFIER = new AttributeModifier(UUID.fromString("c5051561-0943-402e-9a36-b3cff979cbdc"),
-			"ice_speed_boost", 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+	private static final AttributeModifier ICE_SPEED_BOOST_MODIFIER = new AttributeModifier(TerraMine.id("ice_speed_boost"), 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 
 	public LivingEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);

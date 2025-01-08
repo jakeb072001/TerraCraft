@@ -17,7 +17,8 @@ public abstract class EntityMixin {
 
     @Shadow public abstract DamageSources damageSources();
 
-    @Inject(at = @At("HEAD"), method = "isInvulnerableTo", cancellable = true)
+    // todo: may need testing
+    @Inject(at = @At("HEAD"), method = "isInvulnerableToBase", cancellable = true)
     private void hotFloorImmunity(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if ((Entity) (Object) this instanceof LivingEntity entity) {
             if (AccessoriesHelper.isEquipped(ModItems.OBSIDIAN_SKULL, entity) || AccessoriesHelper.isEquipped(ModItems.OBSIDIAN_HORSESHOE, entity) || AccessoriesHelper.isEquipped(ModItems.MAGMA_SKULL, entity) || AccessoriesHelper.isEquipped(ModItems.OBSIDIAN_SKULL_ROSE, entity)

@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -20,7 +19,7 @@ import terramine.TerraMine;
 import terramine.common.init.ModComponents;
 import terramine.common.init.ModScreenHandlerType;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
-import terramine.common.item.accessories.ShieldAccessoryItem;
+import terramine.common.item.accessories.ShieldAccessoryLikeItem;
 import terramine.common.item.dye.BasicDye;
 import terramine.common.misc.TerrariaInventory;
 import terramine.common.network.ServerPacketHandler;
@@ -116,7 +115,7 @@ public class TerrariaInventoryContainerMenu extends AbstractContainerMenu {
             }
 
             public boolean mayPlace(@NotNull ItemStack itemStack) {
-                return itemStack.getItem() instanceof ShieldItem || itemStack.getItem() instanceof ShieldAccessoryItem;
+                return itemStack.getItem() instanceof ShieldItem || itemStack.getItem() instanceof ShieldAccessoryLikeItem;
             }
 
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {

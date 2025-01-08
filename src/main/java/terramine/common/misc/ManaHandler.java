@@ -3,6 +3,7 @@ package terramine.common.misc;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -37,7 +38,9 @@ public class ManaHandler implements C2SSelfMessagingComponent, AutoSyncedCompone
                 manaRegenDelay = (0.7 * ((1 - ((double) currentMana / maxMana)) * 240 + 45)) / manaDelayBonus;
                 provider.level().playSound(null, provider.blockPosition(), ModSoundEvents.MANA_FULL, SoundSource.PLAYERS, 1f, 1f);
             } else if (currentMana != maxMana) {
-                manaRegenDelay -= provider.level().getGameRules().getInt(ModCommands.MANA_REGEN_SPEED);
+                if (provider.level() instanceof ServerLevel serverLevel) {
+                    manaRegenDelay -= serverLevel.getGameRules().getInt(ModCommands.MANA_REGEN_SPEED);
+                }
             }
             if (manaRegenDelay <= 0 && currentMana != maxMana) {
                 addCurrentMana(Math.max((int) (Math.abs((((double) maxMana / 7) + 1 + ((double) maxMana / 2) + manaBonus) * (((double) currentMana / maxMana) * 0.8 + 0.2) * 1.15) / 20), 1));
@@ -79,7 +82,7 @@ public class ManaHandler implements C2SSelfMessagingComponent, AutoSyncedCompone
             if (currentMana > 0) {
                 this.currentMana = Math.min(currentMana + this.currentMana, maxMana);
                 provider.awardStat(Stats.CUSTOM.get(ModStatistics.MANA_USED), currentMana);
-            } else if (currentMana < 0 && !provider.level().getGameRules().getBoolean(ModCommands.MANA_INFINITE)) {
+            } else if (provider.level() instanceof ServerLevel serverLevel && currentMana < 0 && !serverLevel.getGameRules().getBoolean(ModCommands.MANA_INFINITE)) {
                 this.currentMana = Math.max(currentMana + this.currentMana, 0);
             }
         }

@@ -8,32 +8,26 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import terramine.client.render.entity.states.TerrariaLivingEntityRenderState;
 import terramine.common.entity.mobs.hardmode.MimicEntity;
 
-public class MimicChestLayerModel extends EntityModel<MimicEntity> {
+public class MimicChestLayerModel extends EntityModel<TerrariaLivingEntityRenderState> {
 
     protected final ModelPart bottom;
     protected final ModelPart lid;
 
     public MimicChestLayerModel(ModelPart part) {
+        super(part);
         bottom = part.getChild("bottom");
         lid = part.getChild("lid");
     }
 
     @Override
-    public void setupAnim(MimicEntity mimic, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+    public void setupAnim(TerrariaLivingEntityRenderState mimic) {
     }
 
-    @Override
-    public void prepareMobModel(MimicEntity mimic, float limbSwing, float limbSwingAmount, float partialTicks) {
-        MimicModel.setChestRotations(mimic, partialTicks, lid, bottom);
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        bottom.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        lid.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void prepareMobModel(TerrariaLivingEntityRenderState renderState, float partialTicks) {
+        MimicModel.setChestRotations((MimicEntity) renderState.entity, partialTicks, lid, bottom);
     }
 
     public static LayerDefinition createLayer() {

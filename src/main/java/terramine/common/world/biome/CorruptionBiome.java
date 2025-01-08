@@ -33,7 +33,7 @@ public class CorruptionBiome {
         ModPlacedFeatures.addDefaultCorruptVegetation(generationSettings);
         BiomeDefaultFeatures.addDefaultMushrooms(generationSettings);
         BiomeDefaultFeatures.addDefaultExtraVegetation(generationSettings);
-        BiomeDefaultFeatures.addDefaultSeagrass(generationSettings);
+        BiomeDefaultFeatures.addColdOceanExtraVegetation(generationSettings);
 
         return (new Biome.BiomeBuilder())
                 .hasPrecipitation(true)

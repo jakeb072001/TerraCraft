@@ -1,5 +1,6 @@
 package terramine.common.potions.effects.mana;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +20,7 @@ public class ManaRegenEffect extends TerrariaEffect {
     }
 
     @Override
-    public boolean applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
+    public boolean applyEffectTick(ServerLevel serverLevel, @NotNull LivingEntity livingEntity, int level) {
         if (livingEntity instanceof Player player) {
             ModComponents.MANA_HANDLER.get(player).setManaBonus(25, true);
         }

@@ -1,5 +1,6 @@
 package terramine.common.potions.effects;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,7 @@ public class BlankEffect extends TerrariaEffect {
     }
 
     @Override
-    public boolean applyEffectTick(@NotNull LivingEntity livingEntity, int level) {
+    public boolean applyEffectTick(ServerLevel serverLevel, @NotNull LivingEntity livingEntity, int level) {
         return true;
     }
 }

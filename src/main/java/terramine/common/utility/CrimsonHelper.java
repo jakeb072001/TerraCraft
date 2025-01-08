@@ -37,8 +37,8 @@ public class CrimsonHelper extends SpreadingSnowyDirtBlock  {
         if (blockState2.getFluidState().getAmount() == 8) {
             return true;
         }
-        int i = LightEngine.getLightBlockInto(levelReader, blockState, blockPos, blockState2, blockPos2, Direction.UP, blockState2.getLightBlock(levelReader, blockPos2));
-        return i >= levelReader.getMaxLightLevel();
+        int i = LightEngine.getLightBlockInto(blockState, blockState2, Direction.UP, blockState2.getLightBlock());
+        return i < 15;
     }
 
     private static boolean canNotPropagate(BlockState blockState, LevelReader levelReader, BlockPos blockPos) {

@@ -22,8 +22,7 @@ public class ShackleItem extends AccessoryTerrariaItem {
 	@Override
 	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
-		AttributeModifier modifier = new AttributeModifier(uuid,
-				TerraMine.id("shackle_defence").toString(),
+		AttributeModifier modifier = new AttributeModifier(TerraMine.id("shackle_defence"),
 				1, AttributeModifier.Operation.ADD_VALUE);
 		result.put(Attributes.ARMOR, modifier);
 		return result;

@@ -4,16 +4,15 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DispenserBlock;
 import org.jetbrains.annotations.NotNull;
 
-public class ShieldAccessoryItem extends AccessoryTerrariaItem {
+public class ShieldAccessoryLikeItem extends AccessoryTerrariaItem {
 
-    public ShieldAccessoryItem(Properties settings) {
+    public ShieldAccessoryLikeItem(Item.Properties settings) {
         super(settings);
         //DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
     }

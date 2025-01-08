@@ -12,13 +12,16 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 import terramine.client.render.entity.model.misc.MeteoriteModel;
+import terramine.client.render.entity.states.TerrariaEntityRenderState;
 import terramine.common.entity.projectiles.FallingMeteoriteEntity;
+import terramine.common.entity.projectiles.FallingStarEntity;
 import terramine.common.init.ModModelLayers;
 
-public class MeteoriteRenderer extends EntityRenderer<FallingMeteoriteEntity> {
+public class MeteoriteRenderer extends EntityRenderer<FallingMeteoriteEntity, TerrariaEntityRenderState> {
 
     private static final ResourceLocation TEXTURE = TerraMine.id("textures/entity/meteorite.png");
-    protected final EntityModel<FallingMeteoriteEntity> model;
+    protected final EntityModel<TerrariaEntityRenderState> model;
+    private FallingMeteoriteEntity fallingMeteoriteEntity;
 
     public MeteoriteRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -26,19 +29,29 @@ public class MeteoriteRenderer extends EntityRenderer<FallingMeteoriteEntity> {
     }
 
     @Override
-    public void render(@NotNull FallingMeteoriteEntity entity, float entityYaw, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+    public void extractRenderState(FallingMeteoriteEntity fallingMeteoriteEntity, TerrariaEntityRenderState terrariaEntityRenderState, float f) {
+        super.extractRenderState(fallingMeteoriteEntity, terrariaEntityRenderState, f);
+        this.fallingMeteoriteEntity = fallingMeteoriteEntity;
+    }
+
+    @Override
+    public void render(@NotNull TerrariaEntityRenderState renderState, @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
+        super.render(renderState, poseStack, buffer, packedLight);
         poseStack.pushPose();
-        this.model.setupAnim(entity, 0.0f, 0.0f, partialTicks, entity.getYRot(), entity.getXRot());
-        poseStack.mulPose(Axis.YP.rotationDegrees(entity.getYRot()));
-        poseStack.mulPose(Axis.XN.rotationDegrees(entity.getXRot() - 180));
-        VertexConsumer vertexConsumer = buffer.getBuffer(this.model.renderType(this.getTextureLocation(entity)));
-        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+        this.model.setupAnim(renderState);
+        poseStack.mulPose(Axis.YP.rotationDegrees(fallingMeteoriteEntity.getYRot()));
+        poseStack.mulPose(Axis.XN.rotationDegrees(fallingMeteoriteEntity.getXRot() - 180));
+        VertexConsumer vertexConsumer = buffer.getBuffer(this.model.renderType(this.getTextureLocation(renderState)));
+        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(@NotNull FallingMeteoriteEntity entity) {
+    public @NotNull TerrariaEntityRenderState createRenderState() {
+        return new TerrariaEntityRenderState();
+    }
+
+    public ResourceLocation getTextureLocation(@NotNull TerrariaEntityRenderState entity) {
         return TEXTURE;
     }
 }

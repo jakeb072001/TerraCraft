@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -15,42 +14,48 @@ import net.minecraft.client.renderer.entity.layers.EquipmentLayerRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
-import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.equipment.EquipmentModel;
 import org.joml.Vector3f;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import terramine.TerraMine;
 import terramine.common.item.armor.TerrariaArmor;
 import terramine.common.item.armor.vanity.FamiliarVanity;
 import terramine.common.item.armor.vanity.VanityArmor;
 import terramine.common.item.dye.BasicDye;
+import terramine.extensions.LivingEntityRenderStateExtensions;
 import terramine.extensions.PlayerStorages;
-
-import java.util.Map;
 
 @Mixin(HumanoidArmorLayer.class)
 public abstract class HumanoidArmorLayerMixin<S extends HumanoidRenderState, M extends HumanoidModel<S>, A extends HumanoidModel<S>> extends RenderLayer<S, M> {
+	@Unique
+	private Player player;
 
 	public HumanoidArmorLayerMixin(RenderLayerParent<S, M> renderLayerParent, A humanoidModel, A humanoidModel2, EquipmentLayerRenderer equipmentLayerRenderer) {
 		super(renderLayerParent);
 	}
 
+	@Inject(at = @At("RETURN"), method = "getArmorModel")
+	private void getPlayer(S humanoidRenderState, EquipmentSlot equipmentSlot, CallbackInfoReturnable<A> cir) {
+		if (((LivingEntityRenderStateExtensions) humanoidRenderState).terrariaCraft$getLivingEntity() instanceof Player playerEnt) {
+			this.player = playerEnt;
+		}
+	}
+
 	@ModifyVariable(method = "renderArmorPiece", at = @At("HEAD"), ordinal = 1)
 	private ItemStack vanityArmor(PoseStack poseStack, MultiBufferSource multiBufferSource, ItemStack itemStack, EquipmentSlot equipmentSlot, int i, A humanoidModel) {
-		if (Minecraft.getInstance().player instanceof Player player) {
+		if (player instanceof Player player) {
 			if (((PlayerStorages)player).getTerrariaInventory().getItem(equipmentSlot.getIndex() + 23) != ItemStack.EMPTY) {
 				if (((PlayerStorages)player).getTerrariaInventory().getItem(equipmentSlot.getIndex() + 23).getItem() == Items.ELYTRA) {
 					return itemStack;
@@ -67,7 +72,6 @@ public abstract class HumanoidArmorLayerMixin<S extends HumanoidRenderState, M e
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/EquipmentLayerRenderer;renderLayers(Lnet/minecraft/world/item/equipment/EquipmentModel$LayerType;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/client/model/Model;Lnet/minecraft/world/item/ItemStack;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V")
 	)
 	private void armorDyeVanity(EquipmentLayerRenderer instance, EquipmentModel.LayerType layerType, ResourceLocation resourceLocation, Model model, ItemStack itemStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, Operation<Void> original) {
-		Player player = Minecraft.getInstance().player;
 		ArmorItem armorItem = (ArmorItem) itemStack.getItem();
 		if (!(armorItem instanceof FamiliarVanity)) {
 			if (armorItem instanceof TerrariaArmor terrariaArmor && terrariaArmor.getCustomArmorModel() != null) {

@@ -12,12 +12,13 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.state.ItemEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -27,9 +28,11 @@ import terramine.common.entity.misc.ClientItemEntity;
 import static net.minecraft.client.renderer.blockentity.BeaconRenderer.renderPart;
 
 @Environment(EnvType.CLIENT)
-public class ClientItemEntityRenderer extends EntityRenderer<ClientItemEntity> {
+public class ClientItemEntityRenderer extends EntityRenderer<ClientItemEntity, ItemEntityRenderState> {
+    public static final ResourceLocation BEAM_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/beacon_beam.png");
     private final ItemRenderer itemRenderer;
     private final RandomSource random = RandomSource.create();
+    private ClientItemEntity itemEntity;
 
     public ClientItemEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -38,47 +41,54 @@ public class ClientItemEntityRenderer extends EntityRenderer<ClientItemEntity> {
         this.shadowStrength = 0.75F;
     }
 
-    public void render(@NotNull ClientItemEntity itemEntity, float f, float g, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i) {
+    @Override
+    public @NotNull ItemEntityRenderState createRenderState() {
+        return new ItemEntityRenderState();
+    }
+
+    @Override
+    public void extractRenderState(ClientItemEntity itemEntity, ItemEntityRenderState itemEntityRenderState, float f) {
+        super.extractRenderState(itemEntity, itemEntityRenderState, f);
+        itemEntityRenderState.ageInTicks = (float)itemEntity.getAge() + f;
+        itemEntityRenderState.bobOffset = itemEntity.bobOffs;
+        ItemStack itemStack = itemEntity.getItem();
+        itemEntityRenderState.item = itemStack.copy();
+        this.itemEntity = itemEntity;
+        itemEntityRenderState.itemModel = this.itemRenderer.getModel(itemStack, itemEntity.level(), null, itemEntity.getId());
+    }
+
+    @Override
+    public void render(@NotNull ItemEntityRenderState itemEntityRenderState, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player.getUUID().equals(itemEntity.getClientPlayer())) {
-            poseStack.pushPose();
-            ItemStack itemStack = itemEntity.getItem();
-            this.shadowRadius = 0.15F;
-            int j = itemStack.isEmpty() ? 187 : Item.getId(itemStack.getItem()) + itemStack.getDamageValue();
-            this.random.setSeed(j);
-            BakedModel bakedModel = this.itemRenderer.getModel(itemStack, itemEntity.level(), null, itemEntity.getId());
-            boolean bl = bakedModel.isGui3d();
-            float l = Mth.sin(((float) itemEntity.getAge() + g) / 10.0F + itemEntity.bobOffs) * 0.1F + 0.1F;
-            float m = bakedModel.getTransforms().getTransform(ItemDisplayContext.GROUND).scale.y();
-            poseStack.translate(0.0F, l + 0.25F * m, 0.0F);
-            float n = itemEntity.getSpin(g);
-            poseStack.mulPose(Axis.YP.rotation(n));
-            float o = bakedModel.getTransforms().ground.scale.x();
-            float p = bakedModel.getTransforms().ground.scale.y();
-            float q = bakedModel.getTransforms().ground.scale.z();
-            float s;
-            float t;
-
-            poseStack.pushPose();
-            s = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
-            t = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
-            poseStack.translate(s, t, 0.0F);
-
-            this.itemRenderer.render(itemStack, ItemDisplayContext.GROUND, false, poseStack, multiBufferSource, i, OverlayTexture.NO_OVERLAY, bakedModel);
-            poseStack.popPose();
-            if (!bl) {
-                poseStack.translate(0.0F * o, 0.0F * p, 0.09375F * q);
+            BakedModel bakedModel = itemEntityRenderState.itemModel;
+            if (bakedModel != null) {
+                poseStack.pushPose();
+                this.shadowRadius = 0.15F;
+                ItemStack itemStack = itemEntityRenderState.item;
+                this.random.setSeed(getSeedForItemStack(itemStack));
+                boolean bl = bakedModel.isGui3d();
+                float g = Mth.sin(itemEntityRenderState.ageInTicks / 10.0F + itemEntityRenderState.bobOffset) * 0.1F + 0.1F;
+                float h = bakedModel.getTransforms().getTransform(ItemDisplayContext.GROUND).scale.y();
+                poseStack.translate(0.0F, g + 0.25F * h, 0.0F);
+                float j = ItemEntity.getSpin(itemEntityRenderState.ageInTicks, itemEntityRenderState.bobOffset);
+                poseStack.mulPose(Axis.YP.rotation(j));
+                renderMultipleFromCount(this.itemRenderer, poseStack, multiBufferSource, i, itemStack, bakedModel, bl, this.random);
+                poseStack.popPose();
+                super.render(itemEntityRenderState, poseStack, multiBufferSource, i);
+                renderBeacon(itemEntity, itemEntityRenderState.ageInTicks, itemEntity.level().getGameTime(), poseStack, multiBufferSource);
             }
-
-            poseStack.popPose();
-            super.render(itemEntity, f, g, poseStack, multiBufferSource, i);
-            renderBeacon(itemEntity, f, itemEntity.level().getGameTime(), poseStack, multiBufferSource);
         } else {
             this.shadowRadius = 0;
         }
     }
 
+    public static int getSeedForItemStack(ItemStack itemStack) {
+        return itemStack.isEmpty() ? 187 : Item.getId(itemStack.getItem()) + itemStack.getDamageValue();
+    }
+
     // Code from LootBeams, may make look neater later
+    // todo: maybe not working after update, needs testing
     // todo: make beam fade in and out nicely, minor thing to do later
     private void renderBeacon(ClientItemEntity item, float pticks, long worldtime, PoseStack stack, MultiBufferSource buffer) {
         RenderSystem.enableDepthTest();
@@ -116,7 +126,7 @@ public class ClientItemEntityRenderer extends EntityRenderer<ClientItemEntity> {
         stack.translate(0, 1, 0);
         stack.mulPose(Axis.XP.rotationDegrees(180));
         stack.mulPose(Axis.XP.rotationDegrees(-180));
-        renderPart(stack, buffer.getBuffer(RenderType.lightning()), R, G, B, beamAlpha, 0, (int) beamHeight, 0.0F, beamRadius, beamRadius, 0.0F, -beamRadius, 0.0F, 0.0F, -beamRadius, 0f,1f, 0f, 1f);
+        renderPart(stack, buffer.getBuffer(RenderType.beaconBeam(BEAM_LOCATION, false)).setColor(R, G, B, beamAlpha), 0, 0, (int) beamHeight, 0.0F, beamRadius, beamRadius, 0.0F, -beamRadius, 0.0F, 0.0F, -beamRadius, 0f,1f, 0f, 1f);
         stack.popPose();
 
         //Render glow around main beam
@@ -125,15 +135,59 @@ public class ClientItemEntityRenderer extends EntityRenderer<ClientItemEntity> {
         stack.translate(0, 1, 0);
         stack.mulPose(Axis.XP.rotationDegrees(180));
         stack.mulPose(Axis.XP.rotationDegrees(-180));
-        renderPart(stack, buffer.getBuffer(RenderType.lightning()), R, G, B, beamAlpha * 0.4f, 0, (int) beamHeight, -glowRadius, -glowRadius, glowRadius, -glowRadius, -beamRadius, glowRadius, glowRadius, glowRadius, 0f,1f, 0f, 1f);
+        renderPart(stack, buffer.getBuffer(RenderType.beaconBeam(BEAM_LOCATION, false)).setColor(R, G, B, beamAlpha * 0.4f), 0, 0, (int) beamHeight, -glowRadius, -glowRadius, glowRadius, -glowRadius, -beamRadius, glowRadius, glowRadius, glowRadius, 0f,1f, 0f, 1f);
         stack.popPose();
 
         stack.popPose();
         RenderSystem.disableDepthTest();
     }
 
-    @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull ClientItemEntity itemEntity) {
-        return TextureAtlas.LOCATION_BLOCKS;
+    public static void renderMultipleFromCount(ItemRenderer itemRenderer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, ItemStack itemStack, BakedModel bakedModel, boolean bl, RandomSource randomSource) {
+        int j = getRenderedAmount(itemStack.getCount());
+        float f = bakedModel.getTransforms().ground.scale.x();
+        float g = bakedModel.getTransforms().ground.scale.y();
+        float h = bakedModel.getTransforms().ground.scale.z();
+        float l;
+        float m;
+        if (!bl) {
+            float k = -0.0F * (float)(j - 1) * 0.5F * f;
+            l = -0.0F * (float)(j - 1) * 0.5F * g;
+            m = -0.09375F * (float)(j - 1) * 0.5F * h;
+            poseStack.translate(k, l, m);
+        }
+
+        for(int n = 0; n < j; ++n) {
+            poseStack.pushPose();
+            if (n > 0) {
+                if (bl) {
+                    l = (randomSource.nextFloat() * 2.0F - 1.0F) * 0.15F;
+                    m = (randomSource.nextFloat() * 2.0F - 1.0F) * 0.15F;
+                    float o = (randomSource.nextFloat() * 2.0F - 1.0F) * 0.15F;
+                    poseStack.translate(l, m, o);
+                } else {
+                    l = (randomSource.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
+                    m = (randomSource.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
+                    poseStack.translate(l, m, 0.0F);
+                }
+            }
+
+            itemRenderer.render(itemStack, ItemDisplayContext.GROUND, false, poseStack, multiBufferSource, i, OverlayTexture.NO_OVERLAY, bakedModel);
+            poseStack.popPose();
+            if (!bl) {
+                poseStack.translate(0.0F * f, 0.0F * g, 0.09375F * h);
+            }
+        }
+    }
+
+    static int getRenderedAmount(int i) {
+        if (i <= 1) {
+            return 1;
+        } else if (i <= 16) {
+            return 2;
+        } else if (i <= 32) {
+            return 3;
+        } else {
+            return i <= 48 ? 4 : 5;
+        }
     }
 }

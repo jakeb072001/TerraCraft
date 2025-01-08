@@ -9,26 +9,27 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import terramine.client.render.entity.states.TerrariaLivingEntityRenderState;
 import terramine.common.entity.mobs.hardmode.MimicEntity;
 
-public class MimicModel extends EntityModel<MimicEntity> {
+public class MimicModel extends EntityModel<TerrariaLivingEntityRenderState> {
 
     protected final ModelPart bottom;
     protected final ModelPart lid;
 
     public MimicModel(ModelPart part) {
+        super(part);
         bottom = part.getChild("bottom");
         lid = part.getChild("lid");
     }
 
     @Override
-    public void setupAnim(MimicEntity mimic, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+    public void setupAnim(TerrariaLivingEntityRenderState mimic) {
+        prepareMobModel(mimic, mimic.ageInTicks);
     }
 
-    @Override
-    public void prepareMobModel(MimicEntity mimic, float limbSwing, float limbSwingAmount, float partialTicks) {
-        setChestRotations(mimic, partialTicks, lid, bottom);
+    public void prepareMobModel(TerrariaLivingEntityRenderState renderState, float partialTicks) {
+        setChestRotations((MimicEntity) renderState.entity, partialTicks, lid, bottom);
     }
 
     protected static void setChestRotations(MimicEntity mimic, float partialTicks, ModelPart lid, ModelPart bottom) {
@@ -39,12 +40,6 @@ public class MimicModel extends EntityModel<MimicEntity> {
             lid.xRot = 0;
             bottom.xRot = 0;
         }
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        lid.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        bottom.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     public static LayerDefinition createLayer() {

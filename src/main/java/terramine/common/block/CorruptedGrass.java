@@ -39,7 +39,7 @@ public class CorruptedGrass extends CorruptionHelper implements BonemealableBloc
     public void performBonemeal(@NotNull ServerLevel serverLevel, @NotNull RandomSource random, BlockPos blockPos, @NotNull BlockState blockState) {
         BlockPos blockPos2 = blockPos.above();
         BlockState blockState2 = Blocks.GRASS_BLOCK.defaultBlockState();
-        Optional<Holder.Reference<PlacedFeature>> optional = serverLevel.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL);
+        Optional<Holder.Reference<PlacedFeature>> optional = serverLevel.registryAccess().lookupOrThrow(Registries.PLACED_FEATURE).get(VegetationPlacements.GRASS_BONEMEAL);
 
         label49:
         for(int i = 0; i < 128; ++i) {

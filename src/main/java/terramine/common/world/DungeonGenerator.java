@@ -20,6 +20,7 @@ import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawJunction;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.phys.AABB;
@@ -42,7 +43,7 @@ public class DungeonGenerator {
             return Optional.empty();
 
         RegistryAccess registryManager = inContext.registryAccess();
-        Registry<StructureTemplatePool> registry = registryManager.registryOrThrow(Registries.TEMPLATE_POOL);
+        Registry<StructureTemplatePool> registry = registryManager.lookupOrThrow(Registries.TEMPLATE_POOL);
         StructureTemplatePool structurePool = startJigsawName.value();
         StructureTemplatePool startingRoomPool = startRoomPool.value();
 
@@ -60,8 +61,8 @@ public class DungeonGenerator {
         Predicate<Holder<Biome>> biomePredicate = inContext.validBiome();
 
         Rotation blockRotation = Rotation.getRandom(chunkRandom);
-        PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(structureManager, startingElement, pos, startingElement.getGroundLevelDelta(), blockRotation, startingElement.getBoundingBox(structureManager, pos, blockRotation));
-        PoolElementStructurePiece poolRoomStructurePiece = new PoolElementStructurePiece(structureManager, startingRoomElement, pos, startingRoomElement.getGroundLevelDelta(), blockRotation, startingRoomElement.getBoundingBox(structureManager, pos, blockRotation));
+        PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(structureManager, startingElement, pos, startingElement.getGroundLevelDelta(), blockRotation, startingElement.getBoundingBox(structureManager, pos, blockRotation), LiquidSettings.IGNORE_WATERLOGGING);
+        PoolElementStructurePiece poolRoomStructurePiece = new PoolElementStructurePiece(structureManager, startingRoomElement, pos, startingRoomElement.getGroundLevelDelta(), blockRotation, startingRoomElement.getBoundingBox(structureManager, pos, blockRotation), LiquidSettings.IGNORE_WATERLOGGING);
         BoundingBox pieceBoundingBox = poolStructurePiece.getBoundingBox();
         BoundingBox pieceBoundingBoxRoom = poolRoomStructurePiece.getBoundingBox();
 
@@ -144,17 +145,17 @@ public class DungeonGenerator {
             BlockPos sourceBlock = sourcePos.offset(sourceStructureBlockPos == null ? BlockPos.ZERO : sourceStructureBlockPos);
 
             // For every structure block in the piece.
-            for (StructureTemplate.StructureBlockInfo structureBlock : structurePoolElement.getShuffledJigsawBlocks(this.structureManager, sourcePos, sourceRotation, this.random)) {
-                if(sourceBlock.equals(structureBlock.pos()))
+            for (StructureTemplate.JigsawBlockInfo structureBlock : structurePoolElement.getShuffledJigsawBlocks(this.structureManager, sourcePos, sourceRotation, this.random)) {
+                if(sourceBlock.equals(structureBlock.info().pos()))
                     continue;
 
                 MutableObject<VoxelShape> structureShape;
-                Direction structureBlockFaceDirection = JigsawBlock.getFrontFacing(structureBlock.state());
-                BlockPos structureBlockPosition = structureBlock.pos();
+                Direction structureBlockFaceDirection = JigsawBlock.getFrontFacing(structureBlock.info().state());
+                BlockPos structureBlockPosition = structureBlock.info().pos();
                 BlockPos structureBlockAimPosition = structureBlockPosition.relative(structureBlockFaceDirection);
 
                 // Get pool that structure block is targeting.
-                ResourceLocation structureBlockTargetPoolId = new ResourceLocation(structureBlock.nbt().getString("pool"));
+                ResourceLocation structureBlockTargetPoolId = ResourceLocation.withDefaultNamespace(structureBlock.info().nbt().getString("pool"));
                 Optional<StructureTemplatePool> targetPool = this.registry.getOptional(structureBlockTargetPoolId);
                 //if (targetPool.isEmpty() || targetPool.get().size() == 0 && !Objects.equals(structureBlockTargetPoolId, StructurePools.EMPTY.getValue())) {
                 if (targetPool.isEmpty() || targetPool.get().size() == 0) {
@@ -203,27 +204,27 @@ public class DungeonGenerator {
         }
 
         // Returns true if we could place piece.
-        boolean tryPlacePiece(PoolElementStructurePiece piece, int currentSize, LevelHeightAccessor world, RandomState noiseConfig, int boundsMinY, StructureTemplate.StructureBlockInfo structureBlock, MutableObject<VoxelShape> structureShape, Direction structureBlockFaceDirection, BlockPos structureBlockPosition, BlockPos structureBlockAimPosition, StructurePoolElement element) {
+        boolean tryPlacePiece(PoolElementStructurePiece piece, int currentSize, LevelHeightAccessor world, RandomState noiseConfig, int boundsMinY, StructureTemplate.JigsawBlockInfo structureBlock, MutableObject<VoxelShape> structureShape, Direction structureBlockFaceDirection, BlockPos structureBlockPosition, BlockPos structureBlockAimPosition, StructurePoolElement element) {
             int j = structureBlockPosition.getY() - boundsMinY;
             int t = boundsMinY + j;
             int pieceGroundLevelDelta = piece.getGroundLevelDelta();
 
             for (Rotation randomizedRotation : Rotation.getShuffled(this.random)) {
                 // Get all structure blocks in structure.
-                List<StructureTemplate.StructureBlockInfo> structureBlocksInStructure = element.getShuffledJigsawBlocks(this.structureManager, BlockPos.ZERO, randomizedRotation, this.random);
+                List<StructureTemplate.JigsawBlockInfo> structureBlocksInStructure = element.getShuffledJigsawBlocks(this.structureManager, BlockPos.ZERO, randomizedRotation, this.random);
 
                 // Loop through all blocks in piece we are trying to place.
-                for (StructureTemplate.StructureBlockInfo structureBlockInfo : structureBlocksInStructure) {
+                for (StructureTemplate.JigsawBlockInfo structureBlockInfo : structureBlocksInStructure) {
                     // If the attachment ID doesn't match then skip this one.
                     if (!JigsawBlock.canAttach(structureBlock, structureBlockInfo))
                         continue;
 
-                    BlockPos structureBlockPos = structureBlockInfo.pos();
+                    BlockPos structureBlockPos = structureBlockInfo.info().pos();
                     BlockPos structureBlockAimDelta = structureBlockAimPosition.subtract(structureBlockPos);
                     BoundingBox iteratedStructureBoundingBox = element.getBoundingBox(this.structureManager, structureBlockAimDelta, randomizedRotation);
 
                     int structureBlockY = structureBlockPos.getY();
-                    int o = j - structureBlockY + JigsawBlock.getFrontFacing(structureBlock.state()).getStepY();
+                    int o = j - structureBlockY + JigsawBlock.getFrontFacing(structureBlock.info().state()).getStepY();
                     int adjustedMinY = boundsMinY + o;
                     int pieceYOffset = adjustedMinY - iteratedStructureBoundingBox.minY();
                     BoundingBox offsetBoundingBox = iteratedStructureBoundingBox.move(0, pieceYOffset, 0);
@@ -239,7 +240,7 @@ public class DungeonGenerator {
                     structureShape.setValue(Shapes.join(structureShape.getValue(), Shapes.create(AABB.of(offsetBoundingBox)), BooleanOp.ONLY_FIRST));
 
                     int s = pieceGroundLevelDelta - o;
-                    PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(this.structureManager, element, offsetBlockPos, s, randomizedRotation, offsetBoundingBox);
+                    PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(this.structureManager, element, offsetBlockPos, s, randomizedRotation, offsetBoundingBox, LiquidSettings.IGNORE_WATERLOGGING);
 
                     piece.addJunction(new JigsawJunction(structureBlockAimPosition.getX(), t - j + pieceGroundLevelDelta, structureBlockAimPosition.getZ(), o, iteratedProjection));
                     poolStructurePiece.addJunction(new JigsawJunction(structureBlockPosition.getX(), t - structureBlockY + s, structureBlockPosition.getZ(), -o, StructureTemplatePool.Projection.RIGID));

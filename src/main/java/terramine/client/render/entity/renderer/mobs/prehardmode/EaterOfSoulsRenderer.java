@@ -11,11 +11,12 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 import terramine.client.render.entity.model.mobs.prehardmode.EaterOfSoulsModel;
+import terramine.client.render.entity.states.TerrariaLivingEntityRenderState;
 import terramine.common.entity.mobs.prehardmode.EaterOfSoulsEntity;
 import terramine.common.init.ModModelLayers;
 
 @Environment(value=EnvType.CLIENT)
-public class EaterOfSoulsRenderer extends MobRenderer<EaterOfSoulsEntity, EaterOfSoulsModel<EaterOfSoulsEntity>> {
+public class EaterOfSoulsRenderer extends MobRenderer<EaterOfSoulsEntity, TerrariaLivingEntityRenderState, EaterOfSoulsModel<TerrariaLivingEntityRenderState>> {
 
     private static final ResourceLocation TEXTURE = TerraMine.id("textures/entity/monsters/pre-hardmode/eater_of_souls/default.png");
 
@@ -24,18 +25,23 @@ public class EaterOfSoulsRenderer extends MobRenderer<EaterOfSoulsEntity, EaterO
     }
 
     @Override
-    public void render(@NotNull EaterOfSoulsEntity entity, float entityYaw, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight) {
-        super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
+    public @NotNull TerrariaLivingEntityRenderState createRenderState() {
+        return new TerrariaLivingEntityRenderState();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(@NotNull EaterOfSoulsEntity entity) {
+    public void render(@NotNull TerrariaLivingEntityRenderState renderState, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight) {
+        super.render(renderState, matrixStack, buffer, packedLight);
+    }
+
+    @Override
+    protected void setupRotations(@NotNull TerrariaLivingEntityRenderState renderState, @NotNull PoseStack poseStack, float f, float g) {
+        super.setupRotations(renderState, poseStack, f, g);
+        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.xRot));
+    }
+
+    @Override
+    public @NotNull ResourceLocation getTextureLocation(TerrariaLivingEntityRenderState livingEntityRenderState) {
         return TEXTURE;
-    }
-
-    @Override
-    protected void setupRotations(@NotNull EaterOfSoulsEntity entity, @NotNull PoseStack poseStack, float f, float g, float h, float i) {
-        super.setupRotations(entity, poseStack, f, g, h, i);
-        poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
     }
 }

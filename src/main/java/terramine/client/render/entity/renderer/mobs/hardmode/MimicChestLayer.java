@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -16,21 +17,22 @@ import org.jetbrains.annotations.NotNull;
 import terramine.TerraMine;
 import terramine.client.render.entity.model.mobs.hardmode.MimicChestLayerModel;
 import terramine.client.render.entity.model.mobs.hardmode.MimicModel;
+import terramine.client.render.entity.states.TerrariaLivingEntityRenderState;
 import terramine.common.entity.mobs.hardmode.MimicEntity;
 import terramine.common.init.ModModelLayers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MimicChestLayer extends RenderLayer<MimicEntity, MimicModel> {
+public class MimicChestLayer extends RenderLayer<TerrariaLivingEntityRenderState, MimicModel> {
 
-    public static final ResourceLocation CHEST_ATLAS = new ResourceLocation("textures/atlas/chest.png");
+    public static final ResourceLocation CHEST_ATLAS = ResourceLocation.withDefaultNamespace("textures/atlas/chest.png");
     private final MimicChestLayerModel chestModel;
     public final Material christmasChestMaterial;
     public final Material vanillaChestMaterial;
     public final List<Material> chestMaterials;
 
-    public MimicChestLayer(RenderLayerParent<MimicEntity, MimicModel> entityRenderer, EntityModelSet modelSet) {
+    public MimicChestLayer(RenderLayerParent<TerrariaLivingEntityRenderState, MimicModel> entityRenderer, EntityModelSet modelSet) {
         super(entityRenderer);
 
         chestModel = new MimicChestLayerModel(modelSet.bakeLayer(ModModelLayers.MIMIC_OVERLAY));
@@ -46,18 +48,20 @@ public class MimicChestLayer extends RenderLayer<MimicEntity, MimicModel> {
     }
 
     @Override
-    public void render(@NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight, MimicEntity mimic, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (!mimic.isInvisible()) {
+    public void render(@NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight, TerrariaLivingEntityRenderState mimic, float partialTicks, float ageInTicks) {
+        if (!mimic.entity.isInvisible()) {
             matrixStack.pushPose();
 
             matrixStack.mulPose(Axis.XP.rotationDegrees(180));
             matrixStack.translate(-0.5, -1.5, -0.5);
 
-            getParentModel().copyPropertiesTo(chestModel);
-            chestModel.prepareMobModel(mimic, limbSwing, limbSwingAmount, partialTicks);
-            chestModel.setupAnim(mimic, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            VertexConsumer builder = getChestMaterial(mimic).buffer(buffer, RenderType::entityCutout);
-            chestModel.renderToBuffer(matrixStack, builder, packedLight, LivingEntityRenderer.getOverlayCoords(mimic, 0), 1, 1, 1, 1);
+            for (int i = 0; i < getParentModel().allParts().size(); i++) {
+                chestModel.allParts().get(i).copyFrom(getParentModel().allParts().get(i));
+            }
+            chestModel.prepareMobModel(mimic, partialTicks);
+            chestModel.setupAnim(mimic);
+            VertexConsumer builder = getChestMaterial((MimicEntity) mimic.entity).buffer(buffer, RenderType::entityCutout);
+            chestModel.renderToBuffer(matrixStack, builder, packedLight, LivingEntityRenderer.getOverlayCoords(mimic, 0));
 
             matrixStack.popPose();
         }
@@ -65,7 +69,7 @@ public class MimicChestLayer extends RenderLayer<MimicEntity, MimicModel> {
 
     private Material getChestMaterial(MimicEntity mimic) {
         if (chestMaterials.size() == 1) {
-            return chestMaterials.get(0);
+            return chestMaterials.getFirst();
         }
         return chestMaterials.get(mimic.getMimicType());
     }

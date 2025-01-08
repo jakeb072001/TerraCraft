@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,20 +24,21 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import terramine.common.item.dye.BasicDye;
+import terramine.extensions.LivingEntityRenderStateExtensions;
 import terramine.extensions.PlayerStorages;
 
 @Mixin(CustomHeadLayer.class)
-public abstract class CustomHeadLayerMixin<T extends LivingEntity, M extends EntityModel<T> & HeadedModel> extends RenderLayer<T, M> {
+public abstract class CustomHeadLayerMixin<S extends LivingEntityRenderState, M extends EntityModel<S> & HeadedModel> extends RenderLayer<S, M> {
     @Unique
     private BasicDye dyeItem;
 
-    public CustomHeadLayerMixin(RenderLayerParent<T, M> renderLayerParent) {
+    public CustomHeadLayerMixin(RenderLayerParent<S, M> renderLayerParent) {
         super(renderLayerParent);
     }
 
-    @ModifyVariable(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At("STORE"), ordinal = 0)
-    private ItemStack vanityArmor(ItemStack itemStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {
-        if (livingEntity instanceof Player player) {
+    @ModifyVariable(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;FF)V", at = @At("STORE"), ordinal = 0)
+    private ItemStack vanityArmor(ItemStack itemStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, S livingEntityRenderState, float f, float g) {
+        if (((LivingEntityRenderStateExtensions)livingEntityRenderState).terrariaCraft$getLivingEntity() instanceof Player player) {
             if (((PlayerStorages) player).getTerrariaInventory().getItem(30).getItem() instanceof BasicDye dye) {
                 this.dyeItem = dye;
             } else {
@@ -51,7 +53,7 @@ public abstract class CustomHeadLayerMixin<T extends LivingEntity, M extends Ent
     }
 
     @WrapOperation(
-            method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V",
+            method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;FF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/blockentity/SkullBlockRenderer;renderSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;)V")
     )
     private void headSkullDye(Direction direction, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, SkullModelBase skullModelBase, RenderType renderType, Operation<Void> original) {
@@ -62,7 +64,8 @@ public abstract class CustomHeadLayerMixin<T extends LivingEntity, M extends Ent
             poseStack.scale(-1.0F, -1.0F, 1.0F);
             VertexConsumer vertexConsumer = multiBufferSource.getBuffer(renderType);
             skullModelBase.setupAnim(g, f, 0.0F);
-            skullModelBase.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, colour.x(), colour.y(), colour.z(), 1.0F);
+            vertexConsumer.setColor(colour.x(), colour.y(), colour.z(), 1);
+            skullModelBase.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY);
             poseStack.popPose();
             return;
         }

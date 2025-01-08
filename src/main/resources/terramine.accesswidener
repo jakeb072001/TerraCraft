@@ -12,10 +12,13 @@ accessible field net/minecraft/world/level/storage/loot/LootTable pools Ljava/ut
 accessible field net/minecraft/world/level/storage/loot/LootTable compositeFunction Ljava/util/function/BiFunction;
 accessible field net/minecraft/world/level/storage/loot/LootPool compositeCondition Ljava/util/function/Predicate;
 accessible field net/minecraft/world/level/storage/loot/LootPool compositeFunction Ljava/util/function/BiFunction;
+accessible field net/minecraft/client/gui/GuiGraphics bufferSource Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;
 
 accessible method net/minecraft/client/renderer/RenderType create (Ljava/lang/String;Lcom/mojang/blaze3d/vertex/VertexFormat;Lcom/mojang/blaze3d/vertex/VertexFormat$Mode;IZZLnet/minecraft/client/renderer/RenderType$CompositeState;)Lnet/minecraft/client/renderer/RenderType$CompositeRenderType;
 accessible method net/minecraft/client/renderer/blockentity/BeaconRenderer renderPart (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIIFFFFFFFFFFFF)V
 accessible method net/minecraft/client/renderer/item/ItemProperties register (Lnet/minecraft/world/item/Item;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/client/renderer/item/ClampedItemPropertyFunction;)V
+accessible method net/minecraft/client/model/HumanoidModel poseRightArm (Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;Lnet/minecraft/client/model/HumanoidModel$ArmPose;)V
+accessible method net/minecraft/client/model/HumanoidModel poseLeftArm (Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;Lnet/minecraft/client/model/HumanoidModel$ArmPose;)V
 accessible method net/minecraft/world/level/biome/BiomeManager getFiddledDistance (JIIIDDD)D
 accessible method net/minecraft/server/level/ChunkMap getLightEngine ()Lnet/minecraft/server/level/ThreadedLevelLightEngine;
 accessible method net/minecraft/world/level/storage/loot/LootTable getAvailableSlots (Lnet/minecraft/world/Container;Lnet/minecraft/util/RandomSource;)Ljava/util/List;

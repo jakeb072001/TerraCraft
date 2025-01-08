@@ -16,7 +16,7 @@ public class CorruptedTransparentBlock extends CorruptionHelper {
     }
 
     @Override
-    public VoxelShape getVisualShape(@NotNull BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull CollisionContext collisionContext) {
+    public @NotNull VoxelShape getVisualShape(@NotNull BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull CollisionContext collisionContext) {
         return Shapes.empty();
     }
 
@@ -26,7 +26,7 @@ public class CorruptedTransparentBlock extends CorruptionHelper {
     }
 
     @Override
-    public boolean propagatesSkylightDown(@NotNull BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos) {
+    public boolean propagatesSkylightDown(BlockState blockState) {
         return true;
     }
 

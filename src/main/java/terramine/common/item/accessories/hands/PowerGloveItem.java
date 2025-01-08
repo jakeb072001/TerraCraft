@@ -21,14 +21,11 @@ public class PowerGloveItem extends AccessoryTerrariaItem {
 	@Override
 	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
-		AttributeModifier modifier = new AttributeModifier(uuid,
-				TerraMine.id("power_glove_attack_speed").toString(),
+		AttributeModifier modifier = new AttributeModifier(TerraMine.id("power_glove_attack_speed"),
 				0.12, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		AttributeModifier modifier2 = new AttributeModifier(uuid,
-				TerraMine.id("power_glove_attack_range").toString(),
+		AttributeModifier modifier2 = new AttributeModifier(TerraMine.id("power_glove_attack_range"),
 				3, AttributeModifier.Operation.ADD_VALUE);
-		AttributeModifier modifier3 = new AttributeModifier(uuid,
-				TerraMine.id("power_glove_range").toString(),
+		AttributeModifier modifier3 = new AttributeModifier(TerraMine.id("power_glove_range"),
 				0.5, AttributeModifier.Operation.ADD_VALUE);
 		result.put(Attributes.ATTACK_SPEED, modifier);
 		result.put(Attributes.ENTITY_INTERACTION_RANGE, modifier2);

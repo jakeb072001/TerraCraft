@@ -28,7 +28,9 @@ public class ModModelLayers {
     public static final ModelLayerLocation MIMIC_OVERLAY = register(createLocation("mimic", "overlay"), MimicChestLayerModel::createLayer);
     public static final ModelLayerLocation DEMON_EYE = register(createLocation("demon_eye"), DemonEyeModel::createLayer);
     public static final ModelLayerLocation EATER_OF_SOULS = register(createLocation("eater_of_souls"), EaterOfSoulsModel::createLayer);
-    public static final ModelLayerLocation DEVOURER = register(createLocation("devourer"), DevourerModel::createLayer);
+    public static final ModelLayerLocation DEVOURER_HEAD = register(createLocation("devourer_head"), DevourerModel::createHeadLayer);
+    public static final ModelLayerLocation DEVOURER_BODY = register(createLocation("devourer_body"), DevourerModel::createBodyLayer);
+    public static final ModelLayerLocation DEVOURER_TAIL = register(createLocation("devourer_tail"), DevourerModel::createTailLayer);
     public static final ModelLayerLocation CRIMERA = register(createLocation("crimera"), CrimeraModel::createLayer);
 
     /**
@@ -76,7 +78,7 @@ public class ModModelLayers {
 
     @SuppressWarnings("SameParameterValue")
     private static ModelLayerLocation createLocation(String model, String layer) {
-        return new ModelLayerLocation(new ResourceLocation(TerraMine.MOD_ID, model), layer);
+        return new ModelLayerLocation(TerraMine.id(model), layer);
     }
 
     private static ModelLayerLocation register(ModelLayerLocation location, EntityModelLayerRegistry.TexturedModelDataProvider provider) {

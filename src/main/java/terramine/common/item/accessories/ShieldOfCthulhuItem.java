@@ -10,7 +10,7 @@ import terramine.common.init.ModItems;
 import terramine.common.misc.AccessoriesHelper;
 import terramine.common.utility.Utilities;
 
-public class ShieldOfCthulhuItem extends ShieldAccessoryItem {
+public class ShieldOfCthulhuItem extends ShieldAccessoryLikeItem {
     public ShieldOfCthulhuItem(Item.Properties settings) {
         super(settings);
     }

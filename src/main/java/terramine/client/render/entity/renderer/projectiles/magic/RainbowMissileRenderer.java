@@ -4,9 +4,10 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import terramine.TerraMine;
 import terramine.client.render.entity.renderer.BillboardEntityRenderer;
+import terramine.client.render.entity.states.TerrariaEntityRenderState;
 import terramine.common.entity.projectiles.RainbowMissileEntity;
 
-public class RainbowMissileRenderer extends BillboardEntityRenderer<RainbowMissileEntity> {
+public class RainbowMissileRenderer extends BillboardEntityRenderer<RainbowMissileEntity, TerrariaEntityRenderState> {
     private static final ResourceLocation TEXTURE = TerraMine.id("textures/entity/projectiles/magic/rainbow_rod.png");
 
     public RainbowMissileRenderer(EntityRendererProvider.Context context) {

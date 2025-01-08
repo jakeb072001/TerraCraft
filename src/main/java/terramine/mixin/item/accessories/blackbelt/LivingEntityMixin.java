@@ -31,12 +31,12 @@ public abstract class LivingEntityMixin extends Entity {
 		super(entityType, level);
 	}
 
-	@Inject(method = "hurt", at = @At("HEAD"))
-	private void accessDamageSource(DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
+	@Inject(method = "hurtServer", at = @At("HEAD"))
+	private void accessDamageSource(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
 		this.damageSource = damageSource;
 	}
 
-	@ModifyVariable(method = "hurt", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 	private float dodgeAttack(float f) {
 		LivingEntity self = (LivingEntity) (Object) this;
 		if (AccessoriesHelper.isEquipped(ModItems.BLACK_BELT, self) || AccessoriesHelper.isEquipped(ModItems.MASTER_NINJA_GEAR, self)) {
@@ -45,7 +45,7 @@ public abstract class LivingEntityMixin extends Entity {
 				dodged = true;
 				if (!self.level().isClientSide()) {
 					Vec3 pos = self.position();
-					Vec3i motion = self.getMotionDirection().getNormal();
+					Vec3i motion = self.getMotionDirection().getUnitVec3i();
 					((ServerLevel) self.level()).sendParticles(ParticleTypes.POOF, pos.x(), pos.y(), pos.z(), 3, motion.getX() * -1.0D, -1.0D, motion.getZ() * -1.0D, 0.15);
 				}
 			}

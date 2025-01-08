@@ -6,6 +6,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,7 +30,7 @@ public class HotFloorBlock extends Block {
 
     @Override
     public void stepOn(@NotNull Level level, @NotNull BlockPos blockPos, @NotNull BlockState blockState, Entity entity) {
-        if (!entity.isSteppingCarefully() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entity)) {
+        if (!entity.isSteppingCarefully() && entity instanceof LivingEntity) {
             entity.hurt(level.damageSources().hotFloor(), 1.0F);
         }
 

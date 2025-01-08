@@ -35,7 +35,7 @@ public class EvilMushroom extends BushBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos) {
-        return blockState.isSolidRender(blockGetter, blockPos);
+        return blockState.isSolidRender();
     }
 
     @Override

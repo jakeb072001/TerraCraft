@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.TriState;
 
 import java.util.function.Function;
 
@@ -24,7 +25,7 @@ public abstract class RenderTypes extends RenderType {
 		CompositeState renderState = CompositeState.builder()
 				// TODO (from forge): .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_UNLIT_SHADER)
 				.setShaderState(RENDERTYPE_ENTITY_CUTOUT_NO_CULL_SHADER)
-				.setTextureState(new TextureStateShard(textureLocation, false, false))
+				.setTextureState(new TextureStateShard(textureLocation, TriState.FALSE, false))
 				.setTransparencyState(TRANSLUCENT_TRANSPARENCY)
 				.setCullState(NO_CULL)
 				.setLightmapState(LIGHTMAP)

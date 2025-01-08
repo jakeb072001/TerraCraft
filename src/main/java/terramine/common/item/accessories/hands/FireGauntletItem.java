@@ -21,14 +21,11 @@ public class FireGauntletItem extends AccessoryTerrariaItem {
 	@Override
 	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
-		AttributeModifier attackModifier = new AttributeModifier(uuid,
-				TerraMine.id("fire_gauntlet_attack").toString(),
+		AttributeModifier attackModifier = new AttributeModifier(TerraMine.id("fire_gauntlet_attack"),
 				0.12, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		AttributeModifier reachModifier = new AttributeModifier(uuid,
-				TerraMine.id("fire_gauntlet_range").toString(),
+		AttributeModifier reachModifier = new AttributeModifier(TerraMine.id("fire_gauntlet_range"),
 				0.5, AttributeModifier.Operation.ADD_VALUE);
-		AttributeModifier attackRangeModifier = new AttributeModifier(uuid,
-				TerraMine.id("fire_gauntlet_attack_range").toString(),
+		AttributeModifier attackRangeModifier = new AttributeModifier(TerraMine.id("fire_gauntlet_attack_range"),
 				3, AttributeModifier.Operation.ADD_VALUE);
 		result.put(Attributes.ATTACK_SPEED, attackModifier);
 		result.put(Attributes.ATTACK_DAMAGE, attackModifier);

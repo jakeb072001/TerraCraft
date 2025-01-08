@@ -1,7 +1,7 @@
 package terramine.mixin.player;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
 import net.minecraft.network.chat.Component;
@@ -20,7 +20,7 @@ import terramine.common.network.ServerPacketHandler;
 import terramine.common.network.types.LongNetworkType;
 
 @Mixin(InventoryScreen.class)
-public abstract class InventoryScreenMixin extends EffectRenderingInventoryScreen<InventoryMenu> implements RecipeUpdateListener {
+public abstract class InventoryScreenMixin extends AbstractContainerScreen<InventoryMenu> implements RecipeUpdateListener {
     @Unique
     private static final ResourceLocation BUTTON_TEX = TerraMine.id("textures/gui/terraria_slots_button.png");
 

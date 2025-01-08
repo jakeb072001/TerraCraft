@@ -1,6 +1,7 @@
 package terramine.common.item.magic;
 
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +22,7 @@ public class SpaceGunItem extends MagicTerrariaItem {
     public ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
         Player player = (Player)entity;
         if (canUse(player)) {
-            LaserEntity laser = ModEntities.LASER.create(world);
+            LaserEntity laser = ModEntities.LASER.create(world, EntitySpawnReason.DISPENSER);
             if (laser != null) {
                 laser.setOwner(player);
                 laser.setGun(this);

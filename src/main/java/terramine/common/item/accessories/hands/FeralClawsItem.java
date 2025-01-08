@@ -21,8 +21,7 @@ public class FeralClawsItem extends AccessoryTerrariaItem {
     @Override
 	protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
 		Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
-		AttributeModifier modifier = new AttributeModifier(uuid,
-				TerraMine.id("feral_claws_attack_speed").toString(),
+		AttributeModifier modifier = new AttributeModifier(TerraMine.id("feral_claws_attack_speed"),
 				0.12, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 		result.put(Attributes.ATTACK_SPEED, modifier);
 		return result;

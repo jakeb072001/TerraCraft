@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -62,6 +63,6 @@ public class ToggleImageButton extends Button {
             }
         }
 
-        guiGraphics.blit(this.resourceLocation, this.getX(), this.getY(), (float)g, (float)k, this.width, this.height, this.textureWidth, this.textureHeight);
+        guiGraphics.blit(RenderType::guiTextured, this.resourceLocation, this.getX(), this.getY(), (float)g, (float)k, this.width, this.height, this.textureWidth, this.textureHeight);
     }
 }

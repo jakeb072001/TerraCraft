@@ -58,8 +58,8 @@ public class CorruptionHelper extends SpreadingSnowyDirtBlock  {
         if (blockState2.getFluidState().getAmount() == 8) {
             return true;
         }
-        int i = LightEngine.getLightBlockInto(levelReader, blockState, blockPos, blockState2, blockPos2, Direction.UP, blockState2.getLightBlock(levelReader, blockPos2));
-        return i >= levelReader.getMaxLightLevel();
+        int i = LightEngine.getLightBlockInto(blockState, blockState2, Direction.UP, blockState2.getLightBlock());
+        return i < 15;
     }
 
     private static boolean canNotPropagate(BlockState blockState, LevelReader levelReader, BlockPos blockPos) {
@@ -204,21 +204,21 @@ public class CorruptionHelper extends SpreadingSnowyDirtBlock  {
             // Due to some weird thing in MC, different instances of the same biome can exist.
             // This hack allows us to convert to the biome instance that is required for chunk serialization.
             // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
-            Registry<Biome> biomeRegistry = level.registryAccess().registryOrThrow(Registries.BIOME);
-            Optional<Holder.Reference<Biome>> biomeHack = biomeRegistry.getHolder(biome);
+            Registry<Biome> biomeRegistry = level.registryAccess().lookupOrThrow(Registries.BIOME);
+            Optional<Holder.Reference<Biome>> biomeHack = biomeRegistry.get(biome);
             if (biomeHack.isEmpty()) {
                 return;
             }
 
             // Update biome in chunk
             // Based on ChunkAccess#getNoiseBiome
-            int minBuildHeight = QuartPos.fromBlock(chunk.getMinBuildHeight());
+            int minBuildHeight = QuartPos.fromBlock(chunk.getMinY());
             int maxHeight = minBuildHeight + QuartPos.fromBlock(chunk.getHeight()) - 1;
             int dummyY = Mth.clamp(i3, minBuildHeight, maxHeight);
             int sectionIndex = chunk.getSectionIndex(QuartPos.toBlock(dummyY));
             ((PalettedContainer<Holder<Biome>>) chunk.sections[sectionIndex].getBiomes()).set(l2 & 3, dummyY & 3, j3 & 3, biomeHack.get());
 
-            chunk.setUnsaved(true);
+            chunk.markUnsaved();
         } else {
             TerraMine.LOGGER.warn("Tried changing biome at non-existing chunk for position " + posIn);
         }

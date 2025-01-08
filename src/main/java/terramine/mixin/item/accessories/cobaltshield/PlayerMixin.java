@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import terramine.TerraMine;
 import terramine.common.init.ModItems;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.misc.AccessoriesHelper;
@@ -19,20 +20,16 @@ import java.util.UUID;
 public abstract class PlayerMixin {
 
 	@Unique
-	private static final AttributeModifier KNOCKBACK_RESISTANCE = new AttributeModifier(UUID.fromString("fc169abb-68f0-4068-9b27-cad2e5d9cf7f"),
-			"shield_knockback_resistance", 1, AttributeModifier.Operation.ADD_VALUE);
+	private static final AttributeModifier KNOCKBACK_RESISTANCE = new AttributeModifier(TerraMine.id("shield_knockback_resistance"), 1, AttributeModifier.Operation.ADD_VALUE);
 
 	@Unique
-	private static final AttributeModifier ARMOR_ADD_ONE = new AttributeModifier(UUID.fromString("e89ae2cc-57ce-4ee9-817a-0f883b339001"),
-			"cobalt_shield_armor_one", 1, AttributeModifier.Operation.ADD_VALUE);
+	private static final AttributeModifier ARMOR_ADD_ONE = new AttributeModifier(TerraMine.id("cobalt_shield_armor_one"), 1, AttributeModifier.Operation.ADD_VALUE);
 
 	@Unique
-	private static final AttributeModifier ARMOR_ADD_TWO = new AttributeModifier(UUID.fromString("248c3717-9eff-456b-86a3-caa7d3743e2f"),
-			"obsidian_shield_armor_two", 2, AttributeModifier.Operation.ADD_VALUE);
+	private static final AttributeModifier ARMOR_ADD_TWO = new AttributeModifier(TerraMine.id("obsidian_shield_armor_two"), 2, AttributeModifier.Operation.ADD_VALUE);
 
 	@Unique
-	private static final AttributeModifier ARMOR_ADD_TWO_CTHULHU = new AttributeModifier(UUID.fromString("18d06d05-1823-48a9-8041-47f0760ca9f7"),
-			"shield_of_cthulhu_armor_two", 2, AttributeModifier.Operation.ADD_VALUE);
+	private static final AttributeModifier ARMOR_ADD_TWO_CTHULHU = new AttributeModifier(TerraMine.id("shield_of_cthulhu_armor_two"), 2, AttributeModifier.Operation.ADD_VALUE);
 	
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void shieldAttributes(CallbackInfo info) {

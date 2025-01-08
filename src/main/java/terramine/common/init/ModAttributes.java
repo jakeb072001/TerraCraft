@@ -25,6 +25,6 @@ public class ModAttributes {
     }
 
     private static Holder<Attribute> register(String string, Attribute attribute) {
-        return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, new ResourceLocation(string), attribute);
+        return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, ResourceLocation.withDefaultNamespace(string), attribute);
     }
 }

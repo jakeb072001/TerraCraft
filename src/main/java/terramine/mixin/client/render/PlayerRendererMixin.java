@@ -8,11 +8,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,12 +22,13 @@ import terramine.client.render.AccessoryFeatureRenderer;
 import terramine.client.render.AccessoryRenderRegistry;
 import terramine.client.render.accessory.renderer.GloveAccessoryRenderer;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
+import terramine.extensions.LivingEntityRenderStateExtensions;
 import terramine.extensions.PlayerStorages;
 
 import java.util.HashMap;
 
 @Mixin(PlayerRenderer.class)
-public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractClientPlayer, PlayerRenderState, PlayerModel> {
+public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractClientPlayer, PlayerRenderState, PlayerModel> implements LivingEntityRenderStateExtensions {
 	public PlayerRendererMixin(EntityRendererProvider.Context context, PlayerModel entityModel, float f) {
 		super(context, entityModel, f);
 	}
@@ -37,6 +36,11 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 	@Inject(at = @At("RETURN"), method = "<init>")
 	public void init(EntityRendererProvider.Context context, boolean bl, CallbackInfo ci) {
 		this.addLayer(new AccessoryFeatureRenderer<>((PlayerRenderer) (Object) this));
+	}
+
+	@Inject(at = @At("RETURN"), method = "extractRenderState(Lnet/minecraft/client/player/AbstractClientPlayer;Lnet/minecraft/client/renderer/entity/state/PlayerRenderState;F)V")
+	public void extractLivingEntity(AbstractClientPlayer abstractClientPlayer, PlayerRenderState playerRenderState, float f, CallbackInfo ci) {
+		terrariaCraft$setLivingEntity(abstractClientPlayer);
 	}
 
 	@Inject(method = "renderLeftHand", at = @At("TAIL"))

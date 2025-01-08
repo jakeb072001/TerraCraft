@@ -12,19 +12,23 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import terramine.client.render.entity.states.TerrariaEntityRenderState;
 
-public abstract class BillboardEntityRenderer<T extends Entity> extends EntityRenderer<T> {
-    private final ResourceLocation TEXTURE;
+public abstract class BillboardEntityRenderer<T extends Entity, M extends TerrariaEntityRenderState> extends EntityRenderer<T, M> {
     private final RenderType RENDER_TYPE;
 
     public BillboardEntityRenderer(EntityRendererProvider.Context context, ResourceLocation texture) {
         super(context);
-        TEXTURE = texture;
         RENDER_TYPE = RenderType.entityCutoutNoCull(texture);
     }
 
     @Override
-    public void render(@NotNull T entity, float entityYaw, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
+    public @NotNull M createRenderState() {
+        return (M) new TerrariaEntityRenderState();
+    }
+
+    @Override
+    public void render(M entity, @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
         poseStack.scale(1F, 1F, 1F);
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
@@ -37,15 +41,10 @@ public abstract class BillboardEntityRenderer<T extends Entity> extends EntityRe
         vertex(vertexConsumer, matrix4f, pose, packedLight, 1.0F, 1, 1, 0);
         vertex(vertexConsumer, matrix4f, pose, packedLight, 0.0F, 1, 0, 0);
         poseStack.popPose();
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        super.render(entity, poseStack, buffer, packedLight);
     }
 
     private static void vertex(VertexConsumer vertexConsumer, Matrix4f matrix4f, PoseStack.Pose pose, int i, float f, int j, int k, int l) {
-        vertexConsumer.vertex(matrix4f, f - 0.5F, (float)j - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float)k, (float)l).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(i).normal(pose, 0.0F, 1.0F, 0.0F).endVertex();
-    }
-
-    @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull T entity) {
-        return TEXTURE;
+        vertexConsumer.addVertex(matrix4f, f - 0.5F, (float)j - 0.25F, 0.0F).setColor(255, 255, 255, 255).setUv((float)k, (float)l).setOverlay(OverlayTexture.NO_OVERLAY).setUv2(i, i).setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 }

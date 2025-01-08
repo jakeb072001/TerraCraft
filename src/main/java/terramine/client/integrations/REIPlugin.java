@@ -20,7 +20,7 @@ public class REIPlugin implements REIClientPlugin {
 		BuiltInRegistries.ITEM.stream()
 				.filter(item -> (item instanceof TerrariaItem && !(item instanceof BasicDye)))
 				.map(item -> {
-					DefaultInformationDisplay display = DefaultInformationDisplay.createFromEntry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(item)), item.getDescription());
+					DefaultInformationDisplay display = DefaultInformationDisplay.createFromEntry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(item)), Component.translatable(item.getDescriptionId()));
 					for (String string : ((TerrariaItem) item).getREITooltip()) {
 						display.line(Component.literal(string));
 					}
@@ -30,7 +30,7 @@ public class REIPlugin implements REIClientPlugin {
 		BuiltInRegistries.ITEM.stream()
 				.filter(item -> item instanceof TerrariaArmor && !(item instanceof VanityArmor))
 				.map(item -> {
-					DefaultInformationDisplay display = DefaultInformationDisplay.createFromEntry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(item)), item.getDescription());
+					DefaultInformationDisplay display = DefaultInformationDisplay.createFromEntry(EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(item)), Component.translatable(item.getDescriptionId()));
 					for (String string : ((TerrariaArmor) item).getREITooltip()) {
 						display.line(Component.literal(string));
 					}

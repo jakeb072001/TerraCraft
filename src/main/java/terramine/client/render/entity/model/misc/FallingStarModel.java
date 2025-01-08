@@ -10,22 +10,15 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
+import terramine.client.render.entity.states.TerrariaEntityRenderState;
 
-public class FallingStarModel<T extends Entity> extends EntityModel<T> {
+public class FallingStarModel<T extends TerrariaEntityRenderState> extends EntityModel<T> {
 
     protected final ModelPart star;
 
     public FallingStarModel(ModelPart part) {
+        super(part);
         star = part.getChild("star");
-    }
-
-    @Override
-    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float xRot, float yRot) {
-    }
-
-    @Override
-    public void renderToBuffer(@NotNull PoseStack matrixStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        star.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     public static LayerDefinition createLayer() {

@@ -69,8 +69,7 @@ public class JesterArrowEntity extends AbstractArrow {
         label18: {
             if (this.firedFromWeapon != null) {
                 Level var6 = this.level();
-                if (var6 instanceof ServerLevel) {
-                    ServerLevel serverLevel = (ServerLevel)var6;
+                if (var6 instanceof ServerLevel serverLevel) {
                     var10000 = EnchantmentHelper.modifyKnockback(serverLevel, this.firedFromWeapon, livingEntity, damageSource, 0.0F) + knockbackModifier;
                     break label18;
                 }
