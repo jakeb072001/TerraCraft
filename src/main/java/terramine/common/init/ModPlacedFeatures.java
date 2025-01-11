@@ -139,7 +139,7 @@ public class ModPlacedFeatures {
         builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_GRASS_PLAIN);
     }
     public static void addCorruptionCaveCarver(BiomeGenerationSettings.Builder builder) {
-        builder.addCarver(ModCarvers.CORRUPTION_PIT);
+        //builder.addCarver(ModCarvers.CORRUPTION_PIT);
     }
     private static List<PlacementModifier> commonOrePlacement(int i, PlacementModifier placementModifier) {
         return orePlacement(CountPlacement.of(i), placementModifier);

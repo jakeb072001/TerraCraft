@@ -2,15 +2,18 @@ package terramine.common.item.accessories.belt;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.Item;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.network.ServerPacketHandler;
 import terramine.common.network.types.LongNetworkType;
 import terramine.extensions.LivingEntityExtensions;
 
 public class CloudInABottleItem extends AccessoryTerrariaItem {
-	public CloudInABottleItem() {
+	public CloudInABottleItem(ResourceKey<Item> key) {
+        super(key);
         ServerPlayNetworking.registerGlobalReceiver(ServerPacketHandler.C2S_DOUBLE_JUMPED_ID, CloudInABottleItem::handleDoubleJumpPacket);
 	}
 

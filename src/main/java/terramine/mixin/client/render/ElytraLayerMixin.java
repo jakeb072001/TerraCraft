@@ -3,8 +3,6 @@ package terramine.mixin.client.render;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.ElytraModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -15,12 +13,10 @@ import net.minecraft.client.renderer.entity.layers.WingsLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.EquipmentModel;
-import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import terramine.common.item.armor.vanity.FamiliarVanity;
 import terramine.common.item.dye.BasicDye;
 import terramine.common.utility.Utilities;
-import terramine.extensions.LivingEntityRenderStateExtensions;
+import terramine.extensions.EntityRenderStateExtensions;
 import terramine.extensions.PlayerStorages;
 
 @Mixin(WingsLayer.class)
@@ -42,7 +38,7 @@ public abstract class ElytraLayerMixin<S extends HumanoidRenderState, M extends 
 
     @ModifyVariable(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/HumanoidRenderState;FF)V", at = @At("STORE"), ordinal = 0)
     private ItemStack hideElytra(ItemStack itemStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, S humanoidRenderState, float f, float g) {
-        if (((LivingEntityRenderStateExtensions)humanoidRenderState).terrariaCraft$getLivingEntity() instanceof Player player) {
+        if (((EntityRenderStateExtensions)humanoidRenderState).terrariaCraft$getLivingEntity() instanceof Player player) {
             if ((((PlayerStorages) player).getTerrariaInventory().getItem(25).getItem() instanceof FamiliarVanity)) {
                 return ItemStack.EMPTY;
             }

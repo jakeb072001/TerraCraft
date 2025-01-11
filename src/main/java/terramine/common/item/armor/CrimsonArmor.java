@@ -21,7 +21,7 @@ public class CrimsonArmor extends TerrariaArmor {
         super(armorType, holder, type, properties);
 
         ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(TerraMine.id("Crimson Attack Damage"), 0.02, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(TerraMine.id("crimson_attack_damage"), 0.02, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         attributeModifiers = builder.build();
     }
 

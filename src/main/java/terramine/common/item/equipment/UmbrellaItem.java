@@ -1,13 +1,11 @@
 package terramine.common.item.equipment;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUseAnimation;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import org.jetbrains.annotations.NotNull;
@@ -16,8 +14,8 @@ import terramine.common.item.TerrariaItem;
 
 public class UmbrellaItem extends TerrariaItem {
 
-	public UmbrellaItem() {
-		super(new Properties().stacksTo(1).rarity(Rarity.RARE).fireResistant(), false);
+	public UmbrellaItem(ResourceKey<Item> key) {
+		super(new Properties().setId(key).stacksTo(1).rarity(Rarity.RARE).fireResistant(), false);
 		//DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
 	}
 
@@ -34,6 +32,19 @@ public class UmbrellaItem extends TerrariaItem {
 
 		if (entity.isUsingItem() && entity.getUsedItemHand() == hand && !entity.getUseItem().isEmpty()
 				&& entity.getUseItem().getUseAnimation() == ItemUseAnimation.BLOCK) {
+			return HeldStatus.BLOCKING;
+		}
+
+		return HeldStatus.HELD_UP;
+	}
+
+	public static HeldStatus getHeldStatusForHand(ItemStack itemStack, boolean isUsingItem, InteractionHand usedItemHand, InteractionHand hand) {
+		if (itemStack.getItem() != ModItems.UMBRELLA) {
+			return HeldStatus.NONE;
+		}
+
+		if (isUsingItem && usedItemHand == hand && !itemStack.isEmpty()
+				&& itemStack.getUseAnimation() == ItemUseAnimation.BLOCK) {
 			return HeldStatus.BLOCKING;
 		}
 

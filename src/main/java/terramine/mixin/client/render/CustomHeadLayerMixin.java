@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3f;
@@ -24,7 +23,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import terramine.common.item.dye.BasicDye;
-import terramine.extensions.LivingEntityRenderStateExtensions;
+import terramine.extensions.EntityRenderStateExtensions;
 import terramine.extensions.PlayerStorages;
 
 @Mixin(CustomHeadLayer.class)
@@ -38,7 +37,7 @@ public abstract class CustomHeadLayerMixin<S extends LivingEntityRenderState, M 
 
     @ModifyVariable(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;FF)V", at = @At("STORE"), ordinal = 0)
     private ItemStack vanityArmor(ItemStack itemStack, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, S livingEntityRenderState, float f, float g) {
-        if (((LivingEntityRenderStateExtensions)livingEntityRenderState).terrariaCraft$getLivingEntity() instanceof Player player) {
+        if (((EntityRenderStateExtensions)livingEntityRenderState).terrariaCraft$getLivingEntity() instanceof Player player) {
             if (((PlayerStorages) player).getTerrariaInventory().getItem(30).getItem() instanceof BasicDye dye) {
                 this.dyeItem = dye;
             } else {

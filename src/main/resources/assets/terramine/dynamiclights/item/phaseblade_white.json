@@ -1,5 +1,7 @@
 {
-  "item": "terramine:phaseblade_white",
+  "match": {
+    "items": "terramine:phaseblade_white"
+  },
   "luminance": 5,
   "water_sensitive": false
 }

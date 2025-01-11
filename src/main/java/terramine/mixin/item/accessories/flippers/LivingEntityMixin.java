@@ -18,13 +18,11 @@ public abstract class LivingEntityMixin implements LivingEntityExtensions {
 		return terramine$getIncreasedSwimSpeed(y);
 	}
 
-	// This is a big method, so I feel more comfortable with a slice than an ordinal
-	// big method, big annotation, big fun
-	@ModifyArg(method = "travel", allow = 1,
+	@ModifyArg(method = "travelInFluid", allow = 1,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;moveRelative(FLnet/minecraft/world/phys/Vec3;)V"),
 			slice = @Slice(
 					from = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"),
-					to = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInLava()Z")
+					to = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V")
 			)
 	)
 	private float increaseSwimSpeed(float speed) {

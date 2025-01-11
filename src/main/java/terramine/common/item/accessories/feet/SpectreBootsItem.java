@@ -1,7 +1,9 @@
 package terramine.common.item.accessories.feet;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import terramine.common.init.ModParticles;
 import terramine.common.init.ModSoundEvents;
@@ -13,8 +15,9 @@ public class SpectreBootsItem extends AccessoryTerrariaItem {
 	public RocketBootHelper rocketHelper = new RocketBootHelper();
 	public double speed = 0.4D;
 
-	public SpectreBootsItem() {
-		rocketHelper.setSoundSettings(ModSoundEvents.SPECTRE_BOOTS, 1f, 1f);
+	public SpectreBootsItem(ResourceKey<Item> key) {
+        super(key);
+        rocketHelper.setSoundSettings(ModSoundEvents.SPECTRE_BOOTS, 1f, 1f);
 		rocketHelper.setParticleSettings(ModParticles.BLUE_POOF, ParticleTypes.POOF);
 	}
 

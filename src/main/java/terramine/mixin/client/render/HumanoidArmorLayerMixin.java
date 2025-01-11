@@ -34,7 +34,7 @@ import terramine.common.item.armor.TerrariaArmor;
 import terramine.common.item.armor.vanity.FamiliarVanity;
 import terramine.common.item.armor.vanity.VanityArmor;
 import terramine.common.item.dye.BasicDye;
-import terramine.extensions.LivingEntityRenderStateExtensions;
+import terramine.extensions.EntityRenderStateExtensions;
 import terramine.extensions.PlayerStorages;
 
 @Mixin(HumanoidArmorLayer.class)
@@ -48,13 +48,13 @@ public abstract class HumanoidArmorLayerMixin<S extends HumanoidRenderState, M e
 
 	@Inject(at = @At("RETURN"), method = "getArmorModel")
 	private void getPlayer(S humanoidRenderState, EquipmentSlot equipmentSlot, CallbackInfoReturnable<A> cir) {
-		if (((LivingEntityRenderStateExtensions) humanoidRenderState).terrariaCraft$getLivingEntity() instanceof Player playerEnt) {
+		if (((EntityRenderStateExtensions) humanoidRenderState).terrariaCraft$getLivingEntity() instanceof Player playerEnt) {
 			this.player = playerEnt;
 		}
 	}
 
-	@ModifyVariable(method = "renderArmorPiece", at = @At("HEAD"), ordinal = 1)
-	private ItemStack vanityArmor(PoseStack poseStack, MultiBufferSource multiBufferSource, ItemStack itemStack, EquipmentSlot equipmentSlot, int i, A humanoidModel) {
+	@ModifyVariable(method = "renderArmorPiece", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+	private ItemStack vanityArmor(ItemStack itemStack, PoseStack poseStack, MultiBufferSource multiBufferSource, ItemStack itemStack2, EquipmentSlot equipmentSlot, int i, A humanoidModel) {
 		if (player instanceof Player player) {
 			if (((PlayerStorages)player).getTerrariaInventory().getItem(equipmentSlot.getIndex() + 23) != ItemStack.EMPTY) {
 				if (((PlayerStorages)player).getTerrariaInventory().getItem(equipmentSlot.getIndex() + 23).getItem() == Items.ELYTRA) {

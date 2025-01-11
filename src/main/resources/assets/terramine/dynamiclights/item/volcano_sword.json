@@ -1,5 +1,7 @@
 {
-  "item": "terramine:volcano_sword",
+  "match": {
+    "items": "terramine:volcano_sword"
+  },
   "luminance": 9,
   "water_sensitive": true
 }

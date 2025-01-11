@@ -1,9 +1,11 @@
 package terramine.common.item.magic;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +16,8 @@ import terramine.common.init.ModSoundEvents;
 
 public class SpaceGunItem extends MagicTerrariaItem {
 
-    public SpaceGunItem() {
+    public SpaceGunItem(ResourceKey<Item> key) {
+        super(key);
         this.setVars(2, 6);
     }
 

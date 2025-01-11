@@ -1,4 +1,4 @@
-package terramine.common.misc;
+package terramine;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
@@ -9,7 +9,6 @@ import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import terramine.common.init.ModBiomes;
-import terramine.common.init.ModCarvers;
 import terramine.common.init.ModFeatures;
 import terramine.common.init.ModPlacedFeatures;
 
@@ -62,7 +61,7 @@ public class TerraMineRegistryProvider extends FabricDynamicRegistryProvider {
         entries.add(ModPlacedFeatures.ORE_CRIMTANE_SMALL, placedFeatureRegistry.getOrThrow(ModPlacedFeatures.ORE_CRIMTANE_SMALL).value());
 
         // Carvers
-        entries.add(ModCarvers.CORRUPTION_PIT, carverRegistry.getOrThrow(ModCarvers.CORRUPTION_PIT).value());
+        //entries.add(ModCarvers.CORRUPTION_PIT, carverRegistry.getOrThrow(ModCarvers.CORRUPTION_PIT).value());
 
         // Biomes
         entries.add(ModBiomes.CORRUPTION, biomeRegistry.getOrThrow(ModBiomes.CORRUPTION).value());

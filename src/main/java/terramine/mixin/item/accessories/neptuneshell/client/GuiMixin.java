@@ -15,7 +15,7 @@ public abstract class GuiMixin {
 	@Shadow
 	protected abstract Player getCameraPlayer();
 
-	@ModifyExpressionValue(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/TagKey;)Z"))
+	@ModifyExpressionValue(method = "renderAirBubbles", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/TagKey;)Z"))
 	private boolean doNotShowAir(boolean inWater) {
 		Player player = this.getCameraPlayer();
 		return inWater && !(AccessoriesHelper.isEquipped(ModItems.NEPTUNE_SHELL, player) || AccessoriesHelper.isEquipped(ModItems.MOON_SHELL, player) || AccessoriesHelper.isEquipped(ModItems.CELESTIAL_SHELL, player));

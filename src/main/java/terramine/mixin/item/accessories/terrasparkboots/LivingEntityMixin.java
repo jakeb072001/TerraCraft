@@ -64,7 +64,8 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@ModifyVariable(method = "travel", at = @At("STORE"), ordinal = 0)
+	// todo: unsure if works
+	@ModifyVariable(method = "travelInAir", at = @At("STORE"), ordinal = 0)
 	private float noIceSlip(float t, Vec3 vec3) {
 		LivingEntity self = (LivingEntity) (Object) this;
 		AttributeInstance movementSpeed = self.getAttribute(Attributes.MOVEMENT_SPEED);

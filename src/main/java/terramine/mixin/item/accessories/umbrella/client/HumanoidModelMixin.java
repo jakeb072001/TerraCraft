@@ -1,8 +1,12 @@
 package terramine.mixin.item.accessories.umbrella.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import terramine.common.item.equipment.UmbrellaItem;
 
 @Mixin(HumanoidModel.class)
-public abstract class HumanoidModelMixin<T extends LivingEntity> {
+public abstract class HumanoidModelMixin<T extends HumanoidRenderState> extends EntityModel<T> implements ArmedModel, HeadedModel {
 
 	@Final
 	@Shadow
@@ -24,12 +28,17 @@ public abstract class HumanoidModelMixin<T extends LivingEntity> {
 	@Shadow
 	public ModelPart leftArm;
 
+	protected HumanoidModelMixin(ModelPart modelPart) {
+		super(modelPart);
+	}
+
 	// Target is unresolved because method owner is a generic T
 	// Seems to work fine, but has failed to apply once or twice in dev (in a fresh runtime)
-	@Inject(method = "setupAnim*", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getMainArm()Lnet/minecraft/world/entity/HumanoidArm;"))
-	private void reduceHandSwing(T entity, float f, float g, float h, float i, float j, CallbackInfo info) {
-		boolean heldMainHand = UmbrellaItem.getHeldStatusForHand(entity, InteractionHand.MAIN_HAND) == UmbrellaItem.HeldStatus.HELD_UP;
-		boolean heldOffHand = UmbrellaItem.getHeldStatusForHand(entity, InteractionHand.OFF_HAND) == UmbrellaItem.HeldStatus.HELD_UP;
+	@Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/HumanoidModel;setupAttackAnimation(Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;F)V"))
+	private void reduceHandSwing(T humanoidRenderState, CallbackInfo ci) {
+		boolean heldMainHand = UmbrellaItem.getHeldStatusForHand(humanoidRenderState.getMainHandItem(), humanoidRenderState.isUsingItem, humanoidRenderState.useItemHand, InteractionHand.MAIN_HAND) == UmbrellaItem.HeldStatus.HELD_UP;
+		// can't get the offhand item for some reason, so just use left hand for now
+		boolean heldOffHand = UmbrellaItem.getHeldStatusForHand(humanoidRenderState.leftHandItem, humanoidRenderState.isUsingItem, humanoidRenderState.useItemHand, InteractionHand.OFF_HAND) == UmbrellaItem.HeldStatus.HELD_UP;
 		boolean rightHanded = Minecraft.getInstance().options.mainHand().get() == HumanoidArm.RIGHT;
 
 		if ((heldMainHand && rightHanded) || (heldOffHand && !rightHanded)) {

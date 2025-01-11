@@ -1,5 +1,7 @@
 {
-  "item": "terramine:fallen_star",
+  "match": {
+    "items": "terramine:fallen_star"
+  },
   "luminance": 6,
   "water_sensitive": false
 }

@@ -55,37 +55,37 @@ public abstract class GuiMixin {
 		}
 	}
 
-	// todo: when health is critical (hearts wiggle), these hearts do not line up
-	// todo: probably find a way to replace this with HeartType, that way i don't have to use all this code i can just add a new HeartType and have that be used
 	@WrapMethod(method = "renderHeart")
 	private void renderCustomHearts(GuiGraphics guiGraphics, Gui.HeartType heartType, int i, int j, boolean bl, boolean bl2, boolean bl3, Operation<Void> original) {
-		if (getCameraPlayer().hasEffect(ModMobEffects.MERFOLK)) {
-			if (getCameraPlayer().hasEffect(MobEffects.WITHER)) {
-				guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.WITHERED_MERFOLK.getSprite(bl, bl3, bl2), i, j, 9, 9);
+		if (heartType != Gui.HeartType.CONTAINER) {
+			if (getCameraPlayer().hasEffect(ModMobEffects.MERFOLK)) {
+				if (getCameraPlayer().hasEffect(MobEffects.WITHER)) {
+					guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.WITHERED_MERFOLK.getSprite(bl, bl3, bl2), i, j, 9, 9);
+					return;
+				}
+
+				if (getCameraPlayer().hasEffect(MobEffects.POISON)) {
+					guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.POISONED_MERFOLK.getSprite(bl, bl3, bl2), i, j, 9, 9);
+					return;
+				}
+
+				guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.MERFOLK.getSprite(bl, bl3, bl2), i, j, 9, 9);
 				return;
 			}
+			if (getCameraPlayer().hasEffect(ModMobEffects.WEREWOLF)) {
+				if (getCameraPlayer().hasEffect(MobEffects.WITHER)) {
+					guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.WITHERED_WEREWOLF.getSprite(bl, bl3, bl2), i, j, 9, 9);
+					return;
+				}
 
-			if (getCameraPlayer().hasEffect(MobEffects.POISON)) {
-				guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.POISONED_MERFOLK.getSprite(bl, bl3, bl2), i, j, 9, 9);
+				if (getCameraPlayer().hasEffect(MobEffects.POISON)) {
+					guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.POISONED_WEREWOLF.getSprite(bl, bl3, bl2), i, j, 9, 9);
+					return;
+				}
+
+				guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.WEREWOLF.getSprite(bl, bl3, bl2), i, j, 9, 9);
 				return;
 			}
-
-			guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.MERFOLK.getSprite(bl, bl3, bl2), i, j, 9, 9);
-			return;
-		}
-		if (getCameraPlayer().hasEffect(ModMobEffects.WEREWOLF)) {
-			if (getCameraPlayer().hasEffect(MobEffects.WITHER)) {
-				guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.WITHERED_WEREWOLF.getSprite(bl, bl3, bl2), i, j, 9, 9);
-				return;
-			}
-
-			if (getCameraPlayer().hasEffect(MobEffects.POISON)) {
-				guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.POISONED_WEREWOLF.getSprite(bl, bl3, bl2), i, j, 9, 9);
-				return;
-			}
-
-			guiGraphics.blitSprite(RenderType::guiTextured, TerrariaHeartTypes.WEREWOLF.getSprite(bl, bl3, bl2), i, j, 9, 9);
-			return;
 		}
 
 		original.call(guiGraphics, heartType, i, j, bl, bl2, bl3);

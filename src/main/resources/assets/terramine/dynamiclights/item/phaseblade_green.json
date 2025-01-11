@@ -1,5 +1,7 @@
 {
-  "item": "terramine:phaseblade_green",
+  "match": {
+    "items": "terramine:phaseblade_green"
+  },
   "luminance": 5,
   "water_sensitive": false
 }

@@ -1,8 +1,10 @@
 package terramine.common.item.accessories.back;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.utility.RocketBootHelper;
@@ -15,8 +17,9 @@ public class WingsItem extends AccessoryTerrariaItem {
 	private final double speed, glideSpeed;
 	private final int flightTime, priority;
 
-	public WingsItem(double speed, double glideSpeed, int flightTime, int priority, SoundEvent sound) {
-		RandomSource random = RandomSource.create();
+	public WingsItem(double speed, double glideSpeed, int flightTime, int priority, SoundEvent sound, ResourceKey<Item> key) {
+        super(key);
+        RandomSource random = RandomSource.create();
 		rocketHelper.setSoundSettings(sound, 1.5f, random.nextInt(8, 12) / 10f);
 		this.speed = speed;
 		this.glideSpeed = glideSpeed;

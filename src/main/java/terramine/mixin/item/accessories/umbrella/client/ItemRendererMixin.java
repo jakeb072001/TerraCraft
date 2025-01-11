@@ -51,8 +51,9 @@ public abstract class ItemRendererMixin {
 	@Unique
 	private static final ResourceLocation BOUNCY_DYNAMITE_ICON_MODEL = TerraMine.id("bouncy_dynamite");
 
-	@ModifyVariable(method = "getModel", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/renderer/ItemModelShaper;getItemModel(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/client/resources/model/BakedModel;"), ordinal = 1)
-	private BakedModel setUmbrellaHeldModel(BakedModel bakedModel, ItemStack stack) {
+	// todo: causes crash, maybe find a way to do this without mixin
+	@ModifyVariable(method = "getModel", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;resolveModelOverride(Lnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;I)Lnet/minecraft/client/resources/model/BakedModel;"), ordinal = 0)
+	private BakedModel setCustomHeldModels(BakedModel bakedModel, ItemStack stack) {
 		if (stack.getItem() == ModItems.UMBRELLA) {
 			return this.itemModelShaper.getItemModel(HeldItemModels.UMBRELLA_HELD_MODEL);
 		}
@@ -100,7 +101,7 @@ public abstract class ItemRendererMixin {
 	}
 
 	@ModifyVariable(method = "render", argsOnly = true, at = @At(value = "HEAD"))
-	private BakedModel setUmbrellaIconModel(BakedModel model, ItemStack stack, ItemDisplayContext itemDisplayContext) {
+	private BakedModel setCustomInventoryModels(BakedModel model, ItemStack stack, ItemDisplayContext itemDisplayContext) {
 		boolean shouldUseIcon = itemDisplayContext == ItemDisplayContext.GUI ||
 								itemDisplayContext == ItemDisplayContext.GROUND ||
 								itemDisplayContext == ItemDisplayContext.FIXED;

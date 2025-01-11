@@ -26,14 +26,15 @@ public abstract class LivingEntityMixin extends Entity {
 	@Shadow
 	public abstract boolean hasEffect(Holder<MobEffect> effect);
 
-	@ModifyVariable(method = "travel", ordinal = 0, name = "d", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/world/level/Level;getFluidState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/material/FluidState;"))
+	// todo: doesn't work, redo
+	//@ModifyVariable(method = "travelInAir", ordinal = 0, name = "d", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/world/level/Level;getFluidState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/material/FluidState;"))
+	@ModifyVariable(method = "travelInAir", ordinal = 0, name = "d", at = @At("STORE"))
 	private double changeGravity(double gravity) {
 		boolean isFalling = !this.onGround() && this.getDeltaMovement().y <= 0.0D;
 		boolean heldMainHand = UmbrellaItem.getHeldStatusForHand((LivingEntity) (Object) this, InteractionHand.MAIN_HAND) == UmbrellaItem.HeldStatus.HELD_UP;
 		boolean heldOffHand = UmbrellaItem.getHeldStatusForHand((LivingEntity) (Object) this, InteractionHand.OFF_HAND) == UmbrellaItem.HeldStatus.HELD_UP;
-		boolean isInWater = this.isInWater() && !ModComponents.SWIM_ABILITIES.maybeGet(this).map(SwimAbilityComponent::isSinking).orElse(false);
 
-		if ((heldMainHand || heldOffHand) && isFalling && !isInWater && !this.hasEffect(MobEffects.SLOW_FALLING) ) {
+		if ((heldMainHand || heldOffHand) && isFalling && !this.hasEffect(MobEffects.SLOW_FALLING) ) {
 			gravity -= 0.07;
 			this.fallDistance = 0;
 		}

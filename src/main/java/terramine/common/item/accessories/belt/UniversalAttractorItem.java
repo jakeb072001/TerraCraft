@@ -1,7 +1,9 @@
 package terramine.common.item.accessories.belt;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -12,7 +14,11 @@ import java.util.List;
 
 public class UniversalAttractorItem extends AccessoryTerrariaItem {
 
-    @Override
+	public UniversalAttractorItem(ResourceKey<Item> key) {
+		super(key);
+	}
+
+	@Override
 	// Magnet logic from Botania, see https://github.com/Vazkii/Botania
 	protected void curioTick(Player player, ItemStack stack) {
 		Vec3 playerPos = player.position().add(0, 0.75, 0);

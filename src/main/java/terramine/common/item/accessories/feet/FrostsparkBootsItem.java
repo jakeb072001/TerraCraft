@@ -1,10 +1,12 @@
 package terramine.common.item.accessories.feet;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import terramine.TerraMine;
 import terramine.common.init.ModSoundEvents;
@@ -19,8 +21,9 @@ public class FrostsparkBootsItem extends AccessoryTerrariaItem {
 	public RocketBootHelper rocketHelper = new RocketBootHelper();
 	public double speed = 0.4D;
 
-	public FrostsparkBootsItem() {
-		rocketHelper.setSoundSettings(ModSoundEvents.SPECTRE_BOOTS, 1f, 1f);
+	public FrostsparkBootsItem(ResourceKey<Item> key) {
+        super(key);
+        rocketHelper.setSoundSettings(ModSoundEvents.SPECTRE_BOOTS, 1f, 1f);
 		rocketHelper.setParticleSettings(ParticleTypes.POOF);
 	}
 

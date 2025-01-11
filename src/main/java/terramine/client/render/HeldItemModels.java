@@ -5,6 +5,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import terramine.TerraMine;
 
+// todo: being registered as block models?
 public class HeldItemModels {
     public static final ResourceLocation UMBRELLA_HELD_MODEL = TerraMine.id("umbrella_in_hand");
     public static final ResourceLocation MAGIC_MISSILE_HELD_MODEL = TerraMine.id("magic_missile_held");

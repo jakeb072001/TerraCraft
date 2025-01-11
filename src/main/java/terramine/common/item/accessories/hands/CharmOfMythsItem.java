@@ -1,9 +1,11 @@
 package terramine.common.item.accessories.hands;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import terramine.common.events.LivingEntityPotionEffectCallback;
@@ -15,7 +17,8 @@ import terramine.extensions.MobEffectInstanceExtensions;
 public class CharmOfMythsItem extends AccessoryTerrariaItem {
 	private int timer;
 
-	public CharmOfMythsItem() {
+	public CharmOfMythsItem(ResourceKey<Item> key) {
+        super(key);
         LivingEntityPotionEffectCallback.EVENT.register(CharmOfMythsItem::onPotionStart);
 	}
 

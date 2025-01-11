@@ -8,7 +8,6 @@ import terramine.common.init.ModBiomes;
 import terramine.common.init.ModCarvers;
 import terramine.common.init.ModFeatures;
 import terramine.common.init.ModPlacedFeatures;
-import terramine.common.misc.TerraMineRegistryProvider;
 
 public class TerraMineDataGenerator implements DataGeneratorEntrypoint {
 

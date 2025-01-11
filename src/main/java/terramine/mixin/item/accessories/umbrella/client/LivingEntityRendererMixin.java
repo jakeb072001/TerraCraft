@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import terramine.common.item.equipment.UmbrellaItem;
 
 @Mixin(LivingEntityRenderer.class)
-public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends HumanoidRenderState, M extends HumanoidModel<? super S>> extends EntityRenderer<T, S> {
+public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>> extends EntityRenderer<T, S> implements RenderLayerParent<S, M> {
 
 	@Shadow
 	protected M model;
@@ -39,6 +40,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 		this.livingEntity = livingEntity;
 	}
 
+	// todo: fix
 	@Inject(method = "render*", at = @At("HEAD"))
 	private void renderUmbrella(S renderState, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, CallbackInfo info) {
 		boolean heldMainHand = UmbrellaItem.getHeldStatusForHand(livingEntity, InteractionHand.MAIN_HAND) == UmbrellaItem.HeldStatus.HELD_UP;
@@ -46,11 +48,11 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 		boolean rightHanded = Minecraft.getInstance().options.mainHand().get() == HumanoidArm.RIGHT;
 
 		if ((heldMainHand && rightHanded) || (heldOffHand && !rightHanded)) {
-			model.poseRightArm(renderState, HumanoidModel.ArmPose.THROW_SPEAR);
+			//model.poseRightArm(renderState, HumanoidModel.ArmPose.THROW_SPEAR);
 		}
 
 		if ((heldMainHand && !rightHanded) || (heldOffHand && rightHanded)) {
-			model.poseLeftArm(renderState, HumanoidModel.ArmPose.THROW_SPEAR);
+			//model.poseLeftArm(renderState, HumanoidModel.ArmPose.THROW_SPEAR);
 		}
 	}
 }

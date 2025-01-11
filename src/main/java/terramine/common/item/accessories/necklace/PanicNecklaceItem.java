@@ -1,10 +1,12 @@
 package terramine.common.item.accessories.necklace;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import terramine.common.events.LivingEntityHurtCallback;
 import terramine.common.init.ModItems;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
@@ -12,7 +14,8 @@ import terramine.common.misc.AccessoriesHelper;
 
 public class PanicNecklaceItem extends AccessoryTerrariaItem {
 
-	public PanicNecklaceItem() {
+	public PanicNecklaceItem(ResourceKey<Item> key) {
+        super(key);
         LivingEntityHurtCallback.EVENT.register(PanicNecklaceItem::applyEffects);
 	}
 

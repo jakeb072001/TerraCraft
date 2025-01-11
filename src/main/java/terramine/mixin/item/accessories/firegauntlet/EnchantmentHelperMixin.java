@@ -15,6 +15,9 @@ public abstract class EnchantmentHelperMixin {
 	/**
 	 * Give the player fire aspect II (equals 8 seconds in Forge version)
 	 */
+
+	// todo: this won't work anymore, figure out another way to do it then delete this class
+	/**
 	@Inject(method = "getFireAspect", at = @At("RETURN"), cancellable = true)
 	private static void giveFireAspect(LivingEntity entity, CallbackInfoReturnable<Integer> info) {
 		if (info.getReturnValueI() < 2) {
@@ -24,4 +27,5 @@ public abstract class EnchantmentHelperMixin {
 			}
 		}
 	}
+	*/
 }

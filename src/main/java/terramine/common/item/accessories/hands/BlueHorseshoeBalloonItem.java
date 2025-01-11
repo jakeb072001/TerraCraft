@@ -2,11 +2,13 @@ package terramine.common.item.accessories.hands;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.network.ServerPacketHandler;
@@ -14,8 +16,9 @@ import terramine.common.network.types.LongNetworkType;
 import terramine.extensions.LivingEntityExtensions;
 
 public class BlueHorseshoeBalloonItem extends AccessoryTerrariaItem {
-	public BlueHorseshoeBalloonItem() {
-		ServerPlayNetworking.registerGlobalReceiver(ServerPacketHandler.C2S_DOUBLE_JUMPED_ID, BlueHorseshoeBalloonItem::handleDoubleJumpPacket);
+	public BlueHorseshoeBalloonItem(ResourceKey<Item> key) {
+        super(key);
+        ServerPlayNetworking.registerGlobalReceiver(ServerPacketHandler.C2S_DOUBLE_JUMPED_ID, BlueHorseshoeBalloonItem::handleDoubleJumpPacket);
 	}
 
 	private static void handleDoubleJumpPacket(LongNetworkType bufferConverter, ServerPlayNetworking.Context context) {

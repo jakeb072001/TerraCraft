@@ -22,16 +22,16 @@ public class MoltenArmor extends TerrariaArmor {
 
         ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
         if (type == ArmorType.HELMET) {
-            builder.put(Attributes.LUCK, new AttributeModifier(TerraMine.id("Molten Attack Crit Chance"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            builder.put(Attributes.LUCK, new AttributeModifier(TerraMine.id("molten_attack_crit_chance"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
         if (type == ArmorType.CHESTPLATE) {
-            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(TerraMine.id("Molten Attack Damage"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(TerraMine.id("molten_attack_damage"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
         if (type == ArmorType.LEGGINGS) {
-            builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(TerraMine.id("Molten Attack Knockback"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(TerraMine.id("molten_attack_knockback"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
         if (type == ArmorType.BOOTS) {
-            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(TerraMine.id("Molten Attack Speed"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(TerraMine.id("molten_attack_speed"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
         attributeModifiers = builder.build();
     }

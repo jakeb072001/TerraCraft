@@ -1,5 +1,7 @@
 {
-  "item": "terramine:flaming_arrow",
+  "match": {
+    "items": "terramine:flaming_arrow"
+  },
   "luminance": 7,
   "water_sensitive": true
 }

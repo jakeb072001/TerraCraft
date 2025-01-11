@@ -21,7 +21,7 @@ public class ShadowArmor extends TerrariaArmor {
         super(armorType, holder, type, properties);
 
         ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(TerraMine.id("Shadow Attack Speed"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(TerraMine.id("shadow_attack_speed"), 0.07, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         attributeModifiers = builder.build();
     }
 

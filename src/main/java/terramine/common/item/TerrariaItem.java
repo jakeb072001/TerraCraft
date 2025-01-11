@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -25,8 +26,8 @@ public abstract class TerrariaItem extends Item {
 		super(properties);
 	}
 
-	public TerrariaItem() {
-		this(new Properties());
+	public TerrariaItem(ResourceKey<Item> key) {
+		this(new Properties().setId(key));
 	}
 
 	@Override

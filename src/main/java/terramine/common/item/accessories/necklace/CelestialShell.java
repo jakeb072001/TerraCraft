@@ -2,16 +2,27 @@ package terramine.common.item.accessories.necklace;
 
 import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
+import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import terramine.TerraMine;
 import terramine.common.init.ModComponents;
 import terramine.common.init.ModItems;
 import terramine.common.init.ModMobEffects;
 import terramine.common.item.accessories.AccessoryTerrariaItem;
 import terramine.common.misc.AccessoriesHelper;
+
+import java.util.UUID;
 
 public class CelestialShell extends AccessoryTerrariaItem {
 
@@ -19,7 +30,8 @@ public class CelestialShell extends AccessoryTerrariaItem {
     private final boolean shell, wolf, sun, moon;
     private int timer;
 
-    public CelestialShell(boolean shell, boolean wolf, boolean sun, boolean moon) {
+    public CelestialShell(boolean shell, boolean wolf, boolean sun, boolean moon, ResourceKey<Item> key) {
+        super(key);
         if (shell) {
             PlayerSwimCallback.EVENT.register(CelestialShell::onPlayerSwim);
         }
@@ -27,6 +39,17 @@ public class CelestialShell extends AccessoryTerrariaItem {
         this.wolf = wolf;
         this.sun = sun;
         this.moon = moon;
+    }
+
+    @Override
+    protected Multimap<Holder<Attribute>, AttributeModifier> applyModifiers(ItemStack stack, LivingEntity entity, UUID uuid) {
+        Multimap<Holder<Attribute>, AttributeModifier> result = super.applyModifiers(stack, entity, uuid);
+        if (shell) {
+            AttributeModifier modifier = new AttributeModifier(TerraMine.id("water_mining_speed"),
+                    1, AttributeModifier.Operation.ADD_VALUE);
+            result.put(Attributes.SUBMERGED_MINING_SPEED, modifier);
+        }
+        return result;
     }
 
     @Override

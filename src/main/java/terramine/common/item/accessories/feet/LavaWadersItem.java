@@ -1,8 +1,10 @@
 package terramine.common.item.accessories.feet;
 
 import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.FluidState;
 import terramine.common.init.ModComponents;
@@ -12,8 +14,9 @@ import terramine.common.misc.AccessoriesHelper;
 
 public class LavaWadersItem extends AccessoryTerrariaItem {
 
-	public LavaWadersItem() {
-		//noinspection UnstableApiUsage
+	public LavaWadersItem(ResourceKey<Item> key) {
+        super(key);
+        //noinspection UnstableApiUsage
         LivingFluidCollisionCallback.EVENT.register(LavaWadersItem::onFluidCollision);
 	}
 

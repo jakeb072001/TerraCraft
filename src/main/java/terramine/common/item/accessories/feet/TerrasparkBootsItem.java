@@ -1,11 +1,13 @@
 package terramine.common.item.accessories.feet;
 
 import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.FluidState;
 import terramine.TerraMine;
@@ -25,8 +27,9 @@ public class TerrasparkBootsItem extends AccessoryTerrariaItem {
 	public RocketBootHelper rocketHelper = new RocketBootHelper();
 	public double speed = 0.4D;
 
-	public TerrasparkBootsItem() {
-		//noinspection UnstableApiUsage
+	public TerrasparkBootsItem(ResourceKey<Item> key) {
+        super(key);
+        //noinspection UnstableApiUsage
 		LivingFluidCollisionCallback.EVENT.register(TerrasparkBootsItem::onFluidCollision);
 		rocketHelper.setSoundSettings(ModSoundEvents.SPECTRE_BOOTS, 1f, 1f);
 		rocketHelper.setParticleSettings(ModParticles.GREEN_SPARK);

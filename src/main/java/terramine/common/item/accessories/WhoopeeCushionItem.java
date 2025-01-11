@@ -1,9 +1,11 @@
 package terramine.common.item.accessories;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
@@ -12,6 +14,10 @@ import terramine.common.init.ModItems;
 import terramine.common.init.ModSoundEvents;
 
 public class WhoopeeCushionItem extends AccessoryTerrariaItem {
+
+	public WhoopeeCushionItem(ResourceKey<Item> key) {
+		super(key);
+	}
 
 	@Override
 	public InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand interactionHand) {

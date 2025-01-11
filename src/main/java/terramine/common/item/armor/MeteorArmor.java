@@ -21,7 +21,7 @@ public class MeteorArmor extends TerrariaArmor {
         super(armorType, holder, type, properties);
 
         ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(ModAttributes.MAGIC_ATTACK_DAMAGE, new AttributeModifier(TerraMine.id("Meteor Magic Damage"), 0.09, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+        builder.put(ModAttributes.MAGIC_ATTACK_DAMAGE, new AttributeModifier(TerraMine.id("meteor_magic_damage"), 0.09, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         attributeModifiers = builder.build();
     }
 

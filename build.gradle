@@ -39,6 +39,7 @@ repositories {
         url = "https://server.bbkr.space/artifactory/libs-release"
     }
     maven { url = 'https://maven.minecraftforge.net/' }
+    mavenLocal()
 }
 
 allprojects { repositories { maven { url 'https://jitpack.io' } } }

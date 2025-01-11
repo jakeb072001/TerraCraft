@@ -1,65 +1,67 @@
 package terramine.client.render.entity.model.mobs.prehardmode;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.world.entity.monster.Monster;
-import org.jetbrains.annotations.NotNull;
 import terramine.client.render.entity.states.TerrariaLivingEntityRenderState;
-import terramine.common.entity.mobs.prehardmode.devourer.DevourerEntity;
-import terramine.common.entity.mobs.prehardmode.devourer.DevourerTailEntity;
 
 public class DevourerModel<T extends TerrariaLivingEntityRenderState> extends EntityModel<T> {
     protected final ModelPart root;
-    protected final ModelPart devourer_head;
-    protected final ModelPart head_front;
-    protected final ModelPart head_body;
-    protected final ModelPart head_eyes;
-    protected final ModelPart cube_r1;
-    protected final ModelPart head_left_claw;
-    protected final ModelPart cube_r2;
-    protected final ModelPart head_right_claw;
-    protected final ModelPart cube_r3;
-    protected final ModelPart head_inner_teeth;
-    protected final ModelPart head_tendrils;
-    protected final ModelPart cube_r4;
-    protected final ModelPart cube_r5;
-    protected final ModelPart head_back;
-    protected final ModelPart devourer_body;
-    protected final ModelPart body_front;
-    protected final ModelPart body_back;
-    protected final ModelPart devourer_tail;
-    protected final ModelPart tail_front;
-    protected final ModelPart tail_back;
+    protected ModelPart devourer_head;
+    protected ModelPart head_front;
+    protected ModelPart head_body;
+    protected ModelPart head_eyes;
+    protected ModelPart cube_r1;
+    protected ModelPart head_left_claw;
+    protected ModelPart cube_r2;
+    protected ModelPart head_right_claw;
+    protected ModelPart cube_r3;
+    protected ModelPart head_inner_teeth;
+    protected ModelPart head_tendrils;
+    protected ModelPart cube_r4;
+    protected ModelPart cube_r5;
+    protected ModelPart head_back;
+    protected ModelPart devourer_body;
+    protected ModelPart body_front;
+    protected ModelPart body_back;
+    protected ModelPart devourer_tail;
+    protected ModelPart tail_front;
+    protected ModelPart tail_back;
 
 
     public DevourerModel(ModelPart part) {
         super(part);
         root = part;
-        devourer_head = part.getChild("devourer_head");
-        head_front = devourer_head.getChild("head_front");
-        head_body = head_front.getChild("head_body");
-        head_eyes = head_front.getChild("head_eyes");
-        cube_r1 = head_eyes.getChild("cube_r1");
-        head_left_claw = head_front.getChild("head_left_claw");
-        cube_r2 = head_left_claw.getChild("cube_r2");
-        head_right_claw = head_front.getChild("head_right_claw");
-        cube_r3 = head_right_claw.getChild("cube_r3");
-        head_inner_teeth = head_front.getChild("head_inner_teeth");
-        head_tendrils = head_front.getChild("head_tendrils");
-        cube_r4 = head_tendrils.getChild("cube_r4");
-        cube_r5 = head_tendrils.getChild("cube_r5");
-        head_back = devourer_head.getChild("head_back");
-        devourer_body = part.getChild("devourer_body");
-        body_front = devourer_body.getChild("body_front");
-        body_back = devourer_body.getChild("body_back");
-        devourer_tail = part.getChild("devourer_tail");
-        tail_front = devourer_tail.getChild("tail_front");
-        tail_back = devourer_tail.getChild("tail_back");
+
+        if (part.hasChild("devourer_head")) {
+            devourer_head = part.getChild("devourer_head");
+            head_front = devourer_head.getChild("head_front");
+            head_body = head_front.getChild("head_body");
+            head_eyes = head_front.getChild("head_eyes");
+            cube_r1 = head_eyes.getChild("cube_r1");
+            head_left_claw = head_front.getChild("head_left_claw");
+            cube_r2 = head_left_claw.getChild("cube_r2");
+            head_right_claw = head_front.getChild("head_right_claw");
+            cube_r3 = head_right_claw.getChild("cube_r3");
+            head_inner_teeth = head_front.getChild("head_inner_teeth");
+            head_tendrils = head_front.getChild("head_tendrils");
+            cube_r4 = head_tendrils.getChild("cube_r4");
+            cube_r5 = head_tendrils.getChild("cube_r5");
+            head_back = devourer_head.getChild("head_back");
+        }
+
+        if (part.hasChild("devourer_body")) {
+            devourer_body = part.getChild("devourer_body");
+            body_front = devourer_body.getChild("body_front");
+            body_back = devourer_body.getChild("body_back");
+        }
+
+        if (part.hasChild("devourer_tail")) {
+            devourer_tail = part.getChild("devourer_tail");
+            tail_front = devourer_tail.getChild("tail_front");
+            tail_back = devourer_tail.getChild("tail_back");
+        }
     }
 
     public static LayerDefinition createHeadLayer() {

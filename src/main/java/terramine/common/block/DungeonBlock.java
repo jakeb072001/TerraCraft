@@ -47,6 +47,7 @@ public class DungeonBlock extends Block {
         }
     }
 
+    //todo: fix
     /**
      * Makes Dungeon Bricks indestructible when below y-60 unless mined with Netherite or better Pickaxe.
      * Also allows the block to be mined if placed by a player.
@@ -58,9 +59,9 @@ public class DungeonBlock extends Block {
 
         if (state.getValue(PLACED) || pos.getY() >= 60) {
             return super.getDestroyProgress(state, player, getter, pos);
-        } else if (cei.getItem() instanceof DiggerItem tool && tool.getTier() instanceof TerrariaToolMaterials terrariaTiers && terrariaTiers.getLevel() >= 4) {
-            return super.getDestroyProgress(state, player, getter, pos);
-        }
+        }// else if (cei.getItem() instanceof DiggerItem tool && tool.getTier() instanceof TerrariaToolMaterials terrariaTiers && terrariaTiers.getLevel() >= 4) {
+        //    return super.getDestroyProgress(state, player, getter, pos);
+        //}
 
         return 0;
     }

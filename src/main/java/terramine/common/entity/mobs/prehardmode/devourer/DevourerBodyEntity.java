@@ -59,11 +59,13 @@ public class DevourerBodyEntity extends Monster implements Enemy {
                 this.setRemoved(this.head.getRemovalReason());
             }
 
-            if (!this.isDeadOrDying() && this.head.isDeadOrDying()) {
+            if (!this.isDeadOrDying() && this.head.isDeadOrDying() && !this.level().isClientSide) {
                 this.kill((ServerLevel) level());
             }
         } else {
-            this.kill((ServerLevel) level());
+            if (!this.level().isClientSide) {
+                this.kill((ServerLevel) level());
+            }
         }
     }
 

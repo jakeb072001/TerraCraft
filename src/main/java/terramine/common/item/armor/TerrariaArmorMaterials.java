@@ -18,7 +18,7 @@ public interface TerrariaArmorMaterials {
         enumMap.put(ArmorType.CHESTPLATE, 0);
         enumMap.put(ArmorType.HELMET, 0);
         enumMap.put(ArmorType.BODY, 0);
-    }), 0, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, ItemTags.REPAIRS_LEATHER_ARMOR, TerraMine.id("vanity"));
+    }), 1, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, ItemTags.REPAIRS_LEATHER_ARMOR, TerraMine.id("vanity"));
     ArmorMaterial SHADOW = new ArmorMaterial(0, Util.make(new EnumMap<>(ArmorType.class), (enumMap) -> {
         enumMap.put(ArmorType.BOOTS, 2);
         enumMap.put(ArmorType.LEGGINGS, 5);
