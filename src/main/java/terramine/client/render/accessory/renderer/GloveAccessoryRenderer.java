@@ -73,6 +73,7 @@ public class GloveAccessoryRenderer implements AccessoryRenderer {
             if (item.isBothHands()) {
                 renderArm(model, poseStack, multiBufferSource, player, dyeSlot, player.getMainArm(), light, hasSlimArms, stack.hasFoil());
                 renderArm(model, poseStack, multiBufferSource, player, dyeSlot, player.getMainArm().getOpposite(), light, hasSlimArms, stack.hasFoil());
+                return;
             }
         }
         renderArm(model, poseStack, multiBufferSource, player, dyeSlot, player.getMainArm(), light, hasSlimArms, stack.hasFoil());
@@ -82,11 +83,10 @@ public class GloveAccessoryRenderer implements AccessoryRenderer {
         RenderType renderType = model.renderType(getTexture(hasSlimArms));
         VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, renderType, false, hasFoil);
         if (((PlayerStorages)player).getTerrariaInventory().getItem(slot + 14).getItem() instanceof BasicDye dye) {
-            Vector3f color = dye.getColour();
-            model.renderArm(handSide, matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, color.x(), color.y(), color.z(), 1);
+            model.renderArm(handSide, matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, dye.getColourInt());
             return;
         }
-        model.renderArm(handSide, matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        model.renderArm(handSide, matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, -1);
     }
 
     public final void renderFirstPersonArm(PoseStack matrixStack, MultiBufferSource buffer, int light, int slot, AbstractClientPlayer player, HumanoidArm side, boolean hasFoil) {

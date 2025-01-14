@@ -37,11 +37,9 @@ public class GlowingAccessoryRenderer extends BaseAccessoryRenderer {
         RenderType renderType = RenderTypes.unlit(getGlowTexture());
         VertexConsumer builder = ItemRenderer.getFoilBuffer(multiBufferSource, renderType, false, hasFoil);
         if (((PlayerStorages)player).getTerrariaInventory().getItem(slot + 14).getItem() instanceof BasicDye dye) {
-            Vector3f color = dye.getColour();
-            builder.setColor(color.x(), color.y(), color.z(), 1);
-            getModel().renderToBuffer(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, 1);
+            getModel().renderToBuffer(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, dye.getColourInt());
             return;
         }
-        getModel().renderToBuffer(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, 1);
+        getModel().renderToBuffer(poseStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, -1);
     }
 }

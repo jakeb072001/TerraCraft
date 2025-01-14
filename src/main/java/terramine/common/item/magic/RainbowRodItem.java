@@ -26,9 +26,9 @@ public class RainbowRodItem extends MagicTerrariaItem {
         if (canUse(player)) {
             MagicMissileHelper rainbowMissile = ModEntities.RAINBOW_MISSILE.create(world, EntitySpawnReason.DISPENSER);
             if (rainbowMissile != null) {
+                rainbowMissile.setCooldownItem(this);
                 rainbowMissile.setPos(player.position().x(), player.position().y() + 2, player.position().z());
                 rainbowMissile.setOwner(player);
-                rainbowMissile.setCooldownItem(this);
                 rainbowMissile.setSpeed(1.5f);
                 rainbowMissile.setDamage(9.0f);
                 rainbowMissile.liquidCollision(true, true);

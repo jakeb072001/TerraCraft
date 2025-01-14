@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import terramine.common.init.ModSoundEvents;
@@ -32,7 +33,7 @@ public class MagicMirrorItem extends TerrariaItem {
 	}
 
 	@Override
-	public ItemStack finishUsingItem(@NotNull ItemStack stack, Level level, @NotNull LivingEntity entity) {
+	public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
 		Player player = (Player)entity;
 		if (!level.isClientSide) {
 			ServerPlayer serverPlayer = (ServerPlayer)player;
@@ -40,11 +41,11 @@ public class MagicMirrorItem extends TerrariaItem {
 			if (serverLevel != null) {
 				BlockPos spawnpoint = serverPlayer.getRespawnPosition();
 				if (spawnpoint != null) {
-					Vec3 spawnVec = serverPlayer.findRespawnPositionAndUseSpawnBlock(false, (entity2) ->{}).position();
+					Vec3 spawnVec = serverPlayer.findRespawnPositionAndUseSpawnBlock(false, TeleportTransition.DO_NOTHING).position();
 
 					//Player Spawn
 					serverLevel.playSound(null, serverPlayer.blockPosition(), ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
-					serverPlayer.teleportTo(serverLevel, spawnVec.x(), spawnVec.y(), spawnVec.z(), Relative.ALL, serverPlayer.getRespawnAngle(), 0.5F, true);
+					serverPlayer.teleportTo(serverLevel, spawnVec.x(), spawnVec.y(), spawnVec.z(), Relative.ROTATION, serverPlayer.getRespawnAngle(), 0.5F, true);
 					serverLevel.playSound(null, spawnpoint, ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
 				} else {
 					worldSpawn(serverPlayer, serverLevel);
@@ -60,12 +61,12 @@ public class MagicMirrorItem extends TerrariaItem {
 	}
 
 	@Override
-	public ItemUseAnimation getUseAnimation(@NotNull ItemStack stack) {
+	public @NotNull ItemUseAnimation getUseAnimation(ItemStack stack) {
 		return ItemUseAnimation.BOW;
 	}
 
 	@Override
-	public InteractionResult use(@NotNull Level world, Player user, @NotNull InteractionHand hand) {
+	public @NotNull InteractionResult use(Level world, Player user, InteractionHand hand) {
 		user.startUsingItem(hand);
 		return InteractionResult.CONSUME;
 	}
@@ -75,13 +76,13 @@ public class MagicMirrorItem extends TerrariaItem {
 		return 28;
 	}
 
-	public void worldSpawn(ServerPlayer serverPlayer, ServerLevel serverWorld) {
-		BlockPos spawnpoint = serverWorld.getSharedSpawnPos();
-		serverWorld.playSound(null, serverPlayer.blockPosition(), ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
-		serverPlayer.teleportTo(serverWorld, spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ(), Relative.ALL, serverPlayer.getRespawnAngle(), 0.5F, true);
-		while (!serverWorld.isEmptyBlock(serverPlayer.blockPosition())) {
+	public void worldSpawn(ServerPlayer serverPlayer, ServerLevel serverLevel) {
+		BlockPos spawnpoint = serverLevel.getSharedSpawnPos();
+		serverLevel.playSound(null, serverPlayer.blockPosition(), ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
+		serverPlayer.teleportTo(serverLevel, spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ(), Relative.ROTATION, serverPlayer.getRespawnAngle(), 0.5F, true);
+		while (!serverLevel.isEmptyBlock(serverPlayer.blockPosition())) {
 			serverPlayer.teleportTo(serverPlayer.getX(), serverPlayer.getY() + 1.0D, serverPlayer.getZ());
 		}
-		serverWorld.playSound(null, spawnpoint, ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
+		serverLevel.playSound(null, spawnpoint, ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
 	}
 }

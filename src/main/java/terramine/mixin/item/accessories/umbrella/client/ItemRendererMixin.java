@@ -51,7 +51,7 @@ public abstract class ItemRendererMixin {
 	@Unique
 	private static final ResourceLocation BOUNCY_DYNAMITE_ICON_MODEL = TerraMine.id("bouncy_dynamite");
 
-	// todo: causes crash, maybe find a way to do this without mixin
+	// todo: doesn't work currently, seems the models are registering as block models
 	@ModifyVariable(method = "getModel", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;resolveModelOverride(Lnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;I)Lnet/minecraft/client/resources/model/BakedModel;"), ordinal = 0)
 	private BakedModel setCustomHeldModels(BakedModel bakedModel, ItemStack stack) {
 		if (stack.getItem() == ModItems.UMBRELLA) {

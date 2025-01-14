@@ -75,7 +75,7 @@ public class MagicMissileHelper extends AbstractArrow {
 
     @Override
     protected void onHitEntity(@NotNull EntityHitResult entityHitResult) {
-        if (entityHitResult.getEntity() != this.getOwner()) {
+        if (entityHitResult.getEntity() != this.getOwner() && wandItem != null) {
             entityHitResult.getEntity().hurt(ModDamageSource.indirectMagicProjectile(entityHitResult.getEntity(), this.getOwner(), wandItem), damage * damageMultiplier(this.getOwner()));
             if (canIgnite) {
                 entityHitResult.getEntity().setRemainingFireTicks(rand.nextInt(4) + 4);
@@ -139,7 +139,9 @@ public class MagicMissileHelper extends AbstractArrow {
         adjustMotion();
         createParticles();
         if (this.isAlive() && this.getOwner() != null) {
-            ((Player) this.getOwner()).getCooldowns().addCooldown(wandItem.getDefaultInstance(), 10);
+            if (wandItem != null) {
+                ((Player) this.getOwner()).getCooldowns().addCooldown(wandItem.getDefaultInstance(), 10);
+            }
             if (!this.getOwner().isAlive()) {
                 this.explode();
             }
@@ -156,6 +158,11 @@ public class MagicMissileHelper extends AbstractArrow {
                 this.explode();
             }
         }
+    }
+
+    @Override
+    protected void handlePortal() {
+        // do nothing
     }
 
     private void adjustMotion() {
@@ -209,6 +216,9 @@ public class MagicMissileHelper extends AbstractArrow {
         compound.putBoolean("canBeInLava", canBeInLava);
         compound.putBoolean("canIgnite", canIgnite);
         compound.putBoolean("limitedTime", limitedTime);
+        if (this.wandItem != null) {
+            compound.put("wand", this.wandItem.getDefaultInstance().save(this.registryAccess(), new CompoundTag()));
+        }
     }
 
     @Override
@@ -220,5 +230,10 @@ public class MagicMissileHelper extends AbstractArrow {
         canBeInLava = compound.getBoolean("canBeInLava");
         canIgnite = compound.getBoolean("canIgnite");
         limitedTime = compound.getBoolean("limitedTime");
+        if (compound.contains("wand", 10)) {
+            this.wandItem = ItemStack.parse(this.registryAccess(), compound.getCompound("wand")).orElse(null).getItem();
+        } else {
+            this.wandItem = null;
+        }
     }
 }

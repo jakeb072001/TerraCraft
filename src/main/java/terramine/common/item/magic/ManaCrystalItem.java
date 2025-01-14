@@ -26,7 +26,7 @@ public class ManaCrystalItem extends TerrariaItemConfigurable {
     }
 
     @Override
-    public ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entity) {
         Player player = (Player)entity;
         if (player instanceof ServerPlayer) {
             CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer)player, stack);

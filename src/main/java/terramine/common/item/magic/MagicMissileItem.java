@@ -26,9 +26,9 @@ public class MagicMissileItem extends MagicTerrariaItem {
         if (canUse(player)) {
             MagicMissileHelper missile = ModEntities.MAGIC_MISSILE.create(world, EntitySpawnReason.DISPENSER);
             if (missile != null) {
+                missile.setCooldownItem(this);
                 missile.setPos(player.position().x(), player.position().y() + 2, player.position().z());
                 missile.setOwner(player);
-                missile.setCooldownItem(this);
                 missile.setSpeed(1.5f);
                 missile.setDamage(6.0f);
                 missile.liquidCollision(true, false);

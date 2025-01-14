@@ -7,6 +7,7 @@ import terramine.common.init.ModEntities;
 
 public class DynamicLightPlugin implements DynamicLightsInitializer {
 
+    // todo: find a way to make accessories emit light when equipped
     @Override
     public void onInitializeDynamicLights(ItemLightSourceManager itemLightSourceManager) {
         //DynamicLightHandlers.registerDynamicLightHandler(ModEntities.ENTITY, DynamicLightHandler.makeHandler(entity -> 10, entity -> false));

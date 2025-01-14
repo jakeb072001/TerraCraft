@@ -26,9 +26,9 @@ public class FlamelashItem extends MagicTerrariaItem {
         if (canUse(player)) {
             MagicMissileHelper flameMissile = ModEntities.FLAMELASH_MISSILE.create(world, EntitySpawnReason.DISPENSER);
             if (flameMissile != null) {
+                flameMissile.setCooldownItem(this);
                 flameMissile.setPos(player.position().x(), player.position().y() + 2, player.position().z());
                 flameMissile.setOwner(player);
-                flameMissile.setCooldownItem(this);
                 flameMissile.setSpeed(1.5f);
                 flameMissile.setDamage(6.5f);
                 flameMissile.liquidCollision(false, false);

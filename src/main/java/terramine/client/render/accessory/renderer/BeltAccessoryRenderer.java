@@ -60,11 +60,9 @@ public class BeltAccessoryRenderer implements AccessoryRenderer {
         RenderType renderType = model.renderType(getTexture());
         VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, renderType, false, hasFoil);
         if (((PlayerStorages)player).getTerrariaInventory().getItem(slot + 14).getItem() instanceof BasicDye dye) {
-            Vector3f color = dye.getColour();
-            vertexBuilder.setColor(color.x(), color.y(), color.z(), 1);
-            model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1);
+            model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, dye.getColourInt());
             return;
         }
-        model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1);
+        model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, -1);
     }
 }

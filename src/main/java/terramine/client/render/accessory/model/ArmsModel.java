@@ -29,11 +29,10 @@ public class ArmsModel extends HumanoidModel<HumanoidRenderState> {
         this(part, RenderType::entityCutoutNoCull);
     }
 
-    public void renderArm(HumanoidArm handSide, PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderArm(HumanoidArm handSide, PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
         getArm(handSide).visible = true;
         getArm(handSide.getOpposite()).visible = false;
-        buffer.setColor(red, green, blue, alpha);
-        renderToBuffer(matrixStack, buffer, packedLight, packedOverlay, 1);
+        renderToBuffer(matrixStack, buffer, packedLight, packedOverlay, colour);
     }
 
     public static ArmsModel createClawsModel(boolean smallArms) {

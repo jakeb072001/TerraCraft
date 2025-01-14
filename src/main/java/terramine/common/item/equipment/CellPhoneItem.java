@@ -17,6 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import terramine.common.init.ModSoundEvents;
@@ -31,7 +32,7 @@ public class CellPhoneItem extends AccessoryTerrariaItem {
 	}
 
 	@Override
-	public ItemStack finishUsingItem(@NotNull ItemStack stack, Level level, @NotNull LivingEntity entity) {
+	public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
 		Player player = (Player)entity;
 		if (!level.isClientSide) {
 			ServerPlayer serverPlayer = (ServerPlayer)player;
@@ -39,11 +40,11 @@ public class CellPhoneItem extends AccessoryTerrariaItem {
 			if (serverLevel != null) {
 				BlockPos spawnpoint = serverPlayer.getRespawnPosition();
 				if (spawnpoint != null) {
-					Vec3 spawnVec = serverPlayer.findRespawnPositionAndUseSpawnBlock(false, (entity2) ->{}).position();
+					Vec3 spawnVec = serverPlayer.findRespawnPositionAndUseSpawnBlock(false, TeleportTransition.DO_NOTHING).position();
 
 					//Player Spawn
 					serverLevel.playSound(null, serverPlayer.blockPosition(), ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
-					serverPlayer.teleportTo(serverLevel, spawnVec.x(), spawnVec.y(), spawnVec.z(), Relative.ALL, serverPlayer.getRespawnAngle(), 0.5F, true);
+					serverPlayer.teleportTo(serverLevel, spawnVec.x(), spawnVec.y(), spawnVec.z(), Relative.ROTATION, serverPlayer.getRespawnAngle(), 0.5F, true);
 					serverLevel.playSound(null, spawnpoint, ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
 				} else {
 					worldSpawn(serverPlayer, serverLevel);
@@ -59,7 +60,7 @@ public class CellPhoneItem extends AccessoryTerrariaItem {
 	}
 
 	@Override
-	public ItemUseAnimation getUseAnimation(@NotNull ItemStack stack) {
+	public @NotNull ItemUseAnimation getUseAnimation(ItemStack stack) {
 		return ItemUseAnimation.BOW;
 	}
 
@@ -77,7 +78,7 @@ public class CellPhoneItem extends AccessoryTerrariaItem {
 	public void worldSpawn(ServerPlayer serverPlayer, ServerLevel serverLevel) {
 		BlockPos spawnpoint = serverLevel.getSharedSpawnPos();
 		serverLevel.playSound(null, serverPlayer.blockPosition(), ModSoundEvents.MAGIC_MIRROR_USE, SoundSource.PLAYERS, 0.4f, 1f);
-		serverPlayer.teleportTo(serverLevel, spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ(), Relative.ALL, serverPlayer.getRespawnAngle(), 0.5F, true);
+		serverPlayer.teleportTo(serverLevel, spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ(), Relative.ROTATION, serverPlayer.getRespawnAngle(), 0.5F, true);
 		while (!serverLevel.isEmptyBlock(serverPlayer.blockPosition())) {
 			serverPlayer.teleportTo(serverPlayer.getX(), serverPlayer.getY() + 1.0D, serverPlayer.getZ());
 		}

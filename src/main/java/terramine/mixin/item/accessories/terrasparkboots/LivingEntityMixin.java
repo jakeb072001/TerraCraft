@@ -31,7 +31,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@Unique
 	private static final AttributeModifier SPEED_BOOST_MODIFIER = new AttributeModifier(TerraMine.id("speed_boost"), 0.28, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 	@Unique
-	private static final AttributeModifier STEP_HEIGHT_MODIFIER = new AttributeModifier(TerraMine.id("step_height"), 0.5, AttributeModifier.Operation.ADD_VALUE);
+	private static final AttributeModifier STEP_HEIGHT_MODIFIER = new AttributeModifier(TerraMine.id("step_height"), 0.6, AttributeModifier.Operation.ADD_VALUE);
 	@Unique
 	private static final AttributeModifier ICE_SPEED_BOOST_MODIFIER = new AttributeModifier(TerraMine.id("ice_speed_boost"), 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 
@@ -64,7 +64,6 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	// todo: unsure if works
 	@ModifyVariable(method = "travelInAir", at = @At("STORE"), ordinal = 0)
 	private float noIceSlip(float t, Vec3 vec3) {
 		LivingEntity self = (LivingEntity) (Object) this;

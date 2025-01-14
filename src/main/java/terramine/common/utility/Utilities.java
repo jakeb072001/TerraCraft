@@ -1,9 +1,13 @@
 package terramine.common.utility;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.*;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import terramine.common.item.dye.BasicDye;
 import terramine.common.network.ServerPacketHandler;
@@ -23,6 +28,7 @@ import terramine.common.network.types.ItemNetworkType;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class Utilities { // todo: need to fix bug with magic missile where the projectile will jitter back and forth instead of just staying at its position
@@ -230,5 +236,22 @@ public class Utilities { // todo: need to fix bug with magic missile where the p
     @Environment(EnvType.CLIENT)
     private static void sendDash(Item item) {
         ClientPlayNetworking.send(new ItemNetworkType(List.of(item.getDefaultInstance()), 0, UUID.randomUUID()).setCustomType(ServerPacketHandler.DASH_PACKET_ID));
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static void alphaBlit(GuiGraphics guiGraphics, Function<ResourceLocation, RenderType> function, ResourceLocation resourceLocation, int i, int j, float f, float g, int k, int l, int m, int n, float v) {
+        RenderType renderType = function.apply(resourceLocation);
+        Matrix4f matrix4f = guiGraphics.pose.last().pose();
+        VertexConsumer vertexConsumer = guiGraphics.bufferSource.getBuffer(renderType);
+
+        float uMin = (f + 0.0F) / (float)m;
+        float uMax = (f + (float)k) / (float)m;
+        float vMin = (g + 0.0F) / (float)n;
+        float vMax = (g + (float)l) / (float)n;
+
+        vertexConsumer.addVertex(matrix4f, (float)i, (float)j, 0.0F).setUv(uMin, vMin).setColor(1, 1, 1, v);
+        vertexConsumer.addVertex(matrix4f, (float)i, (float)(j + l), 0.0F).setUv(uMin, vMax).setColor(1, 1, 1, v);
+        vertexConsumer.addVertex(matrix4f, (float)(i + k), (float)(j + l), 0.0F).setUv(uMax, vMax).setColor(1, 1, 1, v);
+        vertexConsumer.addVertex(matrix4f, (float)(i + k), (float)j, 0.0F).setUv(uMax, vMin).setColor(1, 1, 1, v);
     }
 }

@@ -124,6 +124,12 @@ public class ManaHandler implements C2SSelfMessagingComponent, AutoSyncedCompone
     }
 
     @Override
+    public void applySyncPacket(RegistryFriendlyByteBuf buf) {
+        this.setMaxMana(buf.readInt());
+        this.setCurrentMana(buf.readInt());
+    }
+
+    @Override
     public void handleC2SMessage(RegistryFriendlyByteBuf buf) {
         this.setMaxMana(buf.readInt());
         this.setCurrentMana(buf.readInt());

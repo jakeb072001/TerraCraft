@@ -51,7 +51,6 @@ public class BaseAccessoryRenderer implements AccessoryRenderer {
         HumanoidModel<HumanoidRenderState> model = getModel();
 
         model.setupAnim(new PlayerRenderState());
-        //model.prepareMobModel(player, limbSwing, limbSwingAmount, partialTicks);
         AccessoryRenderer.followBodyRotations(player, model);
         render(poseStack, multiBufferSource, player, dyeSlot, light, itemStack.hasFoil());
     }
@@ -60,12 +59,9 @@ public class BaseAccessoryRenderer implements AccessoryRenderer {
         RenderType renderType = model.renderType(getTexture());
         VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, renderType, false, hasFoil);
         if (((PlayerStorages)player).getTerrariaInventory().getItem(slot + 14).getItem() instanceof BasicDye dye) {
-            Vector3f color = dye.getColour();
-            vertexBuilder.setColor(color.x(), color.y(), color.z(), 1);
-            // PoseStack, VertexConsumer, light, overlay, colour
-            model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1);
+            model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, dye.getColourInt());
             return;
         }
-        model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1);
+        model.renderToBuffer(matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, -1);
     }
 }

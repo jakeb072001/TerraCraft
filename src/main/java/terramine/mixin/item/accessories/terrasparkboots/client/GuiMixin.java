@@ -1,6 +1,5 @@
 package terramine.mixin.item.accessories.terrasparkboots.client;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
@@ -14,15 +13,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import terramine.TerraMine;
 import terramine.common.init.ModComponents;
+import terramine.common.utility.Utilities;
 
 @Mixin(Gui.class)
 public abstract class GuiMixin {
 
-	@Unique private final ResourceLocation LAVACHARM_ICONS_TEXTURE = TerraMine.id("textures/gui/lavacharmbar.png");
+	@Unique private final ResourceLocation LAVACHARM_ICONS_TEXTURE = TerraMine.id("textures/gui/sprites/hud/lavacharmbar.png");
 
 	@Shadow protected abstract Player getCameraPlayer();
 
-	@Inject(method = "renderPlayerHealth", require = 0, at = @At(value = "TAIL"))
+	// todo: doesn't seem to be rendering at all?
+	@Inject(method = "renderPlayerHealth", at = @At(value = "TAIL"))
 	private void renderLavaCharm(GuiGraphics guiGraphics, CallbackInfo ci) {
 		Player player = this.getCameraPlayer();
 
@@ -41,13 +42,12 @@ public abstract class GuiMixin {
 				count = 7;
 			}
 			for (int i = 0; i < count + 1; i++) {
-				VertexConsumer vertexConsumer = guiGraphics.bufferSource.getBuffer(RenderType.guiTextured(LAVACHARM_ICONS_TEXTURE));
 				if (i == count) {
 					float countFloat = charge / 20F + 10;
-					vertexConsumer.setColor(1, 1, 1, (countFloat) % ((int) (countFloat)));
+					Utilities.alphaBlit(guiGraphics, RenderType::guiTextured, LAVACHARM_ICONS_TEXTURE, left + i * 9, top, -90, 0, 9, 9, 9, 9, (countFloat) % ((int) (countFloat)));
+				} else {
+					guiGraphics.blit(RenderType::guiTextured, LAVACHARM_ICONS_TEXTURE, left + i * 9, top, -90, 0, 9, 9, 9, 9);
 				}
-				guiGraphics.blit(RenderType::guiTextured, LAVACHARM_ICONS_TEXTURE, left + i * 9, top, -90, 0, 0, 9, 9, 9, 9);
-				vertexConsumer.setColor(1, 1, 1, 1);
 			}
 		}
 	}

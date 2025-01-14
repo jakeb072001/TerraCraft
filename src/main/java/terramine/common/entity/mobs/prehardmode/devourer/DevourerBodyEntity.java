@@ -123,7 +123,9 @@ public class DevourerBodyEntity extends Monster implements Enemy {
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putInt("headEntity", head.getId());
+        if (head != null) {
+            tag.putInt("headEntity", head.getId());
+        }
     }
 
     @Override

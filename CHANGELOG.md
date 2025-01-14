@@ -4,11 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.8.0-1.21] - 2024-12-30
+## [1.8.0-1.21] - 2025-01-31
 ### Added
 - Eye of Cthulhu and Eater of Worlds //-- Not yet started
 - Treasure Bags
 - Shield of Cthulhu and Worm Scarf //-- Not yet started
+
+## [1.7.5-1.21.4] - 2025-01-25
+### Changed
+- Updated to 1.21.4
+- Various small changes and fixes
 
 ## [1.7.4-1.20.6] - 2024-11-22
 ### Changed
